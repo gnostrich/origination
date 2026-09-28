@@ -97,16 +97,26 @@ def leader_cluster(B: np.ndarray, n_ctx: int, eps: float, batch: int = 2048):
     labels = np.full(n, -1, dtype=int)
     L = np.empty((n, n_ctx, p))  # preallocated leader store
     k = 0
+    # Leaders are indexed by the argmax signature of their first context so a
+    # crisp state is only compared with leaders sharing its argmax.  Two
+    # distributions with different argmax can only be within JS < eps when
+    # both are flat, so flat states (max prob < flat_p) are compared with all.
+    flat_p = 0.3
+    by_arg: dict[int, list[int]] = {}
     for i in range(n):
         x = B3[i]
-        if k:
-            d = _js(L[:k], x[None]).mean(axis=1)  # (k,)
+        am = int(x[0].argmax())
+        flat = x[0].max() < flat_p
+        cand = np.arange(k) if flat else np.array(by_arg.get(am, []), dtype=int)
+        if len(cand):
+            d = _js(L[cand], x[None]).mean(axis=1)
             j = int(np.argmin(d))
             if d[j] < eps:
-                labels[i] = j
+                labels[i] = int(cand[j])
                 continue
         L[k] = x
         labels[i] = k
+        by_arg.setdefault(am, []).append(k)
         k += 1
     return labels, L[:k]
 
