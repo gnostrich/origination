@@ -167,7 +167,19 @@ def algebra_analysis(op: np.ndarray) -> dict:
 
 
 METRICS = ["metastability", "discreteness", "closure", "polarization", "compression",
-           "op.associativity", "op.commutativity", "op.latin", "crystallization"]
+           "op.associativity", "op.commutativity", "op.latin", "crystallization", "crystallization_lawfree"]
+
+
+def add_derived(m: dict) -> dict:
+    """Law-free crystallisation index: stability of things and closure of
+    products, weighted by non-degeneracy, with no particular coherence law
+    built in.  (The adversarial controls showed that including associativity
+    in the index confounds "crystallised" with "associative": a scrambled or
+    subtractive task crystallises to 97 stable closed classes whose induced
+    operation is legitimately non-associative.)"""
+    nd = m.get("nondegenerate", 1.0 - max(m["class_sizes_top"]) / (m["n_classes"] and sum(m["class_sizes_top"]) or 1))
+    m["crystallization_lawfree"] = float((max(m["metastability"], 1e-9) * max(m["closure"], 1e-9)) ** 0.5 * nd)
+    return m
 
 
 def _get(d: dict, key: str):

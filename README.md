@@ -127,7 +127,7 @@ labels, or the train/test split.
 | clicks `C(a,b)` | stability (retention at the reference noise) of the composite produced by input configurations `a`, `b`; polarisation of `C` |
 | closure | fraction of products landing in a *stable* class (class retention ≥ 0.75) |
 | induced operation | the world re-feeds the output as an input: `op(a,b) := argmax behaviour`; associativity on sampled triples, commutativity, identity, inverses, Latin property |
-| crystallisation index | geometric mean of metastability, discreteness, closure, associativity |
+| crystallisation index | law-free: `√(metastability × closure) × (1 − largest class share)`; the original index also included discreteness and closed-loop associativity and is kept for reference |
 
 Train/test accuracy are computed with labels only as the **external
 reference** the measures are compared against.
@@ -199,7 +199,8 @@ and after `t_gen`, then the range over the six grokked runs):
 | discreteness (polarised behavioural distances) | 0.99 | 1.00 | 1.00 |
 | closed-loop associativity | 0.04–0.12 | 0.97–1.00 | 0.07 |
 | closed-loop commutativity | 0.15–0.85 | 0.99–1.00 | 0.78 |
-| crystallisation index | 0.22–0.28 | 0.74–0.83 | 0.11 |
+| crystallisation index (with associativity) | 0.22–0.28 | 0.74–0.83 | 0.11 |
+| crystallisation index (law-free) | 0.23–0.32 | 0.59–0.71 | 0.04 |
 
 Discreteness is uninformative for this task: a memorising network's output
 behaviours are already crisp and mutually far.  What the memoriser lacks is
@@ -218,7 +219,8 @@ test accuracy (500-step resolution; six grokked runs):
 | measure | lag (steps) |
 |---|---|
 | commutativity | −1000 … 0 |
-| crystallisation index | 0 … +1000 |
+| crystallisation index (with associativity) | 0 … +1000 |
+| crystallisation index (law-free) | +1000 … +2500 |
 | associativity | +500 … +1000 |
 | compression | +500 … +2000 |
 | closure | +1000 … +2500 |
@@ -296,7 +298,53 @@ Learnable non-associative tables are necessarily group isotopes here (any
 table a small network groks on has low complexity); a random Latin square
 is not a group isotope but is not learnable either.
 
-CONTROLS_RESULTS_PLACEHOLDER
+**Results** (MLP substrate, one seed each, weight decay 1; `results/grok_controls/report.md`):
+
+| external table | test acc | classes at hidden site | blindly recovered closed-loop algebra | assoc | comm | Latin | ARI to true-output partition | law-free index plateau → after |
+|---|---|---|---|---|---|---|---|---|
+| random 97×97 | 0.01 | 5064, unstable | no coherent algebra | 0.01 | 0.02 | 0.00 | 0.15 | never rises (0.29 final) |
+| Z_89 | 1.00 | **89** | group, cyclic | 1.00 | 1.00 | 1.00 | 1.00 | 0.27 → 0.72 |
+| Z_101 | 1.00 | **101** | group, cyclic | 1.00 | 1.00 | 1.00 | 1.00 | 0.30 → 0.63 |
+| Z_8 × Z_8 | 1.00 | **64** | group, **non-cyclic**, order spectrum {1, 2³, 4¹², 8⁴⁸} | 1.00 | 1.00 | 1.00 | 1.00 | 0.32 → 0.79 |
+| Z_97, tokens scrambled independently | 1.00 | **97** | quasigroup, **non-associative** (isotopic to a cyclic group) | 0.02 | 1.00 | 1.00 | 1.00 | 0.28 → 0.68 |
+| a − b mod 97 | 1.00 | **97** | quasigroup, **non-associative, non-commutative**, right identity only (isotopic to a cyclic group) | 0.01 | 0.01 | 1.00 | 1.00 | 0.28 → 0.76 |
+| Z_97, 5 % corrupted | 0.94 | 451 | no exact algebra (Latin 0.24) | 0.93 | 0.96 | 0.24 | 0.89 | 0.31 → 0.54 |
+| Z_97, 15 % corrupted | 0.04 | 5015, unstable | no coherent algebra | 0.03 | 0.12 | 0.00 | 0.15 | never rises (0.23 final) |
+
+Every control comes out the way it must for the extractor to be trusted:
+
+* The random table produces thousands of unstable classes and no algebra, so
+  the extractor does not manufacture 97 closed classes from a 97×97 domain.
+* Changing the group without telling the extractor changes the recovered
+  cardinality (89, 101, 64) and the recovered isomorphism class: Z_8 × Z_8 is
+  reported as a non-cyclic group whose element-order spectrum is exactly that
+  of Z_8 × Z_8 (Z_64 would show elements of order 64).
+* With input and output tokens scrambled independently, the hidden-site
+  quotient still crystallises to 97 stable classes (ARI 1.0), but the
+  closed-loop table is no longer associative: the "world" now identifies
+  outputs with inputs through a different bijection, and the extractor
+  reports the isotope it actually sees (Latin, commutative, non-associative,
+  isotopic to a cyclic group).  Associativity is therefore measured, not
+  built in.
+* Subtraction is recovered as a Latin, non-associative, non-commutative
+  operation with only a right identity — i.e. as what it is.
+* Corruption degrades continuously: 5 % noise gives 451 classes (97 plus
+  classes for corrupted entries), Latin 0.24 and closure 0.43; 15 % noise is
+  not learnable and looks like the random table.  Nothing recovers the
+  intended group.
+
+A lesson from the battery: the first crystallisation index included
+closed-loop associativity, so it wrongly scored the scrambled and
+subtraction runs low (0.26, 0.31) although their quotients crystallised.
+The index now used (`crystallization_lawfree` = √(metastability × closure) ×
+non-degeneracy) contains no particular law; coherence laws are reported
+alongside it.  With it, all twelve grokked runs across three groups, one
+non-associative quasigroup, two presentations and two architectures move
+from 0.22–0.32 on the plateau to 0.54–0.79 after generalisation, with
+half-rise lags of +500 to +2500 steps behind test accuracy, while the
+non-grokking runs (no weight decay, random table, 15 % corruption) stay at
+0.04–0.29.
+
 
 ### Running
 

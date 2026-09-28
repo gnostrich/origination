@@ -18,7 +18,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from .compare import METRICS, _get, algebra_analysis, cross_run, run_timing
+from .compare import METRICS, _get, add_derived, algebra_analysis, cross_run, run_timing
 from .extract import ExtractConfig, extract
 from .models import build
 from .task import make_task
@@ -92,7 +92,7 @@ def _load_runs(out: Path) -> dict:
         if mf.exists() and lf.exists():
             m = json.load(open(mf))
             l = json.load(open(lf))
-            runs[run_dir.name] = {"config": m["config"], "metrics": {int(k): v for k, v in m["metrics"].items()},
+            runs[run_dir.name] = {"config": m["config"], "metrics": {int(k): add_derived(v) for k, v in m["metrics"].items()},
                                   "log": l["log"], "grok_step": l.get("grok_step")}
     return runs
 
@@ -197,9 +197,9 @@ def _plot(runs, out: Path):
         ax.plot(steps, [tl[s]["train_acc"] for s in steps], "k--", label="train acc")
         ax.plot(steps, [tl[s]["test_acc"] for s in steps], "k-", lw=2, label="test acc")
         for m, st in [("metastability", "-"), ("discreteness", "-"), ("closure", "-"),
-                      ("op.associativity", "--"), ("compression", ":"), ("crystallization", "-")]:
+                      ("op.associativity", "--"), ("compression", ":"), ("crystallization_lawfree", "-")]:
             ax.plot(steps, [_get(r["metrics"][s], m) for s in steps], st, label=m, alpha=0.8,
-                    lw=2.5 if m == "crystallization" else 1.2)
+                    lw=2.5 if m == "crystallization_lawfree" else 1.2)
         ax.set_xscale("symlog", linthresh=100)
         ax.set_ylim(-0.02, 1.02)
         ax.set_title(name)

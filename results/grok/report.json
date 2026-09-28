@@ -67,6 +67,13 @@
      "plateau_mean": 0.23261577497726937,
      "after_mean": 0.7427244142349892,
      "final": 0.6638509212605206
+    },
+    "crystallization_lawfree": {
+     "half_rise": 10500,
+     "lag_vs_gen": 2000,
+     "plateau_mean": 0.3139960935295113,
+     "after_mean": 0.5903196150382183,
+     "final": 0.4452886503007173
     }
    }
   },
@@ -137,6 +144,13 @@
      "plateau_mean": 0.24191004601950677,
      "after_mean": 0.7504185579630815,
      "final": 0.726271159657472
+    },
+    "crystallization_lawfree": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.3178491819425998,
+     "after_mean": 0.6048010939554136,
+     "final": 0.5329642744059406
     }
    }
   },
@@ -207,6 +221,13 @@
      "plateau_mean": 0.22225419912934374,
      "after_mean": 0.7886043903315823,
      "final": 0.8319629617099337
+    },
+    "crystallization_lawfree": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.29580162834735807,
+     "after_mean": 0.6616376687311005,
+     "final": 0.6993723943410933
     }
    }
   },
@@ -277,6 +298,13 @@
      "plateau_mean": 0.26325606453840816,
      "after_mean": 0.795388119920903,
      "final": 0.8031890817952424
+    },
+    "crystallization_lawfree": {
+     "half_rise": 21500,
+     "lag_vs_gen": 2500,
+     "plateau_mean": 0.23950274613310735,
+     "after_mean": 0.6593560050649334,
+     "final": 0.6518326250850333
     }
    }
   },
@@ -347,6 +375,13 @@
      "plateau_mean": null,
      "after_mean": null,
      "final": 0.10521716000427082
+    },
+    "crystallization_lawfree": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.04414950552132616
     }
    }
   },
@@ -417,6 +452,13 @@
      "plateau_mean": 0.2571452850605572,
      "after_mean": 0.8319681567179134,
      "final": 0.912211780187125
+    },
+    "crystallization_lawfree": {
+     "half_rise": 15500,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.22540800209966114,
+     "after_mean": 0.7131280686932473,
+     "final": 0.8407983562029153
     }
    }
   },
@@ -487,652 +529,766 @@
      "plateau_mean": 0.2816879619496087,
      "after_mean": 0.7617140128665296,
      "final": 0.6629388233164216
+    },
+    "crystallization_lawfree": {
+     "half_rise": 17000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.25081538386478386,
+     "after_mean": 0.6078589185297906,
+     "final": 0.4685044597226712
     }
    }
   }
  },
  "cross": {
-  "common_steps": [
-   0,
-   10,
-   25,
-   50,
-   100,
-   150,
-   200,
-   300,
-   400,
-   500,
-   750,
-   1000,
-   1500,
-   2000,
-   2500,
-   3000,
-   3500,
-   4000,
-   4500,
-   5000,
-   5500,
-   6000,
-   6500,
-   7000,
-   7500,
-   8000,
-   8500,
-   9000,
-   9500,
-   10000,
-   10500,
-   11000,
-   11500,
-   12000
-  ],
-  "per_step": {
-   "0": {
-    "mean_ari": 1.0,
-    "mean_op_agreement": 0.007680589506500868,
-    "ari_to_reference": {
-     "mlp_s0": 0.0,
-     "mlp_s1": 0.0,
-     "mlp_s2": 0.0,
-     "transformer_s0": 0.0,
-     "transformer_s1": 0.0,
-     "transformer_s2": 0.0
+  "zmod:97": {
+   "common_steps": [
+    0,
+    10,
+    25,
+    50,
+    100,
+    150,
+    200,
+    300,
+    400,
+    500,
+    750,
+    1000,
+    1500,
+    2000,
+    2500,
+    3000,
+    3500,
+    4000,
+    4500,
+    5000,
+    5500,
+    6000,
+    6500,
+    7000,
+    7500,
+    8000,
+    8500,
+    9000,
+    9500,
+    10000,
+    10500,
+    11000,
+    11500,
+    12000
+   ],
+   "per_step": {
+    "0": {
+     "mean_ari": 1.0,
+     "mean_op_agreement": 0.007680589506500868,
+     "ari_to_reference": {
+      "mlp_s0": 0.0,
+      "mlp_s1": 0.0,
+      "mlp_s2": 0.0,
+      "transformer_s0": 0.0,
+      "transformer_s1": 0.0,
+      "transformer_s2": 0.0
+     }
+    },
+    "10": {
+     "mean_ari": 1.0,
+     "mean_op_agreement": 0.02469975555319375,
+     "ari_to_reference": {
+      "mlp_s0": 0.0,
+      "mlp_s1": 0.0,
+      "mlp_s2": 0.0,
+      "transformer_s0": 0.0,
+      "transformer_s1": 0.0,
+      "transformer_s2": 0.0
+     }
+    },
+    "25": {
+     "mean_ari": 0.00641289263135836,
+     "mean_op_agreement": 0.02382116413363092,
+     "ari_to_reference": {
+      "mlp_s0": -3.3433452970878557e-06,
+      "mlp_s1": -1.4910838607251764e-06,
+      "mlp_s2": -8.133449298245994e-07,
+      "transformer_s0": -0.0004094320528904949,
+      "transformer_s1": -0.00019312425306414966,
+      "transformer_s2": -8.209853315375259e-05
+     }
+    },
+    "50": {
+     "mean_ari": 0.23756905204686618,
+     "mean_op_agreement": 0.055294576115067134,
+     "ari_to_reference": {
+      "mlp_s0": 0.0,
+      "mlp_s1": 0.0,
+      "mlp_s2": 0.0,
+      "transformer_s0": 0.018586159038532883,
+      "transformer_s1": 0.016554146311351943,
+      "transformer_s2": 0.01827838140071411
+     }
+    },
+    "100": {
+     "mean_ari": 0.06789077454469389,
+     "mean_op_agreement": 0.15923052396641513,
+     "ari_to_reference": {
+      "mlp_s0": 0.16237789469994718,
+      "mlp_s1": 0.16256079980377458,
+      "mlp_s2": 0.16255488493261033,
+      "transformer_s0": 0.012126407728667292,
+      "transformer_s1": 0.011745204462814612,
+      "transformer_s2": 0.014866445726729283
+     }
+    },
+    "150": {
+     "mean_ari": 0.1509614331392198,
+     "mean_op_agreement": 0.18841534700818366,
+     "ari_to_reference": {
+      "mlp_s0": 0.16245062080016304,
+      "mlp_s1": 0.16268018612534585,
+      "mlp_s2": 0.16269179806194856,
+      "transformer_s0": 0.2508102445441962,
+      "transformer_s1": 0.24297029070798784,
+      "transformer_s2": 0.2665950677086588
+     }
+    },
+    "200": {
+     "mean_ari": 0.1528350637060355,
+     "mean_op_agreement": 0.18943564672122434,
+     "ari_to_reference": {
+      "mlp_s0": 0.16203526975754212,
+      "mlp_s1": 0.16240275840156843,
+      "mlp_s2": 0.16297460671975142,
+      "transformer_s0": 0.25610366480402513,
+      "transformer_s1": 0.2545119080229784,
+      "transformer_s2": 0.2741621771410117
+     }
+    },
+    "300": {
+     "mean_ari": 0.14954135220451067,
+     "mean_op_agreement": 0.1909590108761115,
+     "ari_to_reference": {
+      "mlp_s0": 0.16157211080123038,
+      "mlp_s1": 0.16162479791581985,
+      "mlp_s2": 0.1612450677180085,
+      "transformer_s0": 0.28195820270395966,
+      "transformer_s1": 0.26931946144736235,
+      "transformer_s2": 0.28321974886798446
+     }
+    },
+    "400": {
+     "mean_ari": 0.1451713023793464,
+     "mean_op_agreement": 0.19300669571686682,
+     "ari_to_reference": {
+      "mlp_s0": 0.1606715556210692,
+      "mlp_s1": 0.16005311390188406,
+      "mlp_s2": 0.15856677101431024,
+      "transformer_s0": 0.29477749649854307,
+      "transformer_s1": 0.27944772602694895,
+      "transformer_s2": 0.3037478807021071
+     }
+    },
+    "500": {
+     "mean_ari": 0.1406312599054278,
+     "mean_op_agreement": 0.19421121621142878,
+     "ari_to_reference": {
+      "mlp_s0": 0.15847694489644779,
+      "mlp_s1": 0.15882850950210603,
+      "mlp_s2": 0.15820648965823797,
+      "transformer_s0": 0.30258242465384205,
+      "transformer_s1": 0.2903579174888365,
+      "transformer_s2": 0.3158428776981465
+     }
+    },
+    "750": {
+     "mean_ari": 0.12463245574815159,
+     "mean_op_agreement": 0.19615970524674958,
+     "ari_to_reference": {
+      "mlp_s0": 0.1530424515788377,
+      "mlp_s1": 0.15338977765303896,
+      "mlp_s2": 0.1550367798442438,
+      "transformer_s0": 0.3072758706370363,
+      "transformer_s1": 0.303445255130026,
+      "transformer_s2": 0.32812007746510463
+     }
+    },
+    "1000": {
+     "mean_ari": 0.10998090862020242,
+     "mean_op_agreement": 0.19637935310164029,
+     "ari_to_reference": {
+      "mlp_s0": 0.1501015490339449,
+      "mlp_s1": 0.14847165515931227,
+      "mlp_s2": 0.15136896731007904,
+      "transformer_s0": 0.3060225926562907,
+      "transformer_s1": 0.310017004183383,
+      "transformer_s2": 0.3241464850016186
+     }
+    },
+    "1500": {
+     "mean_ari": 0.10079235139316536,
+     "mean_op_agreement": 0.1962589010521841,
+     "ari_to_reference": {
+      "mlp_s0": 0.1502874683977913,
+      "mlp_s1": 0.14983217825485168,
+      "mlp_s2": 0.14894578601156505,
+      "transformer_s0": 0.30412828770314115,
+      "transformer_s1": 0.3026805521794646,
+      "transformer_s2": 0.3175237140828363
+     }
+    },
+    "2000": {
+     "mean_ari": 0.10845334597183752,
+     "mean_op_agreement": 0.19457257235979733,
+     "ari_to_reference": {
+      "mlp_s0": 0.1497093862714997,
+      "mlp_s1": 0.1479924639115362,
+      "mlp_s2": 0.1490429897117057,
+      "transformer_s0": 0.30074227526728003,
+      "transformer_s1": 0.3013344504346981,
+      "transformer_s2": 0.2831647664392726
+     }
+    },
+    "2500": {
+     "mean_ari": 0.13132444488291953,
+     "mean_op_agreement": 0.19654231763913985,
+     "ari_to_reference": {
+      "mlp_s0": 0.14948070328886104,
+      "mlp_s1": 0.14877147748717826,
+      "mlp_s2": 0.14896546591247395,
+      "transformer_s0": 0.3164482832172068,
+      "transformer_s1": 0.32102545425799817,
+      "transformer_s2": 0.3451888106295729
+     }
+    },
+    "3000": {
+     "mean_ari": 0.107483777098999,
+     "mean_op_agreement": 0.19658483012718322,
+     "ari_to_reference": {
+      "mlp_s0": 0.14961076504843737,
+      "mlp_s1": 0.14843762587484957,
+      "mlp_s2": 0.14941561739459244,
+      "transformer_s0": 0.3052848027900695,
+      "transformer_s1": 0.3091826593879699,
+      "transformer_s2": 0.32891665297814254
+     }
+    },
+    "3500": {
+     "mean_ari": 0.10105889107658196,
+     "mean_op_agreement": 0.1947709639706664,
+     "ari_to_reference": {
+      "mlp_s0": 0.14882131490967263,
+      "mlp_s1": 0.15079439316124763,
+      "mlp_s2": 0.14969012514072919,
+      "transformer_s0": 0.2777036773926974,
+      "transformer_s1": 0.30108001400297213,
+      "transformer_s2": 0.32002105197175895
+     }
+    },
+    "4000": {
+     "mean_ari": 0.13274355425347037,
+     "mean_op_agreement": 0.19618096149077127,
+     "ari_to_reference": {
+      "mlp_s0": 0.14861931299121764,
+      "mlp_s1": 0.1501411467833672,
+      "mlp_s2": 0.1496817927571674,
+      "transformer_s0": 0.3224638977544332,
+      "transformer_s1": 0.3186912944639714,
+      "transformer_s2": 0.34896243125002374
+     }
+    },
+    "4500": {
+     "mean_ari": 0.1082464515774089,
+     "mean_op_agreement": 0.19583377617175043,
+     "ari_to_reference": {
+      "mlp_s0": 0.1478049137430158,
+      "mlp_s1": 0.14902938382420647,
+      "mlp_s2": 0.15095332329639716,
+      "transformer_s0": 0.30940223505259334,
+      "transformer_s1": 0.31113812308826605,
+      "transformer_s2": 0.3327349457615329
+     }
+    },
+    "5000": {
+     "mean_ari": 0.11599483147213775,
+     "mean_op_agreement": 0.1955716158288164,
+     "ari_to_reference": {
+      "mlp_s0": 0.14620726445804713,
+      "mlp_s1": 0.14861957407926726,
+      "mlp_s2": 0.1497448365170529,
+      "transformer_s0": 0.29911529086850946,
+      "transformer_s1": 0.30726929334512737,
+      "transformer_s2": 0.3187297974399834
+     }
+    },
+    "5500": {
+     "mean_ari": 0.13021546791097746,
+     "mean_op_agreement": 0.19679739256740003,
+     "ari_to_reference": {
+      "mlp_s0": 0.14814229889812552,
+      "mlp_s1": 0.14781335048158206,
+      "mlp_s2": 0.1506461731493099,
+      "transformer_s0": 0.3227995247186754,
+      "transformer_s1": 0.31859534109859144,
+      "transformer_s2": 0.34764897945545187
+     }
+    },
+    "6000": {
+     "mean_ari": 0.10847873881524703,
+     "mean_op_agreement": 0.19822156091685267,
+     "ari_to_reference": {
+      "mlp_s0": 0.14757560157556537,
+      "mlp_s1": 0.15017403856814837,
+      "mlp_s2": 0.15086056476751702,
+      "transformer_s0": 0.31212388321004614,
+      "transformer_s1": 0.30736444331905494,
+      "transformer_s2": 0.34026182766750995
+     }
+    },
+    "6500": {
+     "mean_ari": 0.12716772933144957,
+     "mean_op_agreement": 0.20260034718531902,
+     "ari_to_reference": {
+      "mlp_s0": 0.14906255808166416,
+      "mlp_s1": 0.15524274589107265,
+      "mlp_s2": 0.15244843809329767,
+      "transformer_s0": 0.31690946372432516,
+      "transformer_s1": 0.3181991152318085,
+      "transformer_s2": 0.3237338589037401
+     }
+    },
+    "7000": {
+     "mean_ari": 0.12918624083341967,
+     "mean_op_agreement": 0.21932192581570836,
+     "ari_to_reference": {
+      "mlp_s0": 0.1561035441278666,
+      "mlp_s1": 0.17795982116174622,
+      "mlp_s2": 0.15671170523804226,
+      "transformer_s0": 0.3208919339418313,
+      "transformer_s1": 0.31561576751926224,
+      "transformer_s2": 0.357130320459577
+     }
+    },
+    "7500": {
+     "mean_ari": 0.1189725246547372,
+     "mean_op_agreement": 0.25708718602756225,
+     "ari_to_reference": {
+      "mlp_s0": 0.17282945518964243,
+      "mlp_s1": 0.2845967129832136,
+      "mlp_s2": 0.17835006096631612,
+      "transformer_s0": 0.31023642312723587,
+      "transformer_s1": 0.254200771475902,
+      "transformer_s2": 0.33086614265563696
+     }
+    },
+    "8000": {
+     "mean_ari": 0.18458799228635658,
+     "mean_op_agreement": 0.34593120062351645,
+     "ari_to_reference": {
+      "mlp_s0": 0.23849715952033052,
+      "mlp_s1": 0.6087636415633843,
+      "mlp_s2": 0.24828983659950873,
+      "transformer_s0": 0.3238103679767666,
+      "transformer_s1": 0.3263141306644548,
+      "transformer_s2": 0.31755426360306765
+     }
+    },
+    "8500": {
+     "mean_ari": 0.274085368068531,
+     "mean_op_agreement": 0.4585963793531016,
+     "ari_to_reference": {
+      "mlp_s0": 0.478448848785271,
+      "mlp_s1": 0.9509569663955837,
+      "mlp_s2": 0.5196457442135132,
+      "transformer_s0": 0.31571369438323066,
+      "transformer_s1": 0.3143681034656299,
+      "transformer_s2": 0.35494871100268505
+     }
+    },
+    "9000": {
+     "mean_ari": 0.3547160616377113,
+     "mean_op_agreement": 0.5287419846246502,
+     "ari_to_reference": {
+      "mlp_s0": 0.8148423015228214,
+      "mlp_s1": 0.9551054542341836,
+      "mlp_s2": 0.8125207075953221,
+      "transformer_s0": 0.30528852405193324,
+      "transformer_s1": 0.3112693180141115,
+      "transformer_s2": 0.33000657784752824
+     }
+    },
+    "9500": {
+     "mean_ari": 0.4274070358741078,
+     "mean_op_agreement": 0.5528040528571935,
+     "ari_to_reference": {
+      "mlp_s0": 0.9618483506388191,
+      "mlp_s1": 1.0,
+      "mlp_s2": 0.9941108235493775,
+      "transformer_s0": 0.32993020769002035,
+      "transformer_s1": 0.32538314295609405,
+      "transformer_s2": 0.3608702759866354
+     }
+    },
+    "10000": {
+     "mean_ari": 0.41294139529355645,
+     "mean_op_agreement": 0.5552414355050129,
+     "ari_to_reference": {
+      "mlp_s0": 0.9471310365491769,
+      "mlp_s1": 1.0,
+      "mlp_s2": 1.0,
+      "transformer_s0": 0.31923404040141984,
+      "transformer_s1": 0.31517996806013016,
+      "transformer_s2": 0.3480754804968122
+     }
+    },
+    "10500": {
+     "mean_ari": 0.40510237546108707,
+     "mean_op_agreement": 0.5517554114854571,
+     "ari_to_reference": {
+      "mlp_s0": 1.0,
+      "mlp_s1": 1.0,
+      "mlp_s2": 1.0,
+      "transformer_s0": 0.27117207015823347,
+      "transformer_s1": 0.3165046833730484,
+      "transformer_s2": 0.3284789502494114
+     }
+    },
+    "11000": {
+     "mean_ari": 0.43632379197364485,
+     "mean_op_agreement": 0.5580826867892446,
+     "ari_to_reference": {
+      "mlp_s0": 1.0,
+      "mlp_s1": 1.0,
+      "mlp_s2": 1.0,
+      "transformer_s0": 0.3344602938757579,
+      "transformer_s1": 0.3271173548991055,
+      "transformer_s2": 0.3721263113521664
+     }
+    },
+    "11500": {
+     "mean_ari": 0.4209582192767326,
+     "mean_op_agreement": 0.5602437382647819,
+     "ari_to_reference": {
+      "mlp_s0": 1.0,
+      "mlp_s1": 1.0,
+      "mlp_s2": 1.0,
+      "transformer_s0": 0.31616663292962127,
+      "transformer_s1": 0.32066006443457234,
+      "transformer_s2": 0.34716618186631654
+     }
+    },
+    "12000": {
+     "mean_ari": 0.42043261917897,
+     "mean_op_agreement": 0.5610089630495625,
+     "ari_to_reference": {
+      "mlp_s0": 1.0,
+      "mlp_s1": 1.0,
+      "mlp_s2": 1.0,
+      "transformer_s0": 0.2998436206995538,
+      "transformer_s1": 0.3427641872621115,
+      "transformer_s2": 0.334291736530198
+     }
     }
    },
-   "10": {
-    "mean_ari": 1.0,
-    "mean_op_agreement": 0.02469975555319375,
-    "ari_to_reference": {
-     "mlp_s0": 0.0,
-     "mlp_s1": 0.0,
-     "mlp_s2": 0.0,
-     "transformer_s0": 0.0,
-     "transformer_s1": 0.0,
-     "transformer_s2": 0.0
+   "final_pairs": {
+    "mlp_s0 vs mlp_s1": {
+     "ari": 1.0,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s0 vs mlp_s2": {
+     "ari": 1.0,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s0 vs transformer_s0": {
+     "ari": 1.0,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s0 vs transformer_s1": {
+     "ari": 0.9997874389623331,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s0 vs transformer_s2": {
+     "ari": 0.9318123396516843,
+     "op_agreement": 0.966840259326177,
+     "isomorphism": {
+      "isomorphic": false,
+      "reason": "no generator of t1 maps compatibly"
+     }
+    },
+    "mlp_s1 vs mlp_s2": {
+     "ari": 1.0,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s1 vs transformer_s0": {
+     "ari": 1.0,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s1 vs transformer_s1": {
+     "ari": 0.9997874389623331,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s1 vs transformer_s2": {
+     "ari": 0.9318123396516843,
+     "op_agreement": 0.966840259326177,
+     "isomorphism": {
+      "isomorphic": false,
+      "reason": "no generator of t1 maps compatibly"
+     }
+    },
+    "mlp_s2 vs transformer_s0": {
+     "ari": 1.0,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s2 vs transformer_s1": {
+     "ari": 0.9997874389623331,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "mlp_s2 vs transformer_s2": {
+     "ari": 0.9318123396516843,
+     "op_agreement": 0.966840259326177,
+     "isomorphism": {
+      "isomorphic": false,
+      "reason": "no generator of t1 maps compatibly"
+     }
+    },
+    "transformer_s0 vs transformer_s1": {
+     "ari": 0.9997874389623331,
+     "op_agreement": 1.0,
+     "isomorphism": {
+      "isomorphic": true,
+      "generator_pair": [
+       1,
+       1
+      ]
+     }
+    },
+    "transformer_s0 vs transformer_s2": {
+     "ari": 0.9318123396516843,
+     "op_agreement": 0.966840259326177,
+     "isomorphism": {
+      "isomorphic": false,
+      "reason": "no generator of t1 maps compatibly"
+     }
+    },
+    "transformer_s1 vs transformer_s2": {
+     "ari": 0.9315744565405417,
+     "op_agreement": 0.966840259326177,
+     "isomorphism": {
+      "isomorphic": false,
+      "reason": "no generator of t1 maps compatibly"
+     }
     }
    },
-   "25": {
-    "mean_ari": 0.00641289263135836,
-    "mean_op_agreement": 0.02382116413363092,
-    "ari_to_reference": {
-     "mlp_s0": -3.3433452970878557e-06,
-     "mlp_s1": -1.4910838607251764e-06,
-     "mlp_s2": -8.133449298245994e-07,
-     "transformer_s0": -0.0004094320528904949,
-     "transformer_s1": -0.00019312425306414966,
-     "transformer_s2": -8.209853315375259e-05
-    }
-   },
-   "50": {
-    "mean_ari": 0.23756905204686618,
-    "mean_op_agreement": 0.055294576115067134,
-    "ari_to_reference": {
-     "mlp_s0": 0.0,
-     "mlp_s1": 0.0,
-     "mlp_s2": 0.0,
-     "transformer_s0": 0.018586159038532883,
-     "transformer_s1": 0.016554146311351943,
-     "transformer_s2": 0.01827838140071411
-    }
-   },
-   "100": {
-    "mean_ari": 0.06789077454469389,
-    "mean_op_agreement": 0.15923052396641513,
-    "ari_to_reference": {
-     "mlp_s0": 0.16237789469994718,
-     "mlp_s1": 0.16256079980377458,
-     "mlp_s2": 0.16255488493261033,
-     "transformer_s0": 0.012126407728667292,
-     "transformer_s1": 0.011745204462814612,
-     "transformer_s2": 0.014866445726729283
-    }
-   },
-   "150": {
-    "mean_ari": 0.1509614331392198,
-    "mean_op_agreement": 0.18841534700818366,
-    "ari_to_reference": {
-     "mlp_s0": 0.16245062080016304,
-     "mlp_s1": 0.16268018612534585,
-     "mlp_s2": 0.16269179806194856,
-     "transformer_s0": 0.2508102445441962,
-     "transformer_s1": 0.24297029070798784,
-     "transformer_s2": 0.2665950677086588
-    }
-   },
-   "200": {
-    "mean_ari": 0.1528350637060355,
-    "mean_op_agreement": 0.18943564672122434,
-    "ari_to_reference": {
-     "mlp_s0": 0.16203526975754212,
-     "mlp_s1": 0.16240275840156843,
-     "mlp_s2": 0.16297460671975142,
-     "transformer_s0": 0.25610366480402513,
-     "transformer_s1": 0.2545119080229784,
-     "transformer_s2": 0.2741621771410117
-    }
-   },
-   "300": {
-    "mean_ari": 0.14954135220451067,
-    "mean_op_agreement": 0.1909590108761115,
-    "ari_to_reference": {
-     "mlp_s0": 0.16157211080123038,
-     "mlp_s1": 0.16162479791581985,
-     "mlp_s2": 0.1612450677180085,
-     "transformer_s0": 0.28195820270395966,
-     "transformer_s1": 0.26931946144736235,
-     "transformer_s2": 0.28321974886798446
-    }
-   },
-   "400": {
-    "mean_ari": 0.1451713023793464,
-    "mean_op_agreement": 0.19300669571686682,
-    "ari_to_reference": {
-     "mlp_s0": 0.1606715556210692,
-     "mlp_s1": 0.16005311390188406,
-     "mlp_s2": 0.15856677101431024,
-     "transformer_s0": 0.29477749649854307,
-     "transformer_s1": 0.27944772602694895,
-     "transformer_s2": 0.3037478807021071
-    }
-   },
-   "500": {
-    "mean_ari": 0.1406312599054278,
-    "mean_op_agreement": 0.19421121621142878,
-    "ari_to_reference": {
-     "mlp_s0": 0.15847694489644779,
-     "mlp_s1": 0.15882850950210603,
-     "mlp_s2": 0.15820648965823797,
-     "transformer_s0": 0.30258242465384205,
-     "transformer_s1": 0.2903579174888365,
-     "transformer_s2": 0.3158428776981465
-    }
-   },
-   "750": {
-    "mean_ari": 0.12463245574815159,
-    "mean_op_agreement": 0.19615970524674958,
-    "ari_to_reference": {
-     "mlp_s0": 0.1530424515788377,
-     "mlp_s1": 0.15338977765303896,
-     "mlp_s2": 0.1550367798442438,
-     "transformer_s0": 0.3072758706370363,
-     "transformer_s1": 0.303445255130026,
-     "transformer_s2": 0.32812007746510463
-    }
-   },
-   "1000": {
-    "mean_ari": 0.10998090862020242,
-    "mean_op_agreement": 0.19637935310164029,
-    "ari_to_reference": {
-     "mlp_s0": 0.1501015490339449,
-     "mlp_s1": 0.14847165515931227,
-     "mlp_s2": 0.15136896731007904,
-     "transformer_s0": 0.3060225926562907,
-     "transformer_s1": 0.310017004183383,
-     "transformer_s2": 0.3241464850016186
-    }
-   },
-   "1500": {
-    "mean_ari": 0.10079235139316536,
-    "mean_op_agreement": 0.1962589010521841,
-    "ari_to_reference": {
-     "mlp_s0": 0.1502874683977913,
-     "mlp_s1": 0.14983217825485168,
-     "mlp_s2": 0.14894578601156505,
-     "transformer_s0": 0.30412828770314115,
-     "transformer_s1": 0.3026805521794646,
-     "transformer_s2": 0.3175237140828363
-    }
-   },
-   "2000": {
-    "mean_ari": 0.10845334597183752,
-    "mean_op_agreement": 0.19457257235979733,
-    "ari_to_reference": {
-     "mlp_s0": 0.1497093862714997,
-     "mlp_s1": 0.1479924639115362,
-     "mlp_s2": 0.1490429897117057,
-     "transformer_s0": 0.30074227526728003,
-     "transformer_s1": 0.3013344504346981,
-     "transformer_s2": 0.2831647664392726
-    }
-   },
-   "2500": {
-    "mean_ari": 0.13132444488291953,
-    "mean_op_agreement": 0.19654231763913985,
-    "ari_to_reference": {
-     "mlp_s0": 0.14948070328886104,
-     "mlp_s1": 0.14877147748717826,
-     "mlp_s2": 0.14896546591247395,
-     "transformer_s0": 0.3164482832172068,
-     "transformer_s1": 0.32102545425799817,
-     "transformer_s2": 0.3451888106295729
-    }
-   },
-   "3000": {
-    "mean_ari": 0.107483777098999,
-    "mean_op_agreement": 0.19658483012718322,
-    "ari_to_reference": {
-     "mlp_s0": 0.14961076504843737,
-     "mlp_s1": 0.14843762587484957,
-     "mlp_s2": 0.14941561739459244,
-     "transformer_s0": 0.3052848027900695,
-     "transformer_s1": 0.3091826593879699,
-     "transformer_s2": 0.32891665297814254
-    }
-   },
-   "3500": {
-    "mean_ari": 0.10105889107658196,
-    "mean_op_agreement": 0.1947709639706664,
-    "ari_to_reference": {
-     "mlp_s0": 0.14882131490967263,
-     "mlp_s1": 0.15079439316124763,
-     "mlp_s2": 0.14969012514072919,
-     "transformer_s0": 0.2777036773926974,
-     "transformer_s1": 0.30108001400297213,
-     "transformer_s2": 0.32002105197175895
-    }
-   },
-   "4000": {
-    "mean_ari": 0.13274355425347037,
-    "mean_op_agreement": 0.19618096149077127,
-    "ari_to_reference": {
-     "mlp_s0": 0.14861931299121764,
-     "mlp_s1": 0.1501411467833672,
-     "mlp_s2": 0.1496817927571674,
-     "transformer_s0": 0.3224638977544332,
-     "transformer_s1": 0.3186912944639714,
-     "transformer_s2": 0.34896243125002374
-    }
-   },
-   "4500": {
-    "mean_ari": 0.1082464515774089,
-    "mean_op_agreement": 0.19583377617175043,
-    "ari_to_reference": {
-     "mlp_s0": 0.1478049137430158,
-     "mlp_s1": 0.14902938382420647,
-     "mlp_s2": 0.15095332329639716,
-     "transformer_s0": 0.30940223505259334,
-     "transformer_s1": 0.31113812308826605,
-     "transformer_s2": 0.3327349457615329
-    }
-   },
-   "5000": {
-    "mean_ari": 0.11599483147213775,
-    "mean_op_agreement": 0.1955716158288164,
-    "ari_to_reference": {
-     "mlp_s0": 0.14620726445804713,
-     "mlp_s1": 0.14861957407926726,
-     "mlp_s2": 0.1497448365170529,
-     "transformer_s0": 0.29911529086850946,
-     "transformer_s1": 0.30726929334512737,
-     "transformer_s2": 0.3187297974399834
-    }
-   },
-   "5500": {
-    "mean_ari": 0.13021546791097746,
-    "mean_op_agreement": 0.19679739256740003,
-    "ari_to_reference": {
-     "mlp_s0": 0.14814229889812552,
-     "mlp_s1": 0.14781335048158206,
-     "mlp_s2": 0.1506461731493099,
-     "transformer_s0": 0.3227995247186754,
-     "transformer_s1": 0.31859534109859144,
-     "transformer_s2": 0.34764897945545187
-    }
-   },
-   "6000": {
-    "mean_ari": 0.10847873881524703,
-    "mean_op_agreement": 0.19822156091685267,
-    "ari_to_reference": {
-     "mlp_s0": 0.14757560157556537,
-     "mlp_s1": 0.15017403856814837,
-     "mlp_s2": 0.15086056476751702,
-     "transformer_s0": 0.31212388321004614,
-     "transformer_s1": 0.30736444331905494,
-     "transformer_s2": 0.34026182766750995
-    }
-   },
-   "6500": {
-    "mean_ari": 0.12716772933144957,
-    "mean_op_agreement": 0.20260034718531902,
-    "ari_to_reference": {
-     "mlp_s0": 0.14906255808166416,
-     "mlp_s1": 0.15524274589107265,
-     "mlp_s2": 0.15244843809329767,
-     "transformer_s0": 0.31690946372432516,
-     "transformer_s1": 0.3181991152318085,
-     "transformer_s2": 0.3237338589037401
-    }
-   },
-   "7000": {
-    "mean_ari": 0.12918624083341967,
-    "mean_op_agreement": 0.21932192581570836,
-    "ari_to_reference": {
-     "mlp_s0": 0.1561035441278666,
-     "mlp_s1": 0.17795982116174622,
-     "mlp_s2": 0.15671170523804226,
-     "transformer_s0": 0.3208919339418313,
-     "transformer_s1": 0.31561576751926224,
-     "transformer_s2": 0.357130320459577
-    }
-   },
-   "7500": {
-    "mean_ari": 0.1189725246547372,
-    "mean_op_agreement": 0.25708718602756225,
-    "ari_to_reference": {
-     "mlp_s0": 0.17282945518964243,
-     "mlp_s1": 0.2845967129832136,
-     "mlp_s2": 0.17835006096631612,
-     "transformer_s0": 0.31023642312723587,
-     "transformer_s1": 0.254200771475902,
-     "transformer_s2": 0.33086614265563696
-    }
-   },
-   "8000": {
-    "mean_ari": 0.18458799228635658,
-    "mean_op_agreement": 0.34593120062351645,
-    "ari_to_reference": {
-     "mlp_s0": 0.23849715952033052,
-     "mlp_s1": 0.6087636415633843,
-     "mlp_s2": 0.24828983659950873,
-     "transformer_s0": 0.3238103679767666,
-     "transformer_s1": 0.3263141306644548,
-     "transformer_s2": 0.31755426360306765
-    }
-   },
-   "8500": {
-    "mean_ari": 0.274085368068531,
-    "mean_op_agreement": 0.4585963793531016,
-    "ari_to_reference": {
-     "mlp_s0": 0.478448848785271,
-     "mlp_s1": 0.9509569663955837,
-     "mlp_s2": 0.5196457442135132,
-     "transformer_s0": 0.31571369438323066,
-     "transformer_s1": 0.3143681034656299,
-     "transformer_s2": 0.35494871100268505
-    }
-   },
-   "9000": {
-    "mean_ari": 0.3547160616377113,
-    "mean_op_agreement": 0.5287419846246502,
-    "ari_to_reference": {
-     "mlp_s0": 0.8148423015228214,
-     "mlp_s1": 0.9551054542341836,
-     "mlp_s2": 0.8125207075953221,
-     "transformer_s0": 0.30528852405193324,
-     "transformer_s1": 0.3112693180141115,
-     "transformer_s2": 0.33000657784752824
-    }
-   },
-   "9500": {
-    "mean_ari": 0.4274070358741078,
-    "mean_op_agreement": 0.5528040528571935,
-    "ari_to_reference": {
-     "mlp_s0": 0.9618483506388191,
-     "mlp_s1": 1.0,
-     "mlp_s2": 0.9941108235493775,
-     "transformer_s0": 0.32993020769002035,
-     "transformer_s1": 0.32538314295609405,
-     "transformer_s2": 0.3608702759866354
-    }
-   },
-   "10000": {
-    "mean_ari": 0.41294139529355645,
-    "mean_op_agreement": 0.5552414355050129,
-    "ari_to_reference": {
-     "mlp_s0": 0.9471310365491769,
-     "mlp_s1": 1.0,
-     "mlp_s2": 1.0,
-     "transformer_s0": 0.31923404040141984,
-     "transformer_s1": 0.31517996806013016,
-     "transformer_s2": 0.3480754804968122
-    }
-   },
-   "10500": {
-    "mean_ari": 0.40510237546108707,
-    "mean_op_agreement": 0.5517554114854571,
-    "ari_to_reference": {
-     "mlp_s0": 1.0,
-     "mlp_s1": 1.0,
-     "mlp_s2": 1.0,
-     "transformer_s0": 0.27117207015823347,
-     "transformer_s1": 0.3165046833730484,
-     "transformer_s2": 0.3284789502494114
-    }
-   },
-   "11000": {
-    "mean_ari": 0.43632379197364485,
-    "mean_op_agreement": 0.5580826867892446,
-    "ari_to_reference": {
-     "mlp_s0": 1.0,
-     "mlp_s1": 1.0,
-     "mlp_s2": 1.0,
-     "transformer_s0": 0.3344602938757579,
-     "transformer_s1": 0.3271173548991055,
-     "transformer_s2": 0.3721263113521664
-    }
-   },
-   "11500": {
-    "mean_ari": 0.4209582192767326,
-    "mean_op_agreement": 0.5602437382647819,
-    "ari_to_reference": {
-     "mlp_s0": 1.0,
-     "mlp_s1": 1.0,
-     "mlp_s2": 1.0,
-     "transformer_s0": 0.31616663292962127,
-     "transformer_s1": 0.32066006443457234,
-     "transformer_s2": 0.34716618186631654
-    }
-   },
-   "12000": {
-    "mean_ari": 0.42043261917897,
-    "mean_op_agreement": 0.5610089630495625,
-    "ari_to_reference": {
-     "mlp_s0": 1.0,
-     "mlp_s1": 1.0,
-     "mlp_s2": 1.0,
-     "transformer_s0": 0.2998436206995538,
-     "transformer_s1": 0.3427641872621115,
-     "transformer_s2": 0.334291736530198
+   "final_invariants": {
+    "mlp_s0": {
+     "associativity": 1.0,
+     "commutativity": 1.0,
+     "identity": 1.0,
+     "latin": 1.0,
+     "n_outputs": 97
+    },
+    "mlp_s1": {
+     "associativity": 1.0,
+     "commutativity": 1.0,
+     "identity": 1.0,
+     "latin": 1.0,
+     "n_outputs": 97
+    },
+    "mlp_s2": {
+     "associativity": 1.0,
+     "commutativity": 1.0,
+     "identity": 1.0,
+     "latin": 1.0,
+     "n_outputs": 97
+    },
+    "transformer_s0": {
+     "associativity": 1.0,
+     "commutativity": 1.0,
+     "identity": 1.0,
+     "latin": 1.0,
+     "n_outputs": 97
+    },
+    "transformer_s1": {
+     "associativity": 1.0,
+     "commutativity": 1.0,
+     "identity": 1.0,
+     "latin": 1.0,
+     "n_outputs": 97
+    },
+    "transformer_s2": {
+     "associativity": 0.89605,
+     "commutativity": 0.9968115633967478,
+     "identity": 0.9690721649484536,
+     "latin": 0.041237113402061855,
+     "n_outputs": 97
     }
    }
+  }
+ },
+ "algebra": {
+  "mlp_s0": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
+    }
+   },
+   "structure": "group, cyclic"
   },
-  "final_pairs": {
-   "mlp_s0 vs mlp_s1": {
-    "ari": 1.0,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
+  "mlp_s1": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
     }
    },
-   "mlp_s0 vs mlp_s2": {
-    "ari": 1.0,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s0 vs transformer_s0": {
-    "ari": 1.0,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s0 vs transformer_s1": {
-    "ari": 0.9997874389623331,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s0 vs transformer_s2": {
-    "ari": 0.9318123396516843,
-    "op_agreement": 0.966840259326177,
-    "isomorphism": {
-     "isomorphic": false,
-     "reason": "no generator of t1 maps compatibly"
-    }
-   },
-   "mlp_s1 vs mlp_s2": {
-    "ari": 1.0,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s1 vs transformer_s0": {
-    "ari": 1.0,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s1 vs transformer_s1": {
-    "ari": 0.9997874389623331,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s1 vs transformer_s2": {
-    "ari": 0.9318123396516843,
-    "op_agreement": 0.966840259326177,
-    "isomorphism": {
-     "isomorphic": false,
-     "reason": "no generator of t1 maps compatibly"
-    }
-   },
-   "mlp_s2 vs transformer_s0": {
-    "ari": 1.0,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s2 vs transformer_s1": {
-    "ari": 0.9997874389623331,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "mlp_s2 vs transformer_s2": {
-    "ari": 0.9318123396516843,
-    "op_agreement": 0.966840259326177,
-    "isomorphism": {
-     "isomorphic": false,
-     "reason": "no generator of t1 maps compatibly"
-    }
-   },
-   "transformer_s0 vs transformer_s1": {
-    "ari": 0.9997874389623331,
-    "op_agreement": 1.0,
-    "isomorphism": {
-     "isomorphic": true,
-     "generator_pair": [
-      1,
-      1
-     ]
-    }
-   },
-   "transformer_s0 vs transformer_s2": {
-    "ari": 0.9318123396516843,
-    "op_agreement": 0.966840259326177,
-    "isomorphism": {
-     "isomorphic": false,
-     "reason": "no generator of t1 maps compatibly"
-    }
-   },
-   "transformer_s1 vs transformer_s2": {
-    "ari": 0.9315744565405417,
-    "op_agreement": 0.966840259326177,
-    "isomorphism": {
-     "isomorphic": false,
-     "reason": "no generator of t1 maps compatibly"
-    }
-   }
+   "structure": "group, cyclic"
   },
-  "final_invariants": {
-   "mlp_s0": {
-    "associativity": 1.0,
-    "commutativity": 1.0,
-    "identity": 1.0,
-    "latin": 1.0,
-    "n_outputs": 97
+  "mlp_s2": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
+    }
    },
-   "mlp_s1": {
-    "associativity": 1.0,
-    "commutativity": 1.0,
-    "identity": 1.0,
-    "latin": 1.0,
-    "n_outputs": 97
+   "structure": "group, cyclic"
+  },
+  "transformer_s0": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
+    }
    },
-   "mlp_s2": {
-    "associativity": 1.0,
-    "commutativity": 1.0,
-    "identity": 1.0,
-    "latin": 1.0,
-    "n_outputs": 97
+   "structure": "group, cyclic"
+  },
+  "transformer_s0_nowd": {
+   "associativity": 0.0755,
+   "commutativity": 0.7782973748538633,
+   "identity": 0.44329896907216493,
+   "latin": 0.0,
+   "n_outputs": 97,
+   "isotope": null,
+   "structure": "no coherent algebra"
+  },
+  "transformer_s1": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
+    }
    },
-   "transformer_s0": {
-    "associativity": 1.0,
-    "commutativity": 1.0,
-    "identity": 1.0,
-    "latin": 1.0,
-    "n_outputs": 97
-   },
-   "transformer_s1": {
-    "associativity": 1.0,
-    "commutativity": 1.0,
-    "identity": 1.0,
-    "latin": 1.0,
-    "n_outputs": 97
-   },
-   "transformer_s2": {
-    "associativity": 0.89605,
-    "commutativity": 0.9968115633967478,
-    "identity": 0.9690721649484536,
-    "latin": 0.041237113402061855,
-    "n_outputs": 97
-   }
+   "structure": "group, cyclic"
+  },
+  "transformer_s2": {
+   "associativity": 0.89605,
+   "commutativity": 0.9968115633967478,
+   "identity": 0.9690721649484536,
+   "latin": 0.041237113402061855,
+   "n_outputs": 97,
+   "isotope": null,
+   "structure": "no coherent algebra"
   }
  }
 }

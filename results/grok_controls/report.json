@@ -1,0 +1,737 @@
+{
+ "timing": {
+  "mlp_corrupt-0p05-zmod-97_s0": {
+   "t_mem": 50,
+   "t_gen": 14000,
+   "t_gen_half": 12000,
+   "metrics": {
+    "metastability": {
+     "half_rise": 13000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.282051211918501,
+     "after_mean": 0.47704427839139285,
+     "final": 0.35960250823679457
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.9914244328783267,
+     "after_mean": 0.9986704336286975,
+     "final": 0.9989927657206455
+    },
+    "closure": {
+     "half_rise": 13000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.3387706076159872,
+     "after_mean": 0.6301106959784821,
+     "final": 0.42610798171963016
+    },
+    "polarization": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.8647899695535565,
+     "after_mean": 0.6559309008559725,
+     "final": 0.4545116377936018
+    },
+    "compression": {
+     "half_rise": 13500,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.12912386773563742,
+     "after_mean": 0.6828096846459709,
+     "final": 0.6640757485619244
+    },
+    "op.associativity": {
+     "half_rise": 13000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.07920588235294118,
+     "after_mean": 0.892826923076923,
+     "final": 0.932
+    },
+    "op.commutativity": {
+     "half_rise": 12500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.19505104624483444,
+     "after_mean": 0.9431313717635325,
+     "final": 0.9647146349240089
+    },
+    "op.latin": {
+     "half_rise": 16000,
+     "lag_vs_gen": 4000,
+     "plateau_mean": 0.00030321406913280777,
+     "after_mean": 0.15305313243457572,
+     "final": 0.23711340206185566
+    },
+    "crystallization": {
+     "half_rise": 13000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.24259549789111556,
+     "after_mean": 0.700577909946736,
+     "final": 0.6081159181915226
+    },
+    "crystallization_lawfree": {
+     "half_rise": 13000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.30640405686115363,
+     "after_mean": 0.5417652764712838,
+     "final": 0.3873266710739223
+    }
+   }
+  },
+  "mlp_corrupt-0p15-zmod-97_s0": {
+   "t_mem": 50,
+   "t_gen": null,
+   "t_gen_half": null,
+   "metrics": {
+    "metastability": {
+     "half_rise": 400,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.19993490275268364
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.9910294936004452
+    },
+    "closure": {
+     "half_rise": 100,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.2712031034116272
+    },
+    "polarization": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.8005632904665746
+    },
+    "compression": {
+     "half_rise": 100,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.13754601319460483
+    },
+    "op.associativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.02775
+    },
+    "op.commutativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.12041662238282495
+    },
+    "op.latin": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.0
+    },
+    "crystallization": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.19494295163311226
+    },
+    "crystallization_lawfree": {
+     "half_rise": 200,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.23100211880532245
+    }
+   }
+  },
+  "mlp_random-97_s0": {
+   "t_mem": 50,
+   "t_gen": null,
+   "t_gen_half": null,
+   "metrics": {
+    "metastability": {
+     "half_rise": 400,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.24768174088638537
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.9907067334446299
+    },
+    "closure": {
+     "half_rise": 100,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.3401796152619832
+    },
+    "polarization": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.8640131788712935
+    },
+    "compression": {
+     "half_rise": 100,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.1354205754404678
+    },
+    "op.associativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.01175
+    },
+    "op.commutativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.018386651078754385
+    },
+    "op.latin": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.0
+    },
+    "crystallization": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.17555800729041768
+    },
+    "crystallization_lawfree": {
+     "half_rise": 150,
+     "lag_vs_gen": null,
+     "plateau_mean": null,
+     "after_mean": null,
+     "final": 0.2879555587198554
+    }
+   }
+  },
+  "mlp_scramble-zmod-97_s0": {
+   "t_mem": 50,
+   "t_gen": 9000,
+   "t_gen_half": 8000,
+   "metrics": {
+    "metastability": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.2613831615120275,
+     "after_mean": 0.6011417639645933,
+     "final": 0.41984403230949097
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.9914287701725097,
+     "after_mean": 0.999930042133715,
+     "final": 1.0
+    },
+    "closure": {
+     "half_rise": 9000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.3084823484606937,
+     "after_mean": 0.7867733021575087,
+     "final": 0.5186789244340525
+    },
+    "polarization": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.8792756049172779,
+     "after_mean": 0.7018887691116408,
+     "final": 0.38574768838346263
+    },
+    "compression": {
+     "half_rise": 9000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.10778497775356505,
+     "after_mean": 0.9640215594415935,
+     "final": 1.0
+    },
+    "op.associativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.01121875,
+     "after_mean": 0.02303571428571428,
+     "final": 0.023
+    },
+    "op.commutativity": {
+     "half_rise": 8500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.1702802281503525,
+     "after_mean": 0.9993015805535733,
+     "final": 1.0
+    },
+    "op.latin": {
+     "half_rise": 9000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.0,
+     "after_mean": 0.9720176730486009,
+     "final": 1.0
+    },
+    "crystallization": {
+     "half_rise": 9000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.1682088236016007,
+     "after_mean": 0.3171338566910798,
+     "final": 0.2632862047871201
+    },
+    "crystallization_lawfree": {
+     "half_rise": 9000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.2811954944566683,
+     "after_mean": 0.6803770485965444,
+     "final": 0.4618413264311795
+    }
+   }
+  },
+  "mlp_sub-97_s0": {
+   "t_mem": 50,
+   "t_gen": 9500,
+   "t_gen_half": 9000,
+   "metrics": {
+    "metastability": {
+     "half_rise": 9500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.2562767031565522,
+     "after_mean": 0.6744838718248485,
+     "final": 0.8705162610266767
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.9913538119087367,
+     "after_mean": 0.9997989705063995,
+     "final": 1.0
+    },
+    "closure": {
+     "half_rise": 9500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.30357104899564247,
+     "after_mean": 0.8750132851525136,
+     "final": 1.0
+    },
+    "polarization": {
+     "half_rise": 11000,
+     "lag_vs_gen": 2000,
+     "plateau_mean": 0.8766160059517483,
+     "after_mean": 0.8777234562652779,
+     "final": 1.0
+    },
+    "compression": {
+     "half_rise": 9500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.10742994348078713,
+     "after_mean": 0.9578885651404625,
+     "final": 1.0
+    },
+    "op.associativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.011770000000000001,
+     "after_mean": 0.011875,
+     "final": 0.01175
+    },
+    "op.commutativity": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.01929641832288235,
+     "after_mean": 0.010468700180678074,
+     "final": 0.010309278350515464
+    },
+    "op.latin": {
+     "half_rise": 10000,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.0,
+     "after_mean": 0.9097938144329897,
+     "final": 1.0
+    },
+    "crystallization": {
+     "half_rise": 9500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.1691756657095459,
+     "after_mean": 0.28329806993993745,
+     "final": 0.3147409036870915
+    },
+    "crystallization_lawfree": {
+     "half_rise": 9500,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.27634922387592226,
+     "after_mean": 0.7593334150503492,
+     "final": 0.9233959019130824
+    }
+   }
+  },
+  "mlp_zmod-101_s0": {
+   "t_mem": 50,
+   "t_gen": 9000,
+   "t_gen_half": 8500,
+   "metrics": {
+    "metastability": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.27364019663104927,
+     "after_mean": 0.5577225884717185,
+     "final": 0.4181207724732869
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.9917230105731777,
+     "after_mean": 0.9995443795214246,
+     "final": 1.0
+    },
+    "closure": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.32572684867496654,
+     "after_mean": 0.7369344917164984,
+     "final": 0.5166405254386824
+    },
+    "polarization": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.8834693494101886,
+     "after_mean": 0.7498590824428978,
+     "final": 0.3940299970591119
+    },
+    "compression": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.10797923819766671,
+     "after_mean": 0.9147613748709817,
+     "final": 1.0
+    },
+    "op.associativity": {
+     "half_rise": 8500,
+     "lag_vs_gen": 0,
+     "plateau_mean": 0.050125,
+     "after_mean": 0.9891875,
+     "final": 1.0
+    },
+    "op.commutativity": {
+     "half_rise": 8500,
+     "lag_vs_gen": 0,
+     "plateau_mean": 0.1589631735450773,
+     "after_mean": 0.995196549357906,
+     "final": 1.0
+    },
+    "op.latin": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.0,
+     "after_mean": 0.8948019801980198,
+     "final": 1.0
+    },
+    "crystallization": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.2164341187662886,
+     "after_mean": 0.7707784770531202,
+     "final": 0.6749959694615095
+    },
+    "crystallization_lawfree": {
+     "half_rise": 9500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.2957054149925093,
+     "after_mean": 0.6340513884228418,
+     "final": 0.46017575437717595
+    }
+   }
+  },
+  "mlp_zmod-89_s0": {
+   "t_mem": 50,
+   "t_gen": 12500,
+   "t_gen_half": 11500,
+   "metrics": {
+    "metastability": {
+     "half_rise": 12500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.2493430590793766,
+     "after_mean": 0.6470988060670552,
+     "final": 0.4630176114127004
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.990231568743605,
+     "after_mean": 0.9999149375944033,
+     "final": 1.0
+    },
+    "closure": {
+     "half_rise": 12500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.29419143070075054,
+     "after_mean": 0.8145165653687305,
+     "final": 0.625015780835753
+    },
+    "polarization": {
+     "half_rise": 300,
+     "lag_vs_gen": -11200,
+     "plateau_mean": 0.8607906300524127,
+     "after_mean": 0.7264414666257869,
+     "final": 0.42526196187350085
+    },
+    "compression": {
+     "half_rise": 12500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.11709042028171832,
+     "after_mean": 0.9736005212214349,
+     "final": 1.0
+    },
+    "op.associativity": {
+     "half_rise": 12000,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.059040322580645156,
+     "after_mean": 0.9981428571428571,
+     "final": 1.0
+    },
+    "op.commutativity": {
+     "half_rise": 11500,
+     "lag_vs_gen": 0,
+     "plateau_mean": 0.1711538539855264,
+     "after_mean": 0.9990260969935253,
+     "final": 1.0
+    },
+    "op.latin": {
+     "half_rise": 12500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.0,
+     "after_mean": 0.9606741573033707,
+     "final": 1.0
+    },
+    "crystallization": {
+     "half_rise": 12000,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.212182455628666,
+     "after_mean": 0.8350118765082987,
+     "final": 0.725211677835853
+    },
+    "crystallization_lawfree": {
+     "half_rise": 12500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.2684888416974827,
+     "after_mean": 0.7173292134093436,
+     "final": 0.5319084774157374
+    }
+   }
+  },
+  "mlp_zprod-8x8_s0": {
+   "t_mem": 50,
+   "t_gen": 13500,
+   "t_gen_half": 12500,
+   "metrics": {
+    "metastability": {
+     "half_rise": 14000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.3031033602627841,
+     "after_mean": 0.7325115203857422,
+     "final": 0.5473480224609375
+    },
+    "discreteness": {
+     "half_rise": null,
+     "lag_vs_gen": null,
+     "plateau_mean": 0.9853353231817338,
+     "after_mean": 0.9993196994991653,
+     "final": 1.0
+    },
+    "closure": {
+     "half_rise": 14000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.35121108546401514,
+     "after_mean": 0.890472412109375,
+     "final": 0.80224609375
+    },
+    "polarization": {
+     "half_rise": 14000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.8030820904356061,
+     "after_mean": 0.85870361328125,
+     "final": 0.632080078125
+    },
+    "compression": {
+     "half_rise": 14000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.16034551794677782,
+     "after_mean": 0.9380003692869205,
+     "final": 1.0
+    },
+    "op.associativity": {
+     "half_rise": 13000,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.07783333333333334,
+     "after_mean": 0.99103125,
+     "final": 1.0
+    },
+    "op.commutativity": {
+     "half_rise": 13000,
+     "lag_vs_gen": 500,
+     "plateau_mean": 0.18212890625,
+     "after_mean": 0.9959716796875,
+     "final": 1.0
+    },
+    "op.latin": {
+     "half_rise": 14000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.0,
+     "after_mean": 0.91796875,
+     "final": 1.0
+    },
+    "crystallization": {
+     "half_rise": 13500,
+     "lag_vs_gen": 1000,
+     "plateau_mean": 0.2702217191274869,
+     "after_mean": 0.8771881150025365,
+     "final": 0.8013151736458682
+    },
+    "crystallization_lawfree": {
+     "half_rise": 14000,
+     "lag_vs_gen": 1500,
+     "plateau_mean": 0.3223350509909751,
+     "after_mean": 0.7939354175748745,
+     "final": 0.6522981663645542
+    }
+   }
+  }
+ },
+ "cross": {},
+ "algebra": {
+  "mlp_corrupt-0p05-zmod-97_s0": {
+   "associativity": 0.9289,
+   "commutativity": 0.9647146349240089,
+   "identity": 0.9896907216494846,
+   "latin": 0.23711340206185566,
+   "n_outputs": 97,
+   "isotope": null,
+   "structure": "no coherent algebra"
+  },
+  "mlp_corrupt-0p15-zmod-97_s0": {
+   "associativity": 0.0252,
+   "commutativity": 0.12041662238282495,
+   "identity": 0.30412371134020616,
+   "latin": 0.0,
+   "n_outputs": 97,
+   "isotope": null,
+   "structure": "no coherent algebra"
+  },
+  "mlp_random-97_s0": {
+   "associativity": 0.01045,
+   "commutativity": 0.018386651078754385,
+   "identity": 0.02577319587628866,
+   "latin": 0.0,
+   "n_outputs": 97,
+   "isotope": null,
+   "structure": "no coherent algebra"
+  },
+  "mlp_scramble-zmod-97_s0": {
+   "associativity": 0.024,
+   "commutativity": 1.0,
+   "identity": 0.061855670103092786,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 77,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
+    }
+   },
+   "structure": "quasigroup, non-associative, isotopic to a cyclic group"
+  },
+  "mlp_sub-97_s0": {
+   "associativity": 0.0095,
+   "commutativity": 0.010309278350515464,
+   "identity": 0.5051546391752577,
+   "latin": 1.0,
+   "n_outputs": 97,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "97": 96
+    }
+   },
+   "structure": "quasigroup, non-associative, isotopic to a cyclic group"
+  },
+  "mlp_zmod-101_s0": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 101,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "101": 100
+    }
+   },
+   "structure": "group, cyclic"
+  },
+  "mlp_zmod-89_s0": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 89,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": true,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "89": 88
+    }
+   },
+   "structure": "group, cyclic"
+  },
+  "mlp_zprod-8x8_s0": {
+   "associativity": 1.0,
+   "commutativity": 1.0,
+   "identity": 1.0,
+   "latin": 1.0,
+   "n_outputs": 64,
+   "isotope": {
+    "is_group": true,
+    "is_cyclic": false,
+    "identity": 0,
+    "order_spectrum": {
+     "1": 1,
+     "2": 3,
+     "4": 12,
+     "8": 48
+    }
+   },
+   "structure": "group, non-cyclic"
+  }
+ }
+}
