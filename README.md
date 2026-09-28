@@ -208,7 +208,9 @@ of 97), *stability* (its things fall apart under internal noise) and
 *closure*.  The control shows that compression alone is not the signal: its
 class count also shrinks over training (2710 → 612) while its things stay
 unstable (retention 0.05) and its operation stays incoherent (associativity
-0.07).
+0.07).  Around step 5500 the control's metastability and closure drop from
+≈0.4 to ≈0.05 with no change in test accuracy: its internal things collapse
+without any macroscopic event, the opposite of crystallisation.
 
 **2. Timing.**  Half-rise step of each measure minus the half-rise step of
 test accuracy (500-step resolution; six grokked runs):
