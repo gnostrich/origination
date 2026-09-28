@@ -346,6 +346,63 @@ non-grokking runs (no weight decay, random table, 15 % corruption) stay at
 0.04–0.29.
 
 
+
+### A non-explicitly-algebraic task: predicting a small world
+
+Everything above has mathematics on the outside: an operation table is the
+objective.  The stronger thesis is that a **non-mathematically-presented
+objective** can produce **internally discovered compositional
+mathematics**.  `emergence/grok/world.py` and `run_world.py` test the
+smallest version.
+
+*World.* Four items in four slots.  Actions: swap slots 0-1, swap 1-2,
+swap 2-3, rotate.  The observation after each action is only *which item is
+in slot 0*.  A GRU (`rnn.py`) reads random action sequences (length 12; 1024
+fixed training sequences, 1024 held out) and predicts the observation after
+every action.  No table, no state label, no operation is ever presented; the
+algebra (S_4 acting on itself: order 24, non-abelian) is implicit in the
+dynamics.  A second world adds a `reset` action, so its dynamics form a
+transformation monoid that is *not* a group.
+
+*Extraction* (`extract_seq.py`) is the same blind quotient construction on
+the recurrent site: things are the hidden configurations after prefixes of
+actions; two are equivalent when continuing from either with the same
+sampled suffixes gives the same predicted observations (Myhill-Nerode on
+behaviour); clicks are (configuration, action-chunk) and their products are
+configurations at the same site, so recursion is automatic; metastability
+and closure as before.  The induced automaton on classes is canonically
+labelled from the initial configuration (so seeds can be compared without
+any alignment) and the transformation monoid it generates is computed:
+whether each action is a bijection, the monoid's order, whether it is a
+group, whether it is abelian.  Associativity of the action is automatic for
+any deterministic sequential substrate and is therefore not claimed as a
+discovery; what is *not* automatic is that a finite, stable, closed set of
+classes exists at all, its cardinality, and the group it generates.
+
+*Results* (`results/world/report.md`; three seeds of the reversible world,
+two of the reset world, 6000 steps):
+
+| run | test acc | classes (reachable) | metastability | closure | monoid order | group | abelian | actions bijective | canonical automaton = world's minimal automaton | ARI to world states |
+|---|---|---|---|---|---|---|---|---|---|---|
+| perm4 s0 / s1 / s2 | 1.000 | **24 (24)** | 0.72 | 0.98 | **24** | **yes** | **no** | all | **yes** (all three seeds identical) | 1.000 |
+| perm4reset s0 / s1 | 0.993 | 40 (27) / 37 (25) | 0.72 | 0.80 | not total | — | — | — | no (not converged) | 0.98 / 0.97 |
+
+From a prediction objective alone, three independently trained substrates
+induce the same 24-element non-abelian group acting on the same 24 things,
+with nothing in the extractor knowing what a permutation is.
+
+The timing is different from grokking and, for the thesis, more
+interesting.  Test accuracy is 0.98 by step 200, when the extractor still
+sees ~90 unstable classes; the quotient then *compresses* over the next
+2400 steps (96 → 73 → 51 → 37 → 28 → 24 classes) while accuracy stays at
+1.0, and the law-free index rises from 0.45 to 0.77 during that phase.
+Here the discrete closed algebra crystallises **after** the task is solved
+behaviourally — accuracy first, algebra later — rather than coinciding with
+a generalisation jump.  The reset world is slower (non-invertible actions
+make more prefix configurations behaviourally distinct until late) and was
+not converged at 6000 steps; the extractor correctly reports no total
+algebra for it rather than a group.
+
 ### Running
 
 ```
@@ -355,6 +412,7 @@ python -m emergence.grok.run train   --arch transformer --seeds 0 --weight_decay
 python -m emergence.grok.run extract --out results/grok
 python -m emergence.grok.run report  --out results/grok
 results/grok_controls/battery.sh          # adversarial controls (tasks: zmod:89, zprod:8x8, sub:97, scramble:..., corrupt:..., random:97)
+results/world/run_all.sh                  # world prediction (perm4, perm4reset), GRU substrate, sequence extraction
 ```
 
 ---
@@ -409,7 +467,7 @@ emergence/types.py        fingerprints -> ε-types
 emergence/compose.py      products, closure, substitutability, associativity, exact types
 emergence/experiment.py   Langevin pipeline + composite score
 emergence/export.py       finite table -> Lean certificate
-emergence/grok/           modular-addition substrates, training, label-free extraction, comparison
+emergence/grok/           table tasks + world prediction; MLP/transformer/GRU substrates; label-free extraction; comparison
 lean/Emergence/*.lean     Basic, Finite, Multi, Equiv, Discovered (generated)
 tests/                    gradient checks, algebra checks, comparison utilities
 ```

@@ -6,3 +6,5 @@ results/**/*.log
 lean/.lake/
 results/grok*/**/checkpoints.pt
 results/grok*/*.log
+results/world/**/checkpoints.pt
+results/world/*.log
