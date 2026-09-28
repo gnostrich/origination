@@ -55,9 +55,10 @@ def cmd_train(a):
 def cmd_extract(a):
     out = Path(a.out)
     ecfg = ExtractConfig()
+    wanted = set(a.runs.split(",")) if a.runs else None
     for run_dir in sorted(out.iterdir()):
         ck = run_dir / "checkpoints.pt"
-        if not ck.exists():
+        if not ck.exists() or (wanted is not None and run_dir.name not in wanted):
             continue
         if (run_dir / "metrics.json").exists() and not a.force:
             print("skip (exists)", run_dir)
@@ -207,6 +208,7 @@ def main(argv=None):
     ap.add_argument("--parallel", type=int, default=1)
     ap.add_argument("--max_ckpts", type=int, default=0)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--runs", default="", help="comma-separated run names to extract (default: all)")
     ap.add_argument("--resume", action="store_true", help="continue training from the saved checkpoints")
     a = ap.parse_args(argv)
     if a.cmd in ("train", "all"):
