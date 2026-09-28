@@ -30,8 +30,8 @@ def run_name(arch, seed, tag):
 
 
 def _train_one(args):
-    cfg, out_dir = args
-    train(cfg, out_dir)
+    cfg, out_dir, resume = args
+    train(cfg, out_dir, resume=resume)
     return str(out_dir)
 
 
@@ -42,7 +42,7 @@ def cmd_train(a):
             cfg = TrainConfig(arch=arch, p=a.p, train_frac=a.train_frac, seed=seed, lr=a.lr,
                               weight_decay=a.weight_decay, max_steps=a.max_steps, ckpt_every=a.ckpt_every,
                               stop_after_grok=a.stop_after_grok, threads=a.threads)
-            jobs.append((cfg, Path(a.out) / run_name(arch, seed, a.tag)))
+            jobs.append((cfg, Path(a.out) / run_name(arch, seed, a.tag), a.resume))
     if a.parallel > 1:
         with mp.get_context("spawn").Pool(a.parallel) as pool:
             for r in pool.imap_unordered(_train_one, jobs):
@@ -207,6 +207,7 @@ def main(argv=None):
     ap.add_argument("--parallel", type=int, default=1)
     ap.add_argument("--max_ckpts", type=int, default=0)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--resume", action="store_true", help="continue training from the saved checkpoints")
     a = ap.parse_args(argv)
     if a.cmd in ("train", "all"):
         cmd_train(a)

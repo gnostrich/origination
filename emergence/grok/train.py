@@ -43,7 +43,9 @@ def checkpoint_schedule(max_steps: int, every: int) -> list[int]:
     return sorted(x for x in s if x <= max_steps)
 
 
-def train(cfg: TrainConfig, out_dir: Path, verbose: bool = True) -> dict:
+def train(cfg: TrainConfig, out_dir: Path, verbose: bool = True, resume: bool = False) -> dict:
+    """Train; with ``resume`` continue from ``out_dir/checkpoints.pt`` (model,
+    optimizer state, log and earlier checkpoints are kept) up to ``cfg.max_steps``."""
     torch.set_num_threads(cfg.threads)
     torch.manual_seed(cfg.seed)
     np.random.seed(cfg.seed)
@@ -59,6 +61,20 @@ def train(cfg: TrainConfig, out_dir: Path, verbose: bool = True) -> dict:
     ckpts = {}
     t0 = time.time()
     grok_step = None
+    start = 0
+    if resume and (out_dir / "checkpoints.pt").exists():
+        prev = torch.load(out_dir / "checkpoints.pt", weights_only=False)
+        ckpts = prev["checkpoints"]
+        log = prev["log"]
+        start = max(ckpts)
+        model.load_state_dict(ckpts[start])
+        if prev.get("optimizer") is not None:
+            opt.load_state_dict(prev["optimizer"])
+        for r in log:
+            if grok_step is None and r["test_acc"] >= cfg.grok_acc:
+                grok_step = r["step"]
+        if verbose:
+            print(f"[{cfg.arch} s{cfg.seed}] resuming from step {start}", flush=True)
 
     def evaluate():
         model.eval()
@@ -74,8 +90,8 @@ def train(cfg: TrainConfig, out_dir: Path, verbose: bool = True) -> dict:
             "test_acc": float(acc_all[te].mean()),
         }
 
-    for step in range(cfg.max_steps + 1):
-        if step in sched:
+    for step in range(start, cfg.max_steps + 1):
+        if step in sched and (step > start or start == 0):
             ev = evaluate()
             ev["step"] = step
             ev["elapsed_s"] = time.time() - t0
@@ -96,7 +112,8 @@ def train(cfg: TrainConfig, out_dir: Path, verbose: bool = True) -> dict:
         loss.backward()
         opt.step()
 
-    torch.save({"config": asdict(cfg), "checkpoints": ckpts, "log": log}, out_dir / "checkpoints.pt")
+    torch.save({"config": asdict(cfg), "checkpoints": ckpts, "log": log, "optimizer": opt.state_dict()},
+               out_dir / "checkpoints.pt")
     with open(out_dir / "train_log.json", "w") as f:
         json.dump({"config": asdict(cfg), "log": log, "grok_step": grok_step}, f, indent=1)
     return {"config": asdict(cfg), "log": log, "grok_step": grok_step, "checkpoints": ckpts}
