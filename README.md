@@ -176,10 +176,88 @@ level" means.
 
 ### Results
 
-See `results/grok/report.md` and `results/grok/crystallization.png`.
-*(Results are filled in below once the runs in this repository complete.)*
+Full tables: `results/grok/report.md`; curves: `results/grok/crystallization.png`.
 
-RESULTS_PLACEHOLDER
+Seven runs, `p = 97`, 30 % training pairs, checkpoints every 500 steps
+(denser before 2000).  All six weight-decay runs grokked; the control did not.
+
+| run | train acc → 1 | test acc → 0.9 | plateau length |
+|---|---|---|---|
+| transformer s0 / s1 / s2 (wd 1) | 300–400 | 20500 / 15000 / 16500 | ~15k–20k steps |
+| mlp s0 / s1 / s2 (wd 1) | 50 | 9000 / 8500 / 9000 | ~8.5k steps |
+| transformer s0, no weight decay (control) | 750 | never (0.27 at 25k, test loss 130) | — |
+
+**1. Plateau vs. after generalisation** (means over the plateau `t_mem ≤ t < t_gen`
+and after `t_gen`, then the range over the six grokked runs):
+
+| measure | memorised, not generalised | after generalisation | control at 25k |
+|---|---|---|---|
+| behavioural classes at the hidden site | 2000–6000 | 97 (exactly `p`) | 612 |
+| compression `log(p²/n)/log p` | 0.11–0.29 | 0.88–0.93 | 0.60 |
+| metastability (class retention under internal noise) | 0.21–0.30 | 0.53–0.62 | 0.05 |
+| closure (stability of the class a product lands in) | 0.25–0.35 | 0.68–0.84 | 0.04 |
+| discreteness (polarised behavioural distances) | 0.99 | 1.00 | 1.00 |
+| closed-loop associativity | 0.04–0.12 | 0.97–1.00 | 0.07 |
+| closed-loop commutativity | 0.15–0.85 | 0.99–1.00 | 0.78 |
+| crystallisation index | 0.22–0.28 | 0.74–0.83 | 0.11 |
+
+Discreteness is uninformative for this task: a memorising network's output
+behaviours are already crisp and mutually far.  What the memoriser lacks is
+*compression* (thousands of behaviourally distinct internal things instead
+of 97), *stability* (its things fall apart under internal noise) and
+*closure*.  The control shows that compression alone is not the signal: its
+class count also shrinks over training (2710 → 612) while its things stay
+unstable (retention 0.05) and its operation stays incoherent (associativity
+0.07).
+
+**2. Timing.**  Half-rise step of each measure minus the half-rise step of
+test accuracy (500-step resolution; six grokked runs):
+
+| measure | lag (steps) |
+|---|---|
+| commutativity | −1000 … 0 |
+| crystallisation index | 0 … +1000 |
+| associativity | +500 … +1000 |
+| compression | +500 … +2000 |
+| closure | +1000 … +2500 |
+| metastability | +1500 … +2500 |
+
+The measures rise sharply *with* the transition, never during the
+plateau and never in the control.  At this resolution they trail test
+accuracy by one to five checkpoints rather than preceding it; only
+commutativity (a self-consistency symmetry of the induced operation) rises
+at or slightly before the test-accuracy half-rise.  So the data support
+"generalisation coincides with crystallisation" and do **not** support the
+stronger "crystallisation is a leading indicator" at 500-step resolution.
+Denser checkpoints around the transition are the obvious next experiment.
+
+**3. Idiosyncratic algebras, task-level equivalence.**  On the plateau the
+hidden-site partitions of different seeds are idiosyncratic (pairwise ARI
+≈ 0.10–0.15; ARI to the true-sum partition 0.15 for the MLPs, 0.30 for the
+transformers).  After grokking, every fully converged run — three MLP seeds
+and two transformer seeds, two different architectures — induces the
+**same** partition of the 9409 inputs (pairwise ARI 1.000, ARI to the sum
+partition 1.000), the same operation table (agreement 1.000), and the
+tables are isomorphic up to relabelling (generator 1 ↦ 1) with invariants
+associativity = commutativity = identity = Latin = 1: a cyclic group of
+order 97, recovered without ever looking for one.  (Transformer seed 2's
+last checkpoint falls in a brief post-grok instability — train acc 0.973 —
+and gives ARI 0.93; its checkpoints 17000–19500 have 97–106 classes.)
+
+Microscopic parameters differ across all seven runs; the induced quotients
+of the six grokked runs are one algebra.
+
+**4. Verdict against the falsification criteria.**  (1) low on the plateau:
+yes.  (2) sharp rise at the transition: yes, coincident, not leading.
+(3) absent in the control: yes.  (4) quotients converge to one equivalence
+class after generalisation and are idiosyncratic before: yes.
+
+Caveats: one task; the closed-loop associativity is expected to track
+correctness for this task and is reported as self-consistency, not as an
+independent signal; retention-based measures are noisy on the plateau
+(0.1–0.5) and the index fluctuates with them; class thresholds (JS < 0.05,
+noise grid) were fixed a priori and not tuned.
+
 
 ### Running
 
