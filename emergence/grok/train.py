@@ -17,13 +17,14 @@ import torch
 import torch.nn.functional as F
 
 from .models import build
-from .task import all_pairs, labels, split
+from .task import make_task, split
 
 
 @dataclass
 class TrainConfig:
     arch: str = "transformer"
-    p: int = 97
+    task: str = "zmod:97"
+    p: int = 97  # number of elements (derived from the task)
     train_frac: float = 0.3
     seed: int = 0
     lr: float = 1e-3
@@ -51,8 +52,10 @@ def train(cfg: TrainConfig, out_dir: Path, verbose: bool = True, resume: bool = 
     np.random.seed(cfg.seed)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    X = all_pairs(cfg.p)
-    Y = labels(cfg.p)
+    task = make_task(cfg.task, cfg.seed)
+    cfg.p = task.n
+    X = task.all_pairs()
+    Y = task.labels()
     tr, te = split(cfg.p, cfg.train_frac, cfg.seed)
     model = build(cfg.arch, cfg.p)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay, betas=cfg.betas)

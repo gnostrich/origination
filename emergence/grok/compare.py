@@ -104,6 +104,68 @@ def invariants(op: np.ndarray, n_triples: int = 20000, rng=None) -> dict:
     }
 
 
+def principal_isotope(op: np.ndarray, a: int = 0, b: int = 0):
+    """For a Latin square (quasigroup) table, the principal loop isotope
+    ``x o y = (x / b) . (a \ y)`` with identity ``a . b``.  By Albert's theorem a
+    quasigroup isotopic to a group has every loop isotope *isomorphic* to that
+    group, so group-ness of the loop is the isotopy-invariant statement
+    "this table is a group up to independent relabelling of inputs and outputs".
+    Returns None if the table is not a Latin square."""
+    n = op.shape[0]
+    ar = np.arange(n)
+    if not all(np.array_equal(np.sort(op[i]), ar) for i in range(n)):
+        return None
+    if not all(np.array_equal(np.sort(op[:, j]), ar) for j in range(n)):
+        return None
+    inv_col_b = np.argsort(op[:, b])  # z with op[z, b] = x
+    inv_row_a = np.argsort(op[a])     # w with op[a, w] = y
+    return op[inv_col_b[:, None], inv_row_a[None, :]]
+
+
+def loop_analysis(L: np.ndarray) -> dict:
+    """Exact associativity, element orders and cyclicity of a loop table."""
+    n = L.shape[0]
+    ar = np.arange(n)
+    e = [x for x in range(n) if np.array_equal(L[x], ar) and np.array_equal(L[:, x], ar)]
+    if not e:
+        return {"is_group": False, "reason": "no identity"}
+    e = e[0]
+    A = L[L[:, :, None], np.arange(n)[None, None, :]]  # (a*b)*c
+    B = L[np.arange(n)[:, None, None], L[None, :, :]]  # a*(b*c)
+    assoc = bool(np.array_equal(A, B))
+    orders = np.zeros(n, dtype=int)
+    for x in range(n):
+        y, k = x, 1
+        while y != e and k <= n:
+            y = int(L[y, x]); k += 1
+        orders[x] = k if y == e else 0
+    spec = {int(k): int(v) for k, v in zip(*np.unique(orders, return_counts=True))}
+    return {"is_group": assoc, "is_cyclic": assoc and bool((orders == n).any()),
+            "identity": e, "order_spectrum": spec}
+
+
+def algebra_analysis(op: np.ndarray) -> dict:
+    """What algebra does a closed-loop operation table blindly present?"""
+    inv = invariants(op)
+    L = principal_isotope(op)
+    out = dict(inv)
+    out["isotope"] = loop_analysis(L) if L is not None else None
+    if inv["associativity"] >= 0.999 and inv["latin"] >= 0.999:
+        iso = out["isotope"]
+        out["structure"] = "group, " + ("cyclic" if iso and iso.get("is_cyclic") else "non-cyclic")
+    elif inv["latin"] >= 0.999:
+        iso = out["isotope"]
+        if iso and iso.get("is_group"):
+            out["structure"] = "quasigroup, non-associative, isotopic to a " + ("cyclic" if iso.get("is_cyclic") else "non-cyclic") + " group"
+        else:
+            out["structure"] = "quasigroup, non-associative, not isotopic to a group"
+    elif inv["latin"] >= 0.5:
+        out["structure"] = "near-Latin, no exact algebra"
+    else:
+        out["structure"] = "no coherent algebra"
+    return out
+
+
 METRICS = ["metastability", "discreteness", "closure", "polarization", "compression",
            "op.associativity", "op.commutativity", "op.latin", "crystallization"]
 

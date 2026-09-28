@@ -251,8 +251,17 @@ of the six grokked runs are one algebra.
 
 **4. Verdict against the falsification criteria.**  (1) low on the plateau:
 yes.  (2) sharp rise at the transition: yes, coincident, not leading.
-(3) absent in the control: yes.  (4) quotients converge to one equivalence
-class after generalisation and are idiosyncratic before: yes.
+(3) absent in the control: yes — one control passes one falsification test;
+it does not confirm the general hypothesis.  (4) quotients converge to one
+equivalence class after generalisation and are idiosyncratic before: yes.
+
+Stated conservatively, the observation is: memorisation → thousands of
+unstable behavioural classes → 97 stable, closed classes → a near-exact
+associative algebra, across two architectures, while the non-grokking
+control does not undergo the transition.  Whether that is more than
+"modular addition is an associative algebra on 97 elements, and the network
+learned modular addition" is exactly what the adversarial controls below
+test.
 
 Caveats: one task; the closed-loop associativity is expected to track
 correctness for this task and is reported as self-consistency, not as an
@@ -260,6 +269,34 @@ independent signal; retention-based measures are noisy on the plateau
 (0.1–0.5) and the index fluctuates with them; class thresholds (JS < 0.05,
 noise grid) were fixed a priori and not tuned.
 
+
+### Adversarial controls on the extractor
+
+The clean result (thousands of classes → exactly 97, ARI 1, associativity ≈ 1)
+has an obvious deflationary explanation: 97 is the cardinality of the task
+algebra and modular addition is associative.  Before the interpretation is
+accepted the extractor has to be attacked.  `emergence/grok/task.py` provides
+tables that change the external structure without telling the extractor,
+and `compare.algebra_analysis` classifies the blindly recovered closed-loop
+table without assuming a group (Latin property; exact associativity; the
+principal loop isotope, which by Albert's theorem is isomorphic to a group
+iff the table is a group *up to independent relabelling of inputs and
+outputs*; element-order spectrum, which separates non-isomorphic groups of
+the same order).
+
+| control | external table | what the extractor must recover to survive |
+|---|---|---|
+| 1 random table | uniform random 97×97 | no coherent algebra, no stable closed classes |
+| 2 other groups | Z_89, Z_101, Z_8×Z_8 | 89, 101, 64 elements; Z_8×Z_8 non-cyclic (order spectrum {1,2³,4¹²,8⁴⁸}) |
+| 3 scrambled presentation | Z_97 with input tokens and output tokens permuted independently | 97 stable classes; the closed-loop table is an *isotope* of Z_97, non-associative, isotopic to a cyclic group — so closed-loop associativity must **drop** although the quotient crystallises |
+| 4 non-associative magma | a − b mod 97 | 97 stable classes and a Latin, non-associative, non-commutative table (isotopic to a cyclic group); if associativity ≈ 1 is reported, the metric bakes composition in |
+| 5 corrupted algebra | Z_97 with 5 % / 15 % of entries randomised | graded degradation of closure and coherence, not recovery of the intended group |
+
+Learnable non-associative tables are necessarily group isotopes here (any
+table a small network groks on has low complexity); a random Latin square
+is not a group isotope but is not learnable either.
+
+CONTROLS_RESULTS_PLACEHOLDER
 
 ### Running
 
@@ -269,6 +306,7 @@ python -m emergence.grok.run train   --arch transformer,mlp --seeds 0,1,2 --out 
 python -m emergence.grok.run train   --arch transformer --seeds 0 --weight_decay 0 --tag nowd --out results/grok
 python -m emergence.grok.run extract --out results/grok
 python -m emergence.grok.run report  --out results/grok
+results/grok_controls/battery.sh          # adversarial controls (tasks: zmod:89, zprod:8x8, sub:97, scramble:..., corrupt:..., random:97)
 ```
 
 ---

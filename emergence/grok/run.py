@@ -18,15 +18,16 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from .compare import METRICS, _get, cross_run, run_timing
+from .compare import METRICS, _get, algebra_analysis, cross_run, run_timing
 from .extract import ExtractConfig, extract
 from .models import build
-from .task import labels
+from .task import make_task
 from .train import TrainConfig, train
 
 
-def run_name(arch, seed, tag):
-    return f"{arch}_s{seed}" + (f"_{tag}" if tag else "")
+def run_name(arch, seed, tag, task="zmod:97"):
+    t = "" if task == "zmod:97" else "_" + task.replace(":", "-").replace(".", "p")
+    return f"{arch}{t}_s{seed}" + (f"_{tag}" if tag else "")
 
 
 def _train_one(args):
@@ -39,10 +40,10 @@ def cmd_train(a):
     jobs = []
     for arch in a.arch.split(","):
         for seed in [int(s) for s in a.seeds.split(",")]:
-            cfg = TrainConfig(arch=arch, p=a.p, train_frac=a.train_frac, seed=seed, lr=a.lr,
+            cfg = TrainConfig(arch=arch, task=a.task, train_frac=a.train_frac, seed=seed, lr=a.lr,
                               weight_decay=a.weight_decay, max_steps=a.max_steps, ckpt_every=a.ckpt_every,
                               stop_after_grok=a.stop_after_grok, threads=a.threads)
-            jobs.append((cfg, Path(a.out) / run_name(arch, seed, a.tag), a.resume))
+            jobs.append((cfg, Path(a.out) / run_name(arch, seed, a.tag, a.task), a.resume))
     if a.parallel > 1:
         with mp.get_context("spawn").Pool(a.parallel) as pool:
             for r in pool.imap_unordered(_train_one, jobs):
@@ -102,13 +103,20 @@ def cmd_report(a):
     if not runs:
         print("no runs with metrics found")
         return
-    p = next(iter(runs.values()))["config"]["p"]
-    reference = labels(p).numpy()
     timing = {n: run_timing(r) for n, r in runs.items()}
-    # cross-run comparison among runs that share the task (all do) -- split by wd control
-    main_runs = {n: r for n, r in runs.items() if r["config"]["weight_decay"] > 0}
-    cross = cross_run(main_runs, reference) if len(main_runs) >= 2 else None
-    summary = {"timing": timing, "cross": cross}
+    # cross-run comparison within each task, among weight-decay runs
+    tasks = sorted({r["config"].get("task", "zmod:97") for r in runs.values()})
+    cross_by_task = {}
+    for t in tasks:
+        task = make_task(t, 0)
+        sub = {n: r for n, r in runs.items()
+               if r["config"].get("task", "zmod:97") == t and r["config"]["weight_decay"] > 0}
+        if len(sub) >= 2:
+            cross_by_task[t] = cross_run(sub, task.reference_partition())
+    cross = cross_by_task.get("zmod:97")
+    algebra = {n: algebra_analysis(np.array(r["metrics"][max(r["metrics"])]["op_table"]))
+               for n, r in runs.items()}
+    summary = {"timing": timing, "cross": cross_by_task, "algebra": algebra}
     with open(out / "report.json", "w") as f:
         json.dump(summary, f, indent=1, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o))
     lines = ["# Grokking as crystallisation: report", ""]
@@ -138,10 +146,24 @@ def cmd_report(a):
             row.append(f"{pl} -> {af} (final {mm['final']:.2f})")
         lines.append("| " + " | ".join(row) + " |")
     lines.append("")
-    if cross:
-        lines.append("## Cross-run equivalence of the extracted quotients")
+    lines.append("## Blindly recovered algebra at the last checkpoint (closed-loop operation table)")
+    lines.append("")
+    lines.append("| run | task | final test acc | classes | structure | latin | assoc | comm | identity | isotope is group | isotope cyclic | isotope order spectrum |")
+    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+    for n, r in runs.items():
+        al = algebra[n]
+        last = max(r["metrics"])
+        tl = {x["step"]: x for x in r["log"]}
+        iso = al.get("isotope") or {}
+        lines.append(f"| {n} | {r['config'].get('task', 'zmod:97')} | {tl[last]['test_acc']:.3f} | "
+                     f"{r['metrics'][last]['n_classes']} | {al['structure']} | {al['latin']:.2f} | "
+                     f"{al['associativity']:.2f} | {al['commutativity']:.2f} | {al['identity']:.2f} | "
+                     f"{iso.get('is_group', 'n/a')} | {iso.get('is_cyclic', 'n/a')} | {iso.get('order_spectrum', 'n/a')} |")
+    lines.append("")
+    for t, cross in cross_by_task.items():
+        lines.append(f"## Cross-run equivalence of the extracted quotients: task {t}")
         lines.append("")
-        lines.append("| step | mean ARI (hidden partitions) | mean op-table agreement | ARI to true-sum partition (reference) |")
+        lines.append("| step | mean ARI (hidden partitions) | mean op-table agreement | ARI to reference partition (true outputs) |")
         lines.append("|---|---|---|---|")
         for s in cross["common_steps"]:
             e = cross["per_step"][s]
@@ -154,8 +176,6 @@ def cmd_report(a):
             lines.append(f"- {k}: ARI {v['ari']:.3f}, op agreement {v['op_agreement']:.3f}, "
                          f"isomorphic up to relabelling: {v['isomorphism']}")
         lines.append("")
-        for k, v in cross["final_invariants"].items():
-            lines.append(f"- {k} invariants: {v}")
     (out / "report.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
     try:
@@ -197,7 +217,7 @@ def main(argv=None):
     ap.add_argument("--arch", default="transformer")
     ap.add_argument("--seeds", default="0,1,2")
     ap.add_argument("--tag", default="")
-    ap.add_argument("--p", type=int, default=97)
+    ap.add_argument("--task", default="zmod:97", help="task spec, see emergence/grok/task.py")
     ap.add_argument("--train_frac", type=float, default=0.3)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--weight_decay", type=float, default=1.0)
