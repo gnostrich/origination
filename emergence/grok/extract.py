@@ -95,22 +95,20 @@ def leader_cluster(B: np.ndarray, n_ctx: int, eps: float, batch: int = 2048):
     p = kk // n_ctx
     B3 = B.reshape(n, n_ctx, p)
     labels = np.full(n, -1, dtype=int)
-    leaders: list[np.ndarray] = []
-    L = np.empty((0, n_ctx, p))
-    for s in range(0, n, batch):
-        blk = B3[s : s + batch]
-        for i in range(blk.shape[0]):
-            x = blk[i]
-            if len(leaders):
-                d = _js(L, x[None]).mean(axis=1)  # (n_leaders,)
-                j = int(np.argmin(d))
-                if d[j] < eps:
-                    labels[s + i] = j
-                    continue
-            leaders.append(x)
-            L = np.stack(leaders)
-            labels[s + i] = len(leaders) - 1
-    return labels, L
+    L = np.empty((n, n_ctx, p))  # preallocated leader store
+    k = 0
+    for i in range(n):
+        x = B3[i]
+        if k:
+            d = _js(L[:k], x[None]).mean(axis=1)  # (k,)
+            j = int(np.argmin(d))
+            if d[j] < eps:
+                labels[i] = j
+                continue
+        L[k] = x
+        labels[i] = k
+        k += 1
+    return labels, L[:k]
 
 
 def extract(model, p: int, cfg: ExtractConfig, rng: np.random.Generator) -> dict:
@@ -204,8 +202,12 @@ def extract(model, p: int, cfg: ExtractConfig, rng: np.random.Generator) -> dict
     # image size: how many distinct outputs the operation produces
     n_outputs = int(len(np.unique(op)))
 
+    # A single behavioural class (everything is one thing) is trivially
+    # metastable, discrete, closed and associative; the index is multiplied by
+    # a non-degeneracy factor so that a constant algebra does not score.
+    nondegenerate = float(1.0 - class_size.max() / n)
     crystallization = float((max(metastability, 1e-9) * max(discreteness, 1e-9)
-                             * max(closure, 1e-9) * max(assoc, 1e-9)) ** 0.25)
+                             * max(closure, 1e-9) * max(assoc, 1e-9)) ** 0.25 * nondegenerate)
     return {
         "n_classes": n_classes,
         "n_stable_classes": n_stable_classes,
@@ -229,6 +231,7 @@ def extract(model, p: int, cfg: ExtractConfig, rng: np.random.Generator) -> dict
             "latin": float(latin),
             "n_outputs": n_outputs,
         },
+        "nondegenerate": nondegenerate,
         "crystallization": crystallization,
         "partition": labels.tolist(),
         "op_table": op.tolist(),
