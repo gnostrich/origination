@@ -7,6 +7,7 @@ dependencies = ["numpy>=1.24", "scipy>=1.10"]
 
 [project.optional-dependencies]
 test = ["pytest"]
+grok = ["torch>=2.0", "matplotlib"]
 
 [tool.setuptools]
 packages = ["emergence"]

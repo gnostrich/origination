@@ -4,3 +4,5 @@ __pycache__/
 results/tune/
 results/**/*.log
 lean/.lake/
+results/grok/**/checkpoints.pt
+results/grok/*.log
