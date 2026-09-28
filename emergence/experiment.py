@@ -64,6 +64,7 @@ class ExperimentConfig:
     check_every: int = 50
     relax_steps: int = 1000
     max_basins: int = 24
+    max_esc_horizon: int = 20000
     # compatibility
     n_traj_click: int = 16
     horizon: int = 1000
@@ -144,6 +145,7 @@ def run_experiment(cfg: ExperimentConfig, verbose: bool = True) -> dict:
         check_every=cfg.check_every,
         relax_steps=cfg.relax_steps,
         max_basins=cfg.max_basins,
+        max_esc_horizon=cfg.max_esc_horizon,
     )
     n0 = len(bset)
     log(

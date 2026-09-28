@@ -99,7 +99,8 @@ def register_products(
             tmp.add(Basin(**{**b.__dict__}))
         for cb in cand:
             tmp.add(cb)
-        measure_timescales(tmp, cand, T, dt, rng, n_esc, esc_horizon, check_every, relax_steps)
+        measure_timescales(tmp, cand, T, dt, rng, n_esc, esc_horizon, check_every, relax_steps,
+                           horizon_mult=2.0 * R_min)
         for cb in cand:
             if np.isfinite(cb.R) and cb.R >= R_min:
                 bset.add(Basin(**{**cb.__dict__}))

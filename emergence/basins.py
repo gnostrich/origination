@@ -154,12 +154,20 @@ def measure_timescales(
     esc_horizon: int,
     check_every: int,
     relax_steps: int,
+    horizon_mult: float | None = None,
+    max_esc_horizon: int = 20000,
 ):
     """Fill tau_relax, tau_escape, R for the given basins (batched escape run)."""
     if not basins:
         return
     for b in basins:
         b.tau_relax = relaxation_time(bset.energy, b.rep, T, dt, rng, n_traj=32, max_steps=relax_steps)
+    # The escape horizon must be long enough that R = tau_esc / tau_relax can
+    # actually reach the threshold; otherwise every R is censored at
+    # horizon / tau_relax.  Extend it to ``horizon_mult`` relaxation times.
+    if horizon_mult is not None:
+        need = int(horizon_mult * max(b.tau_relax for b in basins) / dt)
+        esc_horizon = min(max(esc_horizon, need), max_esc_horizon)
 
     reps = np.stack([b.rep for b in basins])
     ids = np.array([b.id for b in basins])
@@ -210,6 +218,7 @@ def discover_basins(
     check_every: int = 50,
     relax_steps: int = 1000,
     max_basins: int = 24,
+    max_esc_horizon: int = 20000,
 ) -> tuple[BasinSet, dict]:
     """Run the discovery pipeline.  Returns (BasinSet, diagnostics)."""
     N = energy.N
@@ -272,7 +281,8 @@ def discover_basins(
     for c in candidates:
         bset.add(c)
 
-    measure_timescales(bset, bset.basins, T, dt, rng, n_esc, esc_horizon, check_every, relax_steps)
+    measure_timescales(bset, bset.basins, T, dt, rng, n_esc, esc_horizon, check_every, relax_steps,
+                       horizon_mult=2.0 * R_min, max_esc_horizon=max_esc_horizon)
 
     # Keep the metastable ones; rebuild the set so ids are contiguous.
     kept = [c for c in bset.basins if np.isfinite(c.R) and c.R >= R_min]
@@ -287,6 +297,8 @@ def discover_basins(
         "n_metastable": int(len(kept)),
         "candidate_R": [float(c.R) for c in candidates],
         "candidate_occupancy": [int(c.occupancy) for c in candidates],
+        "candidate_censored": [bool(c.escape_censored) for c in candidates],
+        "candidate_tau_relax": [float(c.tau_relax) for c in candidates],
         "metastability_score": (len(kept) / len(candidates)) if candidates else 0.0,
     }
     return final, diag
