@@ -235,17 +235,16 @@ def discover_basins(
     occ_lag = np.bincount(a, minlength=n_micro).astype(float)
 
     # Lump rapidly interconverting microstates: i and j are one metastable
-    # state when a lag-transition between them is a sizeable fraction of the
-    # time spent in either.
+    # state when, starting in one of them, the chance of being found in the
+    # other one lag later exceeds ``lump_p`` (fast-exit microstates are
+    # absorbed by their destination).
     uf = _UnionFind(n_micro)
-    sym = counts + counts.T
-    for i in range(n_micro):
-        for j in range(i + 1, n_micro):
-            if sym[i, j] <= 0:
-                continue
-            p = sym[i, j] / max(occ_lag[i] + occ_lag[j], 1.0)
-            if p > lump_p:
-                uf.union(i, j)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        q = counts / np.maximum(occ_lag, 1.0)[:, None]  # q[i, j] = P(j at t+lag | i at t)
+    q = np.maximum(q, q.T)
+    ii, jj = np.nonzero(np.triu(q > lump_p, k=1))
+    for i, j in zip(ii.tolist(), jj.tolist()):
+        uf.union(i, j)
     roots = np.array([uf.find(i) for i in range(n_micro)])
     macro_ids = {r: k for k, r in enumerate(sorted(set(roots.tolist())))}
     macro = np.array([macro_ids[r] for r in roots])
