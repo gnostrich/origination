@@ -179,7 +179,9 @@ def extract(model, p: int, cfg: ExtractConfig, rng: np.random.Generator) -> dict
         k = int(np.argmax(r_arg < 0.5))
         x0, x1, y0, y1 = np.log(sig[k - 1]), np.log(sig[k]), r_arg[k - 1], r_arg[k]
         radius = float(np.exp(x0 + (0.5 - y0) * (x1 - x0) / (y1 - y0)))
-    metastability = float(retention[cfg.sigma_ref]["class"])
+    # metastability: class retention averaged over the noise grid (area under
+    # the retention curve), smoother than a single reference noise level
+    metastability = float(np.mean([retention[s]["class"] for s in cfg.sigmas]))
 
     # ---- 4. clicks: compatibility of input tuples = stability of the composite
     C = ret_pair_ref.reshape(p, p)
@@ -187,11 +189,13 @@ def extract(model, p: int, cfg: ExtractConfig, rng: np.random.Generator) -> dict
     polarization = float(1.0 - 2.0 * np.mean(np.minimum(v, 1 - v)))
 
     # ---- 5. closure: products land in stable classes ------------------------
+    # closure: expected stability of the class a product lands in (class-mean
+    # retention at the reference noise), and the count of clearly stable classes
     class_ret = np.zeros(n_classes)
     np.add.at(class_ret, labels, ret_pair_ref)
     class_ret /= np.maximum(class_size, 1)
     stable = class_ret >= cfg.stable_retention
-    closure = float(np.mean(stable[labels]))
+    closure = float(np.mean(class_ret[labels]))
     n_stable_classes = int(stable.sum())
 
     # ---- 6. closed-loop induced operation and its laws (label-free) ----------
