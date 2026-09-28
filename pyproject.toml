@@ -1,0 +1,15 @@
+[project]
+name = "emergence"
+version = "0.0.1"
+description = "v0 experiment: emergent discrete states, clicks, types and composition from continuous Langevin dynamics"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools]
+packages = ["emergence"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

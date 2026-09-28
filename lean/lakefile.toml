@@ -1,0 +1,5 @@
+name = "emergence"
+defaultTargets = ["Emergence"]
+
+[[lean_lib]]
+name = "Emergence"
