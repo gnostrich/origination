@@ -8,3 +8,5 @@ results/grok*/**/checkpoints.pt
 results/grok*/*.log
 results/world/**/checkpoints.pt
 results/world/*.log
+results/world_tf/**/checkpoints.pt
+results/world_tf/*.log
