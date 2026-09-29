@@ -481,7 +481,27 @@ Architecture independence is therefore *not* established by this round:
 it holds for three GRU seeds on three worlds, and the transformer cells are
 either a task failure or an outcome-(3) case.
 
-TRANSFORMER_RERUN_PLACEHOLDER
+**Transformer, permutation world, principled retry (4× training data, 4096
+sequences, 8000 steps).**  Outcome (1): the task was still not learned.
+Train accuracy reached 1.000 by step 4000; test accuracy stayed at
+0.70 ± 0.01 from step 2000 through step 7600 for both seeds, with test loss
+rising (3.3 → 4.3) — memorisation, not generalisation.  The run was cut at
+step 7600/8000 by a container restart and, because checkpoints were written
+only at the end, no checkpoint survived for extraction; the training logs
+(`results/world_tf/train_perm4_s*.log`) are the record.  No conclusion about
+algebra recovery is drawn for this cell; with this transformer, data budget
+and full-batch AdamW, tracking S_4 over length-12 sequences is a
+task-learning limitation.  Per the protocol this was the one retry and no
+further tuning was done.
+
+Evidence matrix at the end of round 2:
+
+| world | GRU | transformer |
+|---|---|---|
+| S_4 permutation world | S_4 (3 seeds, identical) | task not learned (2 + 2 seeds) |
+| reset world (monoid, order 48) | recovered exactly (2 seeds, identical) | not run |
+| counter world (monoid, order 44) | recovered exactly (3 seeds, identical) | task learned; no stable closed quotient at the cache site (outcome 3) |
+
 
 ### Running
 

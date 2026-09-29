@@ -50,6 +50,10 @@ def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, c
             r = ev(); r["step"] = step; r["elapsed_s"] = time.time() - t0
             log.append(r)
             ckpts[step] = copy.deepcopy({k: v.detach().clone() for k, v in model.state_dict().items()})
+            if step % (5 * ckpt_every) == 0 and step > 0:  # periodic save so a restart cannot lose the run
+                out_dir.mkdir(parents=True, exist_ok=True)
+                torch.save({"config": {"world": world_spec, "arch": arch, "seed": seed}, "checkpoints": ckpts, "log": log},
+                           out_dir / "checkpoints.pt")
             print(f"[{arch} {world_spec} s{seed}] step {step:5d} train {r['train_acc']:.3f}/{r['train_loss']:.3f} "
                   f"test {r['test_acc']:.3f}/{r['test_loss']:.3f} ({r['elapsed_s']:.0f}s)", flush=True)
         if step == steps:
