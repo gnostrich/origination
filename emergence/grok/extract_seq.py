@@ -57,35 +57,16 @@ def _all_prefixes(k: int, L: int):
     return out
 
 
-def _states_after(model, prefixes, k):
-    """Hidden configuration after each prefix (grouped by length)."""
-    d = model.d
-    H = torch.empty(len(prefixes), d)
-    by_len = {}
-    for i, p in enumerate(prefixes):
-        by_len.setdefault(len(p), []).append(i)
-    with torch.no_grad():
-        for l, idx in by_len.items():
-            if l == 0:
-                H[idx] = model.initial().expand(len(idx), -1)
-                continue
-            A = torch.tensor([prefixes[i] for i in idx], dtype=torch.long)
-            _, sites = model(A)
-            H[idx] = sites["hidden"][:, -1]
-    return H
-
-
-def _behaviour(model, H, suffixes):
-    """(n, d) configurations x (S, Ls) suffixes -> (n, S*Ls, n_obs) predicted observation distributions."""
-    n = H.shape[0]
+def _behaviour(sub, cfg, suffixes):
+    """configurations x (S, Ls) suffixes -> (n, S*Ls, n_obs) predicted observation distributions."""
+    n = sub.batch_size(cfg)
     S, Ls = suffixes.shape
     feats = []
-    with torch.no_grad():
-        for s in range(S):
-            A = suffixes[s][None].expand(n, -1)
-            lg, _ = model(A, h0=H)
-            feats.append(F.softmax(lg, -1))  # (n, Ls, n_obs)
-    return torch.cat(feats, dim=1).numpy()  # (n, S*Ls, n_obs)
+    for s in range(S):
+        A = suffixes[s][None].expand(n, -1)
+        lg, _ = sub.continue_(cfg, A)
+        feats.append(F.softmax(lg, -1))
+    return torch.cat(feats, dim=1).numpy()
 
 
 def _classify(Bnew, leaders, eps):
@@ -147,28 +128,27 @@ def monoid_analysis(C: np.ndarray, cap: int) -> dict:
             "units": units, "idempotents": idem, "constant_maps": consts}
 
 
-def extract_seq(model, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Generator) -> dict:
-    model.eval()
+def extract_seq(sub, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Generator) -> dict:
+    """``sub`` is a sequence substrate (``seqsub.py``): run_prefixes / continue_ / noise / select."""
     k = n_actions
     prefixes = _all_prefixes(k, cfg.prefix_len)
     long = [tuple(rng.integers(0, k, cfg.long_len)) for _ in range(cfg.n_long_prefixes)]
     prefixes = prefixes + long
     n = len(prefixes)
-    H = _states_after(model, prefixes, k)
+    H = sub.run_prefixes(prefixes)
     suffixes = torch.tensor(rng.integers(0, k, (cfg.n_suffixes, cfg.suffix_len)), dtype=torch.long)
-    B = _behaviour(model, H, suffixes)  # (n, C, o)
+    B = _behaviour(sub, H, suffixes)  # (n, C, o)
     n_ctx = B.shape[1]
     labels, leaders = leader_cluster(B.reshape(n, -1), n_ctx, cfg.eps_beh)
     n_classes = int(labels.max()) + 1
     class_size = np.bincount(labels)
-    # representative configuration of each class: the first prefix in it
     rep_idx = np.array([int(np.argmax(labels == c)) for c in range(n_classes)])
-    Hrep = H[rep_idx]
+    Hrep = sub.select(H, rep_idx)
 
     # discreteness
     m = min(cfg.n_pair_sample, n)
-    sub = rng.choice(n, size=m, replace=False)
-    Bs = B[sub]
+    smp = rng.choice(n, size=m, replace=False)
+    Bs = B[smp]
     d = np.concatenate([_js(Bs[i + 1:], Bs[i][None]).mean(axis=1) for i in range(m - 1)])
     discreteness = float(np.mean(d < cfg.eps_beh) + np.mean(d > cfg.d_far))
 
@@ -178,10 +158,7 @@ def extract_seq(model, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Gen
     for sigma in cfg.sigmas:
         keep = np.zeros(n)
         for _ in range(cfg.n_noise):
-            with torch.no_grad():
-                rms = H.pow(2).mean(dim=-1, keepdim=True).sqrt().mean()
-                Hn = H + float(sigma) * rms * torch.randn_like(H)
-            Bn = _behaviour(model, Hn, suffixes)
+            Bn = _behaviour(sub, sub.noise(H, float(sigma)), suffixes)
             keep += (_js(Bn, B).mean(axis=1) < cfg.eps_beh)
         keep /= cfg.n_noise
         retention[sigma] = float(keep.mean())
@@ -194,24 +171,20 @@ def extract_seq(model, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Gen
 
     # clicks: (class, action) -> class ; closure = stability of the product's class
     T = np.full((n_classes, k), -1, dtype=int)
-    prod_ret = []
-    with torch.no_grad():
-        for a in range(k):
-            A = torch.full((n_classes, 1), a, dtype=torch.long)
-            _, sites = model(A, h0=Hrep)
-            Hp = sites["hidden"][:, -1]
-            Bp = _behaviour(model, Hp, suffixes)
-            T[:, a] = _classify(Bp, leaders, cfg.eps_beh)
+    for a in range(k):
+        A = torch.full((n_classes, 1), a, dtype=torch.long)
+        _, Hp = sub.continue_(Hrep, A)
+        Bp = _behaviour(sub, Hp, suffixes)
+        T[:, a] = _classify(Bp, leaders, cfg.eps_beh)
     known = T >= 0
     closure = float(np.mean(np.where(known, class_ret[np.maximum(T, 0)], 0.0)))
     # arity 3: (class, a, b) -> class consistent with (class.a).b ?
     n_chk = n_coh = 0
-    with torch.no_grad():
-        pairs = [(a, b) for a in range(k) for b in range(k)]
-        for a, b in pairs:
+    for a in range(k):
+        for b in range(k):
             A = torch.tensor([[a, b]] * n_classes, dtype=torch.long)
-            _, sites = model(A, h0=Hrep)
-            Bp = _behaviour(model, sites["hidden"][:, -1], suffixes)
+            _, Hp = sub.continue_(Hrep, A)
+            Bp = _behaviour(sub, Hp, suffixes)
             direct = _classify(Bp, leaders, cfg.eps_beh)
             via = np.where(T[:, a] >= 0, T[np.maximum(T[:, a], 0), b], -1)
             ok = (direct >= 0) & (via >= 0)

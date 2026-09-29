@@ -19,16 +19,16 @@ import torch.nn.functional as F
 
 from .compare import adjusted_rand_index, first_step, half_rise_step
 from .extract_seq import SeqExtractConfig, _all_prefixes, extract_seq
-from .rnn import GRUWorldModel
+from .seqsub import build_seq
 from .world import make_dataset, make_world, transformation_monoid
 
 
-def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, ckpt_every, lr, wd, threads):
+def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, ckpt_every, lr, wd, threads, arch="gru"):
     torch.set_num_threads(threads)
     torch.manual_seed(seed)
     world = make_world(world_spec)
     (Atr, Otr), (Ate, Ote) = make_dataset(world, n_train, n_test, length, seed)
-    model = GRUWorldModel(world.n_actions, world.n_obs)
+    model, _ = build_seq(arch, world.n_actions, world.n_obs)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=wd)
     sched = set([0, 10, 25, 50] + list(range(ckpt_every, steps + 1, ckpt_every)))
     log, ckpts = [], {}
@@ -50,7 +50,7 @@ def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, c
             r = ev(); r["step"] = step; r["elapsed_s"] = time.time() - t0
             log.append(r)
             ckpts[step] = copy.deepcopy({k: v.detach().clone() for k, v in model.state_dict().items()})
-            print(f"[{world_spec} s{seed}] step {step:5d} train {r['train_acc']:.3f}/{r['train_loss']:.3f} "
+            print(f"[{arch} {world_spec} s{seed}] step {step:5d} train {r['train_acc']:.3f}/{r['train_loss']:.3f} "
                   f"test {r['test_acc']:.3f}/{r['test_loss']:.3f} ({r['elapsed_s']:.0f}s)", flush=True)
         if step == steps:
             break
@@ -58,7 +58,7 @@ def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, c
         loss = F.cross_entropy(lg.reshape(-1, world.n_obs), Otr.reshape(-1))
         opt.zero_grad(); loss.backward(); opt.step()
     out_dir.mkdir(parents=True, exist_ok=True)
-    cfg = {"world": world_spec, "seed": seed, "n_train": n_train, "n_test": n_test, "length": length,
+    cfg = {"world": world_spec, "arch": arch, "seed": seed, "n_train": n_train, "n_test": n_test, "length": length,
            "steps": steps, "lr": lr, "weight_decay": wd}
     torch.save({"config": cfg, "checkpoints": ckpts, "log": log}, out_dir / "checkpoints.pt")
     json.dump({"config": cfg, "log": log}, open(out_dir / "train_log.json", "w"), indent=1)
@@ -66,8 +66,9 @@ def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, c
 
 def cmd_train(a):
     for seed in [int(s) for s in a.seeds.split(",")]:
-        train_one(a.world, seed, Path(a.out) / f"{a.world}_s{seed}", a.n_train, a.n_test, a.length,
-                  a.steps, a.ckpt_every, a.lr, a.weight_decay, a.threads)
+        name = f"{a.world}_s{seed}" if a.arch == "gru" else f"{a.arch}_{a.world}_s{seed}"
+        train_one(a.world, seed, Path(a.out) / name, a.n_train, a.n_test, a.length,
+                  a.steps, a.ckpt_every, a.lr, a.weight_decay, a.threads, a.arch)
 
 
 def cmd_extract(a):
@@ -79,11 +80,12 @@ def cmd_extract(a):
             continue
         data = torch.load(ck, weights_only=False)
         world = make_world(data["config"]["world"])
-        model = GRUWorldModel(world.n_actions, world.n_obs)
+        model, sub = build_seq(data["config"].get("arch", "gru"), world.n_actions, world.n_obs)
+        model.eval()
         metrics = {}
         for step in sorted(data["checkpoints"]):
             model.load_state_dict(data["checkpoints"][step])
-            m = extract_seq(model, world.n_actions, cfg, np.random.default_rng(1234))
+            m = extract_seq(sub, world.n_actions, cfg, np.random.default_rng(1234))
             metrics[step] = m
             mon = m["monoid"]
             print(f"[{run_dir.name}] step {step:5d} classes {m['n_classes']:4d} reach {m['n_reachable_classes']:4d} "
