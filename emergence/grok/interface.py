@@ -249,14 +249,18 @@ def sufficiency(sub, cells, donors_tr, recips_tr, don_beh, suffixes, eps):
 
 
 def search_interface(sub, n_actions, L, rng, n_pairs=48, n_suffixes=8, suffix_len=5, eps=0.05,
-                     target=0.95, max_off=None, exhaustive_up_to=3):
+                     target=0.95, max_off=None, exhaustive_up_to=3, donors=None, recips=None, suffixes=None):
     """Smallest sufficient interface by complexity; exhaustive over small
-    subsets, then greedy forward selection.  Returns the search log."""
+    subsets, then greedy forward selection.  Returns the search log.
+    ``donors``/``recips`` (n_pairs, L) and ``suffixes`` (S, Ls) may be supplied from a data distribution."""
     max_off = L if max_off is None else max_off
     cells = sub.cells(L, max_off)
-    donors = torch.tensor(rng.integers(0, n_actions, (n_pairs, L)), dtype=torch.long)
-    recips = torch.tensor(rng.integers(0, n_actions, (n_pairs, L)), dtype=torch.long)
-    suffixes = torch.tensor(rng.integers(0, n_actions, (n_suffixes, suffix_len)), dtype=torch.long)
+    if donors is None:
+        donors = torch.tensor(rng.integers(0, n_actions, (n_pairs, L)), dtype=torch.long)
+    if recips is None:
+        recips = torch.tensor(rng.integers(0, n_actions, (n_pairs, L)), dtype=torch.long)
+    if suffixes is None:
+        suffixes = torch.tensor(rng.integers(0, n_actions, (n_suffixes, suffix_len)), dtype=torch.long)
     dtr, rtr = sub.trace(donors), sub.trace(recips)
     don_beh = _behaviour(sub, dtr, suffixes)
     size = lambda I: sum(sub.cell_size(c) for c in I)

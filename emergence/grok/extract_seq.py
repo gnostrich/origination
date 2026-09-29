@@ -128,15 +128,21 @@ def monoid_analysis(C: np.ndarray, cap: int) -> dict:
             "units": units, "idempotents": idem, "constant_maps": consts}
 
 
-def extract_seq(sub, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Generator) -> dict:
-    """``sub`` is a sequence substrate (``seqsub.py``): run_prefixes / continue_ / noise / select."""
+def extract_seq(sub, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Generator,
+                prefixes=None, suffixes=None) -> dict:
+    """``sub`` is a sequence substrate (``seqsub.py``): run_prefixes / continue_ / noise / select.
+    ``prefixes`` (list of tuples, first must be the empty prefix) and ``suffixes`` (long tensor
+    (S, Ls)) may be supplied, e.g. drawn from a data distribution; by default all short action
+    strings plus random long ones, and random suffixes, are used."""
     k = n_actions
-    prefixes = _all_prefixes(k, cfg.prefix_len)
-    long = [tuple(rng.integers(0, k, cfg.long_len)) for _ in range(cfg.n_long_prefixes)]
-    prefixes = prefixes + long
+    if prefixes is None:
+        prefixes = _all_prefixes(k, cfg.prefix_len)
+        long = [tuple(rng.integers(0, k, cfg.long_len)) for _ in range(cfg.n_long_prefixes)]
+        prefixes = prefixes + long
     n = len(prefixes)
     H = sub.run_prefixes(prefixes)
-    suffixes = torch.tensor(rng.integers(0, k, (cfg.n_suffixes, cfg.suffix_len)), dtype=torch.long)
+    if suffixes is None:
+        suffixes = torch.tensor(rng.integers(0, k, (cfg.n_suffixes, cfg.suffix_len)), dtype=torch.long)
     B = _behaviour(sub, H, suffixes)  # (n, C, o)
     n_ctx = B.shape[1]
     labels, leaders = leader_cluster(B.reshape(n, -1), n_ctx, cfg.eps_beh)
@@ -197,6 +203,7 @@ def extract_seq(sub, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Gener
     nondegenerate = float(1.0 - class_size.max() / n)
     lawfree = float((max(metastability, 1e-9) * max(closure, 1e-9)) ** 0.5 * nondegenerate)
     return {
+        "_leaders": leaders, "_rep_idx": rep_idx, "_suffixes": suffixes, "_T": T,
         "n_prefixes": n,
         "n_classes": n_classes,
         "n_reachable_classes": int(C.shape[0]),

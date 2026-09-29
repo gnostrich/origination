@@ -99,6 +99,7 @@ def cmd_extract(a):
         for step in steps:
             model.load_state_dict(data["checkpoints"][step])
             m = extract_seq(sub, world.n_actions, cfg, np.random.default_rng(1234))
+            m = {k: v for k, v in m.items() if not k.startswith("_")}
             metrics[step] = m
             mon = m["monoid"]
             print(f"[{run_dir.name}] step {step:5d} classes {m['n_classes']:4d} reach {m['n_reachable_classes']:4d} "

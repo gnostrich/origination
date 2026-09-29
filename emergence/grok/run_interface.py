@@ -80,7 +80,7 @@ def main(argv=None):
           f"quotient = world's minimal automaton: {matches}, ARI to world states {ari:.3f}", flush=True)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     summary = {"run": run.name, "arch": arch, "world": cfg["world"], "checkpoint": step, "search": res,
-               "extraction": {k: v for k, v in m.items() if k not in ("partition",)},
+               "extraction": {k: v for k, v in m.items() if k not in ("partition",) and not k.startswith("_")},
                "quotient_matches_reference": bool(matches), "ari_to_world_states": ari,
                "reference": {"minimal_states": m_ref, "monoid": transformation_monoid(T_ref)}}
     json.dump(summary, open(out / f"{run.name}.json", "w"), indent=1, default=str)
