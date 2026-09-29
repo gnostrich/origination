@@ -299,6 +299,7 @@ def main(argv=None):
     ap.add_argument("--eps", type=float, default=0.05)
     ap.add_argument("--n_prefix", type=int, default=500)
     ap.add_argument("--phase", default="all", help="train | analyse | all")
+    ap.add_argument("--at", default="final", help="final | best : checkpoint for the full test battery and cross-seed comparison")
     a = ap.parse_args(argv)
     torch.set_num_threads(a.threads)
     out = Path(a.out) / f"g{a.gain}_t{a.teacher_seed}"
@@ -347,8 +348,11 @@ def main(argv=None):
                 print(f"[s{s}] step {step:5d} test {tl['test_loss']:.3f} classes {r['n_classes']:4d} reach {r['n_reachable_classes']:3d} "
                       f"meta {r['metastability']:.2f} clos {r['closure']:.2f} coh {r['action_coherence']:.2f} monoid {r['monoid'].get('monoid_order','n/a')} "
                       f"ARI(teacher) {sm['ari_to_teacher']:.3f}", flush=True)
-            # final checkpoint: full battery of tests
-            model.load_state_dict(d["checkpoints"][steps[-1]]); model.eval()
+            # checkpoint for the full battery: the last one, or the one with the best held-out loss
+            tl_all = {x["step"]: x for x in d["log"]}
+            at_step = steps[-1] if a.at == "final" else min(steps, key=lambda st: tl_all[st]["test_loss"])
+            entry["battery_step"] = at_step
+            model.load_state_dict(d["checkpoints"][at_step]); model.eval()
             r = run_extraction(sub, cfg0.V, prefixes, suffixes, a.eps, np.random.default_rng(3))
             entry["final"] = summarize(r); entry["final"]["partition"] = r["partition"]
             entry["final"]["sufficiency_unseen"] = sufficiency_unseen(sub, r, a.eps, Aheld, np.random.default_rng(5))
@@ -369,7 +373,7 @@ def main(argv=None):
             print(f"[s{s}] final: unseen-sufficiency {entry['final']['sufficiency_unseen']} patching {entry['final']['patching']} "
                   f"interface {isr['best']['cells']} ({isr['best']['complexity']})", flush=True)
             # controls: untrained (step 0) handled in the trajectory; weight-shuffled model
-            model.load_state_dict(d["checkpoints"][steps[-1]])
+            model.load_state_dict(d["checkpoints"][at_step])
             with torch.no_grad():
                 for p in model.parameters():
                     flat = p.view(-1); perm = torch.randperm(flat.numel()); flat.copy_(flat[perm])
@@ -388,7 +392,7 @@ def main(argv=None):
                                                         "automata_identical": bool(Ci.shape == Cj.shape and np.array_equal(Ci, Cj))}
         report["cross_seed"] = cross
         print("cross-seed:", cross, flush=True)
-        json.dump(report, open(out / "report.json", "w"), indent=1, default=float)
+        json.dump(report, open(out / f"report_{a.at}.json", "w"), indent=1, default=float)
 
 
 if __name__ == "__main__":
