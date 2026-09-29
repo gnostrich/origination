@@ -559,6 +559,38 @@ while both solve the task.  Whether the transformer would develop a compact
 interface with longer training, or whether attention-based substrates
 generically keep history-spanning interfaces on such tasks, was not tested.
 
+
+### Side validation: a mathematically continuous substrate (closed)
+
+`emergence/cont/` applies the same quotient principles to a controlled ODE
+`dx/dt = f(x) + u(t)` with continuous state, time, controls and
+observations and no supplied finite ontology.  Behaviour of a state =
+its observation trajectory under sampled control suffixes in the window
+after the initial transient; substitutable = relative RMS difference < eps;
+stability = retention under state perturbation averaged over a noise grid;
+continuous control pulses are the actions, and pulses are grouped by the map
+they induce on the stable classes to obtain the discovered operations.
+Numerical timestep, sampling density, control magnitude, window, noise,
+tolerance and seed are varied (`results/cont/battery.md`).
+
+| system | stable objects | discovered operations | monoid | notes |
+|---|---|---|---|---|
+| double well `x − x³` (3 seeds) | **2** in every seed (fringe classes near the separatrix are found but rejected as unstable) | **3**: identity for small \|u\|, and the two constant maps for large \|u\| of either sign | 3 / 3 idempotents / 2 constants / 1 unit | identical for dt 0.1 → 0.002, K = 3 → 40 samples, control 0.05 → 2.0, window start 2 → 10, tolerance 0.03 → 0.3 |
+| single well `−x` (3 seeds) | 1 | 1 | trivial | negative control passes |
+| double well, process noise D = 0.01 / 0.1 / 0.5 | 2 / **0** / **0** | 3 / – / – | | objects exist while barrier/D ≫ horizon hopping rate (0.25/0.01); they dissolve when noise hops within the horizon (D ≥ 0.1) |
+| double well, window from t = 0 | 6 | 10 | 37 | including the transient fragments the objects: the quotient is a statement about the long-lived future |
+| random 3-D landscapes, 8 wells, 4 landscapes × 2 extractions | 3, 3, 3, 2 = analytic minima in 3 of 4 landscapes, with a bijection objects ↔ minima in both extractions; landscape 2 splits one basin and misses one (ARI 0.71 / 0.87) | 3–9 | varies with the sampled pulses (3 → 22 between extractions of the same landscape) | objects reproducible; the operation set is not, at 40 random pulses in 3-D |
+| random 4-D landscapes, 12 wells, 4 × 2 | 1, 3, 2, 2 = analytic minima in 3 of 4; one extraction of landscape 2 adds a third object | 1–6 | | as above |
+
+What is genuinely emergent here: that a finite, stable, reproducible set of
+behavioural objects appears at all from continuous states, and that the
+continuous control acts on them through a finite set of maps.  What is
+analytically known: the double well has two attracting basins and the
+random landscapes have the minima the descent finds; the extractor was
+never told either.  Everything in this table is expected from dynamical
+systems theory; it is a unit test of the methodology, not evidence for
+spontaneous sophisticated mathematics, and the line is closed here.
+
 ### Running
 
 ```

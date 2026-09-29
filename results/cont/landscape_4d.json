@@ -1,0 +1,432 @@
+[
+ {
+  "name": "land4d_w12_s0_x0",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 0,
+  "eps": 0.1,
+  "n_classes": 1,
+  "n_stable": 1,
+  "stable_sizes": [
+   240
+  ],
+  "class_sizes": [
+   240
+  ],
+  "discreteness": 1.0,
+  "metastability": 1.0,
+  "n_operations": 1,
+  "frac_pulses_classified": 1.0,
+  "closure": 1.0,
+  "coherence": 1.0,
+  "monoid_order": 1,
+  "monoid_idempotents": 1,
+  "monoid_constants": 1,
+  "monoid_units": 1,
+  "ari": 1.0,
+  "eval": {
+   "n_minima_analytic": 1,
+   "n_basins_visited_by_states": 1,
+   "ari_vs_analytic_basins": 1.0,
+   "ari_stable_states": NaN,
+   "frac_states_in_stable_classes": 1.0,
+   "object_to_minimum": [
+    0
+   ],
+   "n_distinct_minima_found": 1,
+   "V_at_minima": [
+    -10.73694920014681
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s0_x1",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 1,
+  "eps": 0.1,
+  "n_classes": 1,
+  "n_stable": 1,
+  "stable_sizes": [
+   240
+  ],
+  "class_sizes": [
+   240
+  ],
+  "discreteness": 1.0,
+  "metastability": 1.0,
+  "n_operations": 1,
+  "frac_pulses_classified": 1.0,
+  "closure": 1.0,
+  "coherence": 1.0,
+  "monoid_order": 1,
+  "monoid_idempotents": 1,
+  "monoid_constants": 1,
+  "monoid_units": 1,
+  "ari": 1.0,
+  "eval": {
+   "n_minima_analytic": 1,
+   "n_basins_visited_by_states": 1,
+   "ari_vs_analytic_basins": 1.0,
+   "ari_stable_states": NaN,
+   "frac_states_in_stable_classes": 1.0,
+   "object_to_minimum": [
+    0
+   ],
+   "n_distinct_minima_found": 1,
+   "V_at_minima": [
+    -10.73694920014681
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s1_x0",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 100,
+  "eps": 0.1,
+  "n_classes": 15,
+  "n_stable": 3,
+  "stable_sizes": [
+   181,
+   15,
+   20
+  ],
+  "class_sizes": [
+   181,
+   15,
+   6,
+   20,
+   3,
+   3,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "discreteness": 1.0,
+  "metastability": 0.9041666666666666,
+  "n_operations": 5,
+  "frac_pulses_classified": 0.8416666666666667,
+  "closure": 0.8034219613259668,
+  "coherence": 0.9696969696969697,
+  "monoid_order": 1,
+  "monoid_idempotents": 1,
+  "monoid_constants": 1,
+  "monoid_units": 1,
+  "ari": 0.7659197994056984,
+  "eval": {
+   "n_minima_analytic": 3,
+   "n_basins_visited_by_states": 3,
+   "ari_vs_analytic_basins": 0.7659197994056984,
+   "ari_stable_states": 1.0,
+   "frac_states_in_stable_classes": 0.9,
+   "object_to_minimum": [
+    0,
+    1,
+    2
+   ],
+   "n_distinct_minima_found": 3,
+   "V_at_minima": [
+    -7.491766470824857,
+    -3.4843055376289267,
+    -3.102190922645175
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s1_x1",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 101,
+  "eps": 0.1,
+  "n_classes": 14,
+  "n_stable": 3,
+  "stable_sizes": [
+   190,
+   17,
+   16
+  ],
+  "class_sizes": [
+   190,
+   5,
+   17,
+   16,
+   3,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "discreteness": 1.0,
+  "metastability": 0.9267361111111111,
+  "n_operations": 4,
+  "frac_pulses_classified": 0.9333333333333333,
+  "closure": 0.9044575593395255,
+  "coherence": 0.9705882352941176,
+  "monoid_order": 1,
+  "monoid_idempotents": 1,
+  "monoid_constants": 1,
+  "monoid_units": 1,
+  "ari": 0.7928155567555353,
+  "eval": {
+   "n_minima_analytic": 3,
+   "n_basins_visited_by_states": 3,
+   "ari_vs_analytic_basins": 0.7928155567555353,
+   "ari_stable_states": 1.0,
+   "frac_states_in_stable_classes": 0.9291666666666667,
+   "object_to_minimum": [
+    0,
+    2,
+    1
+   ],
+   "n_distinct_minima_found": 3,
+   "V_at_minima": [
+    -7.491766470824857,
+    -3.4843055376289267,
+    -3.102190922645175
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s2_x0",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 200,
+  "eps": 0.1,
+  "n_classes": 4,
+  "n_stable": 2,
+  "stable_sizes": [
+   218,
+   8
+  ],
+  "class_sizes": [
+   218,
+   12,
+   2,
+   8
+  ],
+  "discreteness": 1.0,
+  "metastability": 0.970138888888889,
+  "n_operations": 3,
+  "frac_pulses_classified": 0.9125,
+  "closure": 0.8660168195718654,
+  "coherence": 1.0,
+  "monoid_order": 3,
+  "monoid_idempotents": 3,
+  "monoid_constants": 2,
+  "monoid_units": 1,
+  "ari": 0.9578576695093857,
+  "eval": {
+   "n_minima_analytic": 2,
+   "n_basins_visited_by_states": 2,
+   "ari_vs_analytic_basins": 0.9578576695093857,
+   "ari_stable_states": 1.0,
+   "frac_states_in_stable_classes": 0.9416666666666667,
+   "object_to_minimum": [
+    0,
+    1
+   ],
+   "n_distinct_minima_found": 2,
+   "V_at_minima": [
+    -5.6274245058394605,
+    -4.3021184124452585
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s2_x1",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 201,
+  "eps": 0.1,
+  "n_classes": 5,
+  "n_stable": 3,
+  "stable_sizes": [
+   14,
+   214,
+   8
+  ],
+  "class_sizes": [
+   14,
+   214,
+   8,
+   2,
+   2
+  ],
+  "discreteness": 0.9969849246231156,
+  "metastability": 0.9708333333333333,
+  "n_operations": 6,
+  "frac_pulses_classified": 0.925,
+  "closure": 0.8896908841418188,
+  "coherence": 0.9714285714285714,
+  "monoid_order": 10,
+  "monoid_idempotents": 8,
+  "monoid_constants": 3,
+  "monoid_units": 1,
+  "ari": 0.887433523619959,
+  "eval": {
+   "n_minima_analytic": 2,
+   "n_basins_visited_by_states": 2,
+   "ari_vs_analytic_basins": 0.887433523619959,
+   "ari_stable_states": 0.9858071917491461,
+   "frac_states_in_stable_classes": 0.9833333333333333,
+   "object_to_minimum": [
+    1,
+    0,
+    1
+   ],
+   "n_distinct_minima_found": 2,
+   "V_at_minima": [
+    -5.6274245058394605,
+    -4.3021184124452585
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s3_x0",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 300,
+  "eps": 0.1,
+  "n_classes": 4,
+  "n_stable": 2,
+  "stable_sizes": [
+   212,
+   22
+  ],
+  "class_sizes": [
+   212,
+   22,
+   4,
+   2
+  ],
+  "discreteness": 1.0,
+  "metastability": 0.9739583333333333,
+  "n_operations": 3,
+  "frac_pulses_classified": 1.0,
+  "closure": 0.9801315037164094,
+  "coherence": 1.0,
+  "monoid_order": 3,
+  "monoid_idempotents": 3,
+  "monoid_constants": 2,
+  "monoid_units": 1,
+  "ari": 0.9448423153486282,
+  "eval": {
+   "n_minima_analytic": 2,
+   "n_basins_visited_by_states": 2,
+   "ari_vs_analytic_basins": 0.9448423153486282,
+   "ari_stable_states": 1.0,
+   "frac_states_in_stable_classes": 0.975,
+   "object_to_minimum": [
+    0,
+    1
+   ],
+   "n_distinct_minima_found": 2,
+   "V_at_minima": [
+    -7.5624424834881685,
+    -4.780745219059711
+   ]
+  }
+ },
+ {
+  "name": "land4d_w12_s3_x1",
+  "system": "landscape:4:12",
+  "dt": 0.01,
+  "K": 12,
+  "u_sigma": 0.3,
+  "T_skip": 6.0,
+  "D": 0.0,
+  "U": 4.0,
+  "seed": 301,
+  "eps": 0.1,
+  "n_classes": 8,
+  "n_stable": 2,
+  "stable_sizes": [
+   216,
+   13
+  ],
+  "class_sizes": [
+   216,
+   13,
+   2,
+   2,
+   4,
+   1,
+   1,
+   1
+  ],
+  "discreteness": 1.0,
+  "metastability": 0.9510416666666667,
+  "n_operations": 3,
+  "frac_pulses_classified": 0.9875,
+  "closure": 0.956485933048433,
+  "coherence": 1.0,
+  "monoid_order": 3,
+  "monoid_idempotents": 3,
+  "monoid_constants": 2,
+  "monoid_units": 1,
+  "ari": 0.8531139809877997,
+  "eval": {
+   "n_minima_analytic": 2,
+   "n_basins_visited_by_states": 2,
+   "ari_vs_analytic_basins": 0.8531139809877997,
+   "ari_stable_states": 1.0,
+   "frac_states_in_stable_classes": 0.9541666666666667,
+   "object_to_minimum": [
+    0,
+    1
+   ],
+   "n_distinct_minima_found": 2,
+   "V_at_minima": [
+    -7.5624424834881685,
+    -4.780745219059711
+   ]
+  }
+ }
+]
