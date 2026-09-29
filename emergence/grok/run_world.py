@@ -23,7 +23,7 @@ from .seqsub import build_seq
 from .world import make_dataset, make_world, transformation_monoid
 
 
-def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, ckpt_every, lr, wd, threads, arch="gru"):
+def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, ckpt_every, lr, wd, threads, arch="gru", batch_size=0):
     torch.set_num_threads(threads)
     torch.manual_seed(seed)
     world = make_world(world_spec)
@@ -54,12 +54,17 @@ def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, c
                   f"test {r['test_acc']:.3f}/{r['test_loss']:.3f} ({r['elapsed_s']:.0f}s)", flush=True)
         if step == steps:
             break
-        lg, _ = model(Atr)
-        loss = F.cross_entropy(lg.reshape(-1, world.n_obs), Otr.reshape(-1))
+        if batch_size and batch_size < n_train:
+            bi = torch.randint(0, n_train, (batch_size,))
+            xb, yb = Atr[bi], Otr[bi]
+        else:
+            xb, yb = Atr, Otr
+        lg, _ = model(xb)
+        loss = F.cross_entropy(lg.reshape(-1, world.n_obs), yb.reshape(-1))
         opt.zero_grad(); loss.backward(); opt.step()
     out_dir.mkdir(parents=True, exist_ok=True)
     cfg = {"world": world_spec, "arch": arch, "seed": seed, "n_train": n_train, "n_test": n_test, "length": length,
-           "steps": steps, "lr": lr, "weight_decay": wd}
+           "steps": steps, "lr": lr, "weight_decay": wd, "batch_size": batch_size}
     torch.save({"config": cfg, "checkpoints": ckpts, "log": log}, out_dir / "checkpoints.pt")
     json.dump({"config": cfg, "log": log}, open(out_dir / "train_log.json", "w"), indent=1)
 
@@ -68,7 +73,7 @@ def cmd_train(a):
     for seed in [int(s) for s in a.seeds.split(",")]:
         name = f"{a.world}_s{seed}" if a.arch == "gru" else f"{a.arch}_{a.world}_s{seed}"
         train_one(a.world, seed, Path(a.out) / name, a.n_train, a.n_test, a.length,
-                  a.steps, a.ckpt_every, a.lr, a.weight_decay, a.threads, a.arch)
+                  a.steps, a.ckpt_every, a.lr, a.weight_decay, a.threads, a.arch, a.batch_size)
 
 
 def cmd_extract(a):
@@ -83,7 +88,11 @@ def cmd_extract(a):
         model, sub = build_seq(data["config"].get("arch", "gru"), world.n_actions, world.n_obs)
         model.eval()
         metrics = {}
-        for step in sorted(data["checkpoints"]):
+        steps = sorted(data["checkpoints"])
+        if a.max_ckpts and len(steps) > a.max_ckpts:
+            idx = np.unique(np.round(np.geomspace(1, len(steps), a.max_ckpts)).astype(int) - 1)
+            steps = sorted({steps[0], steps[-1]} | {steps[i] for i in idx})
+        for step in steps:
             model.load_state_dict(data["checkpoints"][step])
             m = extract_seq(sub, world.n_actions, cfg, np.random.default_rng(1234))
             metrics[step] = m
@@ -214,6 +223,8 @@ def main(argv=None):
     ap.add_argument("--weight_decay", type=float, default=0.1)
     ap.add_argument("--threads", type=int, default=1)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--batch_size", type=int, default=0, help="minibatch size for training (0 = full batch)")
+    ap.add_argument("--max_ckpts", type=int, default=0, help="extract at most this many log-spaced checkpoints")
     a = ap.parse_args(argv)
     if a.cmd in ("train", "all"):
         cmd_train(a)
