@@ -136,11 +136,15 @@ def monoid_analysis(C: np.ndarray, cap: int) -> dict:
             h = tuple(g[x] for x in f)  # apply f then g
             if h not in seen:
                 seen.add(h); frontier.append(h)
+    comp = lambda f, g: tuple(g[x] for x in f)
     bij = [len(set(g)) == m for g in gens]
-    all_bij = all(len(set(e)) == m for e in seen)
-    commute = all(tuple(g2[x] for x in g1) == tuple(g1[x] for x in g2) for g1 in gens for g2 in gens)
+    units = sum(1 for e in seen if len(set(e)) == m)
+    idem = sum(1 for e in seen if comp(e, e) == e)
+    consts = sum(1 for e in seen if len(set(e)) == 1)
+    commute = all(comp(g1, g2) == comp(g2, g1) for g1 in gens for g2 in gens)
     return {"total": True, "actions_bijective": bij, "monoid_order": len(seen),
-            "capped": len(seen) >= cap, "is_group": all_bij, "abelian": commute}
+            "capped": len(seen) >= cap, "is_group": units == len(seen), "abelian": commute,
+            "units": units, "idempotents": idem, "constant_maps": consts}
 
 
 def extract_seq(model, n_actions: int, cfg: SeqExtractConfig, rng: np.random.Generator) -> dict:

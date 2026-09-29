@@ -20,7 +20,7 @@ import torch.nn.functional as F
 from .compare import adjusted_rand_index, first_step, half_rise_step
 from .extract_seq import SeqExtractConfig, _all_prefixes, extract_seq
 from .rnn import GRUWorldModel
-from .world import make_dataset, make_world
+from .world import make_dataset, make_world, transformation_monoid
 
 
 def train_one(world_spec, seed, out_dir: Path, n_train, n_test, length, steps, ckpt_every, lr, wd, threads):
@@ -103,8 +103,8 @@ def cmd_report(a):
     if not runs:
         print("no runs"); return
     lines = ["# World prediction: blind quotient extraction", ""]
-    lines.append("| run | world | ref. minimal states | final test acc | classes (reachable) | metastability | closure | coherence | law-free index | monoid order | group | abelian | actions bijective |")
-    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    lines.append("| run | world | ref. minimal states | ref. monoid (order/idem/const/units) | final test acc | classes (reachable) | metastability | closure | coherence | law-free index | recovered monoid (order/idem/const/units) | group | abelian | actions bijective |")
+    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     timing = {}
     refs = {}
     for n, r in runs.items():
@@ -114,9 +114,11 @@ def cmd_report(a):
         steps = sorted(r["metrics"]); last = r["metrics"][steps[-1]]
         tl = {x["step"]: x for x in r["log"]}
         mon = last["monoid"]
-        lines.append(f"| {n} | {r['config']['world']} | {m_ref} | {tl[steps[-1]]['test_acc']:.3f} | "
+        ref_mon = transformation_monoid(T_ref)
+        fmt = lambda d: f"{d.get('order', d.get('monoid_order', 'n/a'))}/{d.get('idempotents', 'n/a')}/{d.get('constant_maps', 'n/a')}/{d.get('units', 'n/a')}"
+        lines.append(f"| {n} | {r['config']['world']} | {m_ref} | {fmt(ref_mon)} | {tl[steps[-1]]['test_acc']:.3f} | "
                      f"{last['n_classes']} ({last['n_reachable_classes']}) | {last['metastability']:.2f} | {last['closure']:.2f} | "
-                     f"{last['action_coherence']:.2f} | {last['crystallization_lawfree']:.2f} | {mon.get('monoid_order', 'n/a')} | "
+                     f"{last['action_coherence']:.2f} | {last['crystallization_lawfree']:.2f} | {fmt(mon) if mon.get('total') else 'not total'} | "
                      f"{mon.get('is_group', 'n/a')} | {mon.get('abelian', 'n/a')} | {mon.get('actions_bijective', 'n/a')} |")
         test = [tl[s]["test_acc"] for s in steps]
         lf = [r["metrics"][s]["crystallization_lawfree"] for s in steps]
@@ -196,6 +198,7 @@ def main(argv=None):
     ap.add_argument("--n_test", type=int, default=1024)
     ap.add_argument("--length", type=int, default=12)
     ap.add_argument("--steps", type=int, default=6000)
+    ap.add_argument("--arch", default="gru", help="gru | transformer")
     ap.add_argument("--ckpt_every", type=int, default=200)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--weight_decay", type=float, default=0.1)
