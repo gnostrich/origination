@@ -1,5 +1,52 @@
 # origination — emergent discreteness, types and composition from continuous substrates
 
+## Status of the research phase (read this first)
+
+Everything below is organised into four kinds of result.  Only the third
+kind bears on the generalised thesis; the first two are prerequisites.
+
+**1. Known-structure recovery** — the task *contains* an algebra and the
+question is whether the label-free extractor recovers it from a trained
+substrate.  Modular addition (grokking; Z_97, Z_89, Z_101, Z_8×Z_8,
+subtraction, scrambled presentations, corrupted tables); permutation,
+reset and counter worlds (S_4, monoids of order 48 and 44) on a GRU;
+the Langevin and continuous-ODE substrates (designed wells, double well,
+random landscapes).  All recovered exactly where the substrate solved the
+task.  These show the machinery works; they are not evidence for the
+thesis, because the algebra was written down before training.
+
+**2. Extractor and interface validation** — the extractor is not a template
+matcher (adversarial tables), does not manufacture structure from a
+random table or a memorising network, distinguishes compact from
+distributed realisations (label-free interface search: the GRU's hidden
+state is rediscovered as its minimal interface; the transformer that solves
+the counter world has no compact interface), and reports absence of
+structure where there is none (single well, random landscape funnel).
+
+**3. The discovery test** (`emergence/grok/discover.py`, section "Discovery
+experiment" below) — an ordinary sequence-prediction task with no planted
+algebra: next-token prediction of sequences from a random recurrent source.
+Outcome: trained students develop **predictive, interventionally real
+behavioural types** (levels A–C below), reproducible across seeds only to
+ARI ≈ 0.6–0.7 and resolution-dependent in number; the induced transitions
+close at one resolution for the smoother source but the algebra they
+generate differs from seed to seed; no nontrivial laws.  **No compact,
+canonical internal algebra was found.**  The strong thesis is not supported
+by this experiment; the weaker statement — learning produces substitutable,
+predictive internal types that mirror the source's predictive structure —
+is.
+
+**4. What remains conjectural** — that *some* ordinary tasks drive learned
+substrates to compact, closed, seed-invariant behavioural algebras that
+were not in the specification.  The one positive timing observation
+(compression of the quotient *after* accuracy, S_4 world) occurred only
+where the task had a finite quotient; on the unplanted source the quotient
+*fragments* with further training instead.  Whether compression pressure
+(weight decay, bottlenecks) or task structure is what produces canonical
+algebras is untested.
+
+---
+
 This repository is a small, runnable v0 of one idea:
 
 > Mathematics / discreteness may arise when continuously changing degrees of
@@ -591,6 +638,85 @@ never told either.  Everything in this table is expected from dynamical
 systems theory; it is a unit test of the methodology, not evidence for
 spontaneous sophisticated mathematics, and the line is closed here.
 
+
+### Discovery experiment: an ordinary task with no planted algebra (concluding experiment of this phase)
+
+*Task.*  Next-token prediction on sequences from a random recurrent source:
+a tanh Elman network with 12 hidden units, vocabulary 6 and gain 2.5,
+sampled through a softmax (conditional entropy 0.86 nats; uniform would be
+1.79).  A smoother source (gain 1.0, entropy 1.03) is a contrast.  Neither
+specification contains a group, monoid, table, partition or class ontology,
+and how many behavioural types, if any, their conditional structure has was
+unknown to us.  The source's own quotient, extracted with the same
+machinery, is the task's structure and was not written down by us.
+
+*Student.*  GRU, 64 hidden units, minibatch next-token cross-entropy,
+8192 training sequences of length 32, three seeds per source, checkpoints
+throughout.  Both sources are learned to within 0.03 nats of their entropy
+rate at the best held-out checkpoint (steps 1000–2750), after which the
+students overfit slightly.
+
+*Frozen pipeline* (the unchanged machinery, on data-distribution pools of
+prefixes and suffixes): interface search → behavioural classes (JS < 0.05)
+→ stability under noise → transitions (class, token) → class → automaton,
+monoid, coherence; validation by substitution on unseen prefixes with
+unseen suffixes against random partitions of the same size; mid-sequence
+patching with class representatives versus other-class states; resolution
+sweep; cross-seed ARI and automaton identity; the source's own quotient;
+untrained and weight-shuffled controls; the trajectory over checkpoints.
+
+*Results* (`results/discover/*/report_best.json`, `report_final.json`):
+
+| | source gain 2.5 (main) | source gain 1.0 (contrast) |
+|---|---|---|
+| source's own quotient at JS < 0.05 | 71 classes, unstable (metastability 0.38), transitions not total: **not finite** | 9 classes, closure 0.99, total transitions, monoid of order 277 |
+| student classes at best held-out checkpoint (3 seeds) | 44 / 49 / 49, closure 0.93–0.99, transitions not total | 8 / 9 / 9, closure 1.00, coherence 0.74–0.79, transitions total |
+| minimal sufficient interface | the hidden state alone, 64 scalars, sufficiency 1.00 (baseline 0.04–0.06) | same (baseline 0.23–0.27) |
+| **B** unseen prefixes behave like their class on fresh suffixes | 0.90–0.95 vs 0.04–0.05 for random partitions | 0.99–1.00 vs 0.39–0.42 |
+| **C** mid-sequence patching: same-class representative / other class | 0.90–0.95 / 0.18–0.22 below JS 0.05 | 0.93–0.99 / 0.47–0.54 |
+| resolution dependence (classes at JS 0.02 / 0.05 / 0.1 / 0.2) | 113–130 / 44–49 / 13–16 / 7–8; ARI between resolutions 0.17–0.59 | 23–24 / 8–9 / 4 / 4; ARI 0.42–0.59 |
+| **D** cross-seed | ARI 0.68–0.72; automata not identical | ARI 0.56–0.69; automata not identical; generated monoids of order 90 / 477 / 349 |
+| student vs source quotient | ARI 0.62–0.69 | ARI 0.70–0.76 near the best checkpoint |
+| **E** laws | none beyond the automatic associativity of the action | none reproducible |
+| shuffled-weights control | 4–6 degenerate classes (one dominant), no structure | same |
+| trajectory | classes 1 → 7 (step 100) → 30–40 (best loss) → 76–85 (overfit, step 6000); no compression phase | 1 → 5 → 8–9 (best loss) → 19–24 (overfit) |
+
+*Level reached.*  **C.**  The classes are not arbitrary clusters (A): they
+predict the model's behaviour on unseen contexts far better than random
+partitions of the same size (B), and substituting a class representative
+into the middle of a real sequence leaves the model's subsequent
+predictions unchanged while substituting another class's does not (C): the
+types are substitutable interfaces.  They are **not** a closed compositional
+structure in the sense the thesis requires (D): for the main source the
+transitions never become total and the class count is a function of the
+resolution with no plateau; for the smooth source the transitions close at
+one resolution and give a total automaton, but its generated monoid differs
+across seeds (orders 90, 477, 349) and dissolves at other resolutions.  No
+law was found that was not automatic (E).
+
+*Could it have been written down from the specification?*  No — but what
+was found is not a finite algebra either.  It is a resolution-dependent
+quantisation of a continuous predictive state whose partition mirrors the
+source's own quotient (ARI 0.6–0.75) to about the same degree that seeds
+mirror one another.  The trained system's internal organisation reflects
+the source's predictive structure and nothing beyond it.
+
+*Trajectory.*  Behavioural types appear within the first 100 steps (1 → 5–8
+classes as loss falls), multiply as the fit improves, and keep multiplying
+during overfitting.  There is no compression toward a canonical quotient,
+in contrast with the S_4 world where the quotient compressed to 24 after
+accuracy was reached.  Compression occurred where the task had a finite
+quotient; on the unplanted source, further training fragments the types.
+
+*Conclusion of the discovery test.*  On an ordinary task with no planted
+algebra, learning produced compact, interventionally real, predictive
+behavioural types, but not a canonical compositional algebra.  This is
+evidence for the weaker thesis (learning forms substitutable internal
+interfaces) and against the strong one as tested here (learning forms its
+own internal mathematics with closure and laws).  The negative result is
+preserved as such; no task or hyperparameter was changed to make structure
+appear.
+
 ### Running
 
 ```
@@ -602,6 +728,9 @@ python -m emergence.grok.run report  --out results/grok
 results/grok_controls/battery.sh          # adversarial controls (tasks: zmod:89, zprod:8x8, sub:97, scramble:..., corrupt:..., random:97)
 results/world/run_all.sh                  # world prediction (perm4, perm4reset), GRU substrate, sequence extraction
 python -m emergence.grok.run_interface --run results/world/counter_s0 --L 6   # label-free interface search + extraction
+python -m emergence.grok.discover --gain 2.5 --seeds 0,1,2 --out results/discover   # the discovery experiment (train + analyse)
+python -m emergence.grok.discover --gain 2.5 --seeds 0,1,2 --phase analyse --at best --out results/discover
+python -m emergence.cont.run battery --out results/cont                           # continuous-substrate unit test (closed)
 ```
 
 ---
