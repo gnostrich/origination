@@ -403,6 +403,86 @@ make more prefix configurations behaviourally distinct until late) and was
 not converged at 6000 steps; the extractor correctly reports no total
 algebra for it rather than a group.
 
+
+### Round 2: a non-group world and a second architecture
+
+The object being extracted is now called the substrate's **behavioural
+algebra**: the discrete compositional structure obtained by quotienting the
+continuous substrate by substitutability / indistinguishable future
+consequences.  The hypothesis under test is
+
+    world/task  →  minimal behavioural quotient (its algebra)
+    architecture + seed  →  one continuous realisation of it
+
+and it remains a hypothesis: a substrate that solves the task with a
+*different* stable algebra, or with none, is a result to preserve, not to
+tune away.  Task-learning failure ≠ extraction failure.
+
+*Worlds.* `counter`: a saturating counter (levels 0–3) with a toggle flag;
+actions `inc`, `dec` (saturating, non-invertible), `flip` (order 2),
+`reset` (constant map); observation `(level ≥ 2, flag)`.  Its minimal
+predictive quotient has 8 states and generates a transformation monoid of
+**order 44 with 18 idempotents, 8 constant maps and a unit group of order 2,
+non-commutative** — deliberately not a group.  `perm4reset` (S_4 plus a
+reset): 24 states, monoid of order 48 (24 units + 24 constant maps).
+
+*Second substrate.* A 2-layer causal transformer whose configuration after a
+prefix is its key/value cache (`seqsub.py`); continuation, substitution and
+noise act on that cache, so the extractor is unchanged in meaning.
+
+*Per-cell results* (`results/world/report.md`; final checkpoints):
+
+| world | substrate | task learned (test acc) | classes (reachable) | metastability / closure | quotient = world's minimal automaton | monoid order / idempotents / constants / units | bijective actions | cross-seed |
+|---|---|---|---|---|---|---|---|---|
+| perm4 | GRU ×3 | yes (1.000) | 24 (24) | 0.72 / 0.98 | **yes** | 24 / 1 / 0 / 24 (group, non-abelian) | 4 of 4 | identical, ARI 1.000 |
+| perm4reset | GRU ×2, 12k steps | yes (0.999) | 29, 25 (24) | 0.74 / 0.94 | **yes** | **48 / 25 / 24 / 24** (= world's) | 4 of 5 | identical, ARI 0.993 |
+| counter | GRU ×3 | yes (1.000) | 8 (8) | 0.96 / 1.00 | **yes** | **44 / 18 / 8 / 2** (= world's), non-abelian | 1 of 4 (`flip`) | identical, ARI 1.000 |
+| counter | transformer ×2 | yes (0.977, 0.993) | 114, 75 (1) | 0.5 / 0.0 | no | transitions not total | — | ARI 0.83 to each other, 0.40–0.48 to world states |
+| perm4 | transformer ×2, 1024 sequences | **NO** (0.61, 0.60) | 596 (1) | 0.01 / 0.00 | — | — | — | no conclusion about algebra |
+
+Associativity of the action is automatic for a deterministic sequential
+substrate and is not scored; `action coherence` (that `(c·a)·b` and `c·(ab)`
+land in the same class) is 1.00 for every GRU cell and is a check on the
+quotient, not a discovery.
+
+*What the cells say.*
+
+* **The extractor recovers the non-group monoid exactly.**  On the counter
+  world every GRU seed yields the 8-state quotient and the 44-element monoid
+  with the world's own idempotent/constant/unit counts; on the reset world
+  the 48-element monoid.  Nothing pushed the representation toward a group:
+  the same machinery that returned S_4 returns a monoid with a zero and
+  eighteen idempotents when that is what the world's quotient is.
+* **Timing on the counter world** is like the permutation world: the task
+  is solved by step 50 and the 8-class algebra is present from step 150;
+  there is no long plateau to speak of (the world is small).
+* **Transformer, counter world: outcome (3).**  The transformer solves the
+  task to 98–99 % but its KV-cache configurations do not quotient to a
+  stable closed algebra at the standard resolution (JS < 0.05): 75–114
+  classes, closure 0, products of the initial class not classifiable.  A
+  resolution sweep (`results/world/eps_sweep.log`) shows it is not a
+  threshold artefact in the simple sense: at JS < 0.3 the transformer
+  collapses to 8–9 classes but its products still land between classes
+  (transitions not total), whereas the GRU at the same coarse resolution
+  over-merges to 4–6 classes with total transitions.  The transformer's
+  predicted distributions are simply less crisp (test loss 0.03–0.15), and
+  its cache configurations after different prefixes that are equivalent in
+  the world are not behaviourally identical to the extractor.  Equivalent
+  external behaviour, no stable closed quotient at this site and training
+  stage.  This is preserved as a positive finding, not a failed run; whether
+  longer training crystallises it is an open question this round did not
+  test.
+* **Transformer, permutation world: task-learning failure** with 1024
+  training sequences (test 0.60 with train ≈ 1.0).  No claim about algebra
+  recovery is made for that cell.  One principled retry with 4× the training
+  data is reported below when complete.
+
+Architecture independence is therefore *not* established by this round:
+it holds for three GRU seeds on three worlds, and the transformer cells are
+either a task failure or an outcome-(3) case.
+
+TRANSFORMER_RERUN_PLACEHOLDER
+
 ### Running
 
 ```
