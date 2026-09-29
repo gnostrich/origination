@@ -11,3 +11,4 @@ results/world/*.log
 results/world_tf/**/checkpoints.pt
 results/world_tf/*.log
 results/interface/*.log
+results/cont/*.log
