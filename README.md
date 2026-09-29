@@ -503,6 +503,62 @@ Evidence matrix at the end of round 2:
 | counter world (monoid, order 44) | recovered exactly (3 seeds, identical) | task learned; no stable closed quotient at the cache site (outcome 3) |
 
 
+
+### Round 3: which interface? Label-free search over sites × positions
+
+The extractor so far assumed *where* the substrate's configuration lives
+(the GRU's hidden vector; the transformer's whole cache).  `interface.py`
+removes that assumption.  A **cell** is `(hook site, temporal offset from
+the end of the prefix)`; a candidate **interface** is any set of cells.
+*Substitution* transplants a donor prefix's interface cells into a recipient
+prefix's execution trace (recomputing what depends on them: the GRU
+recurrence; for the transformer the cache is the carried-forward object and
+is patched directly), then both are continued with the same suffixes.  An
+interface is **sufficient** when the transplant reproduces the donor's future
+behaviour (JS < 0.05) across random donor/recipient pairs; its
+**complexity** is the number of scalars it carries.  The search is
+exhaustive over small subsets and then greedy, stopping at the smallest set
+with sufficiency ≥ 0.95.  No labels, no world states, no target algebra
+enter the criterion.  The unchanged quotient extractor is then run on the
+discovered interface (its cells plugged into a fixed reference recipient of
+the same length).  Prefix length 6, 12 candidate cells per model.
+
+| model (existing checkpoint) | candidate cells | minimal sufficient interface | complexity (of total) | sufficiency | extraction on that interface |
+|---|---|---|---|---|---|
+| GRU, counter world | `h`, `e` at offsets 0–5 | `('h', 0)` — the final hidden state alone | 128 of 960 | 1.00 (next best single cell 0.58) | 8 classes, monoid 44/18/8/2, = world's minimal automaton, ARI 1.000 |
+| GRU, permutation world | same | `('h', 0)` | 128 of 960 | 1.00 (next best 0.38) | 24 classes, group of order 24, = world's, ARI 1.000 |
+| transformer, counter world, seed 0 | keys+values of both layers at offsets 0–5 | **no small sufficient set**: best of size 1/2/3 = 0.48/0.48/0.54; greedy stays ≤ 0.67 until the 12th cell; all 12 cells → 1.00 | 3072 of 3072 | 1.00 | 112 classes (18 reachable), closure 0.15, ARI 0.38 |
+| transformer, counter world, seed 1 | same | same shape: 0.48/0.48/0.46, ≤ 0.56 until the 12th cell | 3072 of 3072 | 1.00 | 84 classes (8 reachable), closure 0.10, monoid of order 32 (15 idem., 8 const., 2 units), ≠ world's (44), ARI 0.43 |
+
+Structured candidates for the transformer (seed 0 / seed 1): last position of
+both layers 0.48 / 0.48; last two positions 0.58 / 0.29; last three 0.69 /
+0.44; last four 0.85 / 0.67; all of layer 0 0.52 / 0.21; all of layer 1
+0.23 / 0.10; everything except the last position 0.33 / 0.21
+(`results/interface/*.json`).
+
+*Reading.*  The positive control passes: with no knowledge of the
+architecture's design, the search rediscovers the recurrent hidden state as
+the minimal sufficient interface of the GRU and nothing else, and the
+quotient extracted from it is the world's algebra.  The transformer that
+solves the same task to 98–99 % has **no compact interface**: its future
+behaviour depends jointly on keys and values at essentially every position
+of the prefix, and sufficiency rises with the number of positions included
+rather than concentrating anywhere.  It realises the computation by
+re-reading the action history through attention instead of maintaining a
+compressed state.  That is why the quotient extractor found no stable
+closed classes on it: there is no low-complexity interface whose
+configurations could be "the things".  Seed 1's reachable automaton even
+generates a different monoid (order 32) from the world's (order 44), an
+idiosyncratic and unstable structure rather than a competing stable one.
+
+So the round-2 outcome (3) is refined: same external behaviour, no
+compact behavioural interface, hence no compact behavioural algebra at this
+training stage.  Interface complexity is itself a substrate-level quantity
+the framework can measure, and it separates these two substrates cleanly
+while both solve the task.  Whether the transformer would develop a compact
+interface with longer training, or whether attention-based substrates
+generically keep history-spanning interfaces on such tasks, was not tested.
+
 ### Running
 
 ```
@@ -513,6 +569,7 @@ python -m emergence.grok.run extract --out results/grok
 python -m emergence.grok.run report  --out results/grok
 results/grok_controls/battery.sh          # adversarial controls (tasks: zmod:89, zprod:8x8, sub:97, scramble:..., corrupt:..., random:97)
 results/world/run_all.sh                  # world prediction (perm4, perm4reset), GRU substrate, sequence extraction
+python -m emergence.grok.run_interface --run results/world/counter_s0 --L 6   # label-free interface search + extraction
 ```
 
 ---

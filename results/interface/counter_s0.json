@@ -1,0 +1,312 @@
+{
+ "run": "counter_s0",
+ "arch": "gru",
+ "world": "counter",
+ "checkpoint": 6000,
+ "search": {
+  "L": 6,
+  "all_cells": [
+   [
+    "h",
+    0
+   ],
+   [
+    "e",
+    0
+   ],
+   [
+    "h",
+    1
+   ],
+   [
+    "e",
+    1
+   ],
+   [
+    "h",
+    2
+   ],
+   [
+    "e",
+    2
+   ],
+   [
+    "h",
+    3
+   ],
+   [
+    "e",
+    3
+   ],
+   [
+    "h",
+    4
+   ],
+   [
+    "e",
+    4
+   ],
+   [
+    "h",
+    5
+   ],
+   [
+    "e",
+    5
+   ]
+  ],
+  "full_sufficiency": 1.0,
+  "full_complexity": 960,
+  "baseline_sufficiency": 0.3958333333333333,
+  "best": {
+   "cells": [
+    [
+     "h",
+     0
+    ]
+   ],
+   "complexity": 128,
+   "sufficiency": 1.0,
+   "method": "exhaustive size 1"
+  },
+  "log": [
+   {
+    "cells": [],
+    "complexity": 0,
+    "sufficiency": 0.3958333333333333,
+    "mean_js": 0.1968345195055008
+   },
+   {
+    "cells": [
+     [
+      "h",
+      0
+     ]
+    ],
+    "complexity": 128,
+    "sufficiency": 1.0,
+    "mean_js": 0.0
+   },
+   {
+    "cells": [
+     [
+      "e",
+      0
+     ]
+    ],
+    "complexity": 32,
+    "sufficiency": 0.5833333333333334,
+    "mean_js": 0.12705178558826447
+   },
+   {
+    "cells": [
+     [
+      "h",
+      1
+     ]
+    ],
+    "complexity": 128,
+    "sufficiency": 0.4375,
+    "mean_js": 0.21662728488445282
+   },
+   {
+    "cells": [
+     [
+      "e",
+      1
+     ]
+    ],
+    "complexity": 32,
+    "sufficiency": 0.3125,
+    "mean_js": 0.24577848613262177
+   },
+   {
+    "cells": [
+     [
+      "h",
+      2
+     ]
+    ],
+    "complexity": 128,
+    "sufficiency": 0.3958333333333333,
+    "mean_js": 0.20412246882915497
+   },
+   {
+    "cells": [
+     [
+      "e",
+      2
+     ]
+    ],
+    "complexity": 32,
+    "sufficiency": 0.3958333333333333,
+    "mean_js": 0.21558518707752228
+   },
+   {
+    "cells": [
+     [
+      "h",
+      3
+     ]
+    ],
+    "complexity": 128,
+    "sufficiency": 0.4166666666666667,
+    "mean_js": 0.19422964751720428
+   },
+   {
+    "cells": [
+     [
+      "e",
+      3
+     ]
+    ],
+    "complexity": 32,
+    "sufficiency": 0.4375,
+    "mean_js": 0.17860619723796844
+   },
+   {
+    "cells": [
+     [
+      "h",
+      4
+     ]
+    ],
+    "complexity": 128,
+    "sufficiency": 0.3541666666666667,
+    "mean_js": 0.22755080461502075
+   },
+   {
+    "cells": [
+     [
+      "e",
+      4
+     ]
+    ],
+    "complexity": 32,
+    "sufficiency": 0.375,
+    "mean_js": 0.21765877306461334
+   },
+   {
+    "cells": [
+     [
+      "h",
+      5
+     ]
+    ],
+    "complexity": 128,
+    "sufficiency": 0.3541666666666667,
+    "mean_js": 0.22235220670700073
+   },
+   {
+    "cells": [
+     [
+      "e",
+      5
+     ]
+    ],
+    "complexity": 32,
+    "sufficiency": 0.3541666666666667,
+    "mean_js": 0.22235220670700073
+   }
+  ]
+ },
+ "extraction": {
+  "n_prefixes": 597,
+  "n_classes": 8,
+  "n_reachable_classes": 8,
+  "compression": 0.9865996649916248,
+  "discreteness": 0.2952285395763657,
+  "retention": {
+   "0.25": 1.0,
+   "0.5": 1.0,
+   "1.0": 0.9941373534338358,
+   "2.0": 0.859715242881072
+  },
+  "metastability": 0.963463149078727,
+  "closure": 1.0,
+  "frac_products_known": 1.0,
+  "action_coherence": 1.0,
+  "nondegenerate": 0.52428810720268,
+  "crystallization_lawfree": 0.5146210665523623,
+  "monoid": {
+   "total": true,
+   "actions_bijective": [
+    false,
+    false,
+    true,
+    false
+   ],
+   "monoid_order": 44,
+   "capped": false,
+   "is_group": false,
+   "abelian": false,
+   "units": 2,
+   "idempotents": 18,
+   "constant_maps": 8
+  },
+  "canonical_table": [
+   [
+    1,
+    0,
+    2,
+    0
+   ],
+   [
+    3,
+    0,
+    4,
+    0
+   ],
+   [
+    4,
+    2,
+    0,
+    0
+   ],
+   [
+    5,
+    1,
+    6,
+    0
+   ],
+   [
+    6,
+    2,
+    1,
+    0
+   ],
+   [
+    5,
+    3,
+    7,
+    0
+   ],
+   [
+    7,
+    4,
+    3,
+    0
+   ],
+   [
+    7,
+    6,
+    5,
+    0
+   ]
+  ]
+ },
+ "quotient_matches_reference": true,
+ "ari_to_world_states": 1.0,
+ "reference": {
+  "minimal_states": 8,
+  "monoid": {
+   "order": 44,
+   "capped": false,
+   "idempotents": 18,
+   "constant_maps": 8,
+   "units": 2,
+   "is_group": false,
+   "abelian": false
+  }
+ }
+}
