@@ -48,14 +48,25 @@ def evaluate_landscape(res: dict, sys: RandomLandscape, rng) -> dict:
         Y = Y + 0.01 * sys.f(Y)
     truth = np.array([int(np.argmin(np.linalg.norm(mins - y, axis=1))) for y in Y])
     from ..grok.compare import adjusted_rand_index
+    # which analytic minimum each discovered stable object sits in (evaluation only)
+    reps = np.array(res["rep_states"]).reshape(-1, sys.n) if len(res["rep_states"]) else np.zeros((0, sys.n))
+    Z = reps.copy()
+    for _ in range(4000):
+        Z = Z + 0.01 * sys.f(Z)
+    obj_min = [int(np.argmin(np.linalg.norm(mins - z, axis=1))) for z in Z] if len(mins) else []
+    st = set(res["stable_class_ids"]); mask = np.array([l in st for l in lab])
+    ari_stable = adjusted_rand_index(lab[mask], truth[mask]) if mask.sum() > 1 and len(set(truth[mask].tolist())) > 1 else float("nan")
     return {"n_minima_analytic": int(len(mins)), "minima": mins.tolist(),
             "n_basins_visited_by_states": int(len(set(truth.tolist()))),
-            "ari_vs_analytic_basins": adjusted_rand_index(lab, truth),
+            "ari_vs_analytic_basins": adjusted_rand_index(lab, truth), "ari_stable_states": ari_stable,
+            "frac_states_in_stable_classes": float(mask.mean()),
+            "object_to_minimum": obj_min, "n_distinct_minima_found": int(len(set(obj_min))),
             "V_at_minima": sys.V(mins).tolist() if len(mins) else []}
 
 
-def run_one(system: str, cfg: ContConfig, out: Path, name: str, verbose=True) -> dict:
-    sys = make_system(system, cfg.seed)
+def run_one(system: str, cfg: ContConfig, out: Path, name: str, verbose=True, system_seed: int | None = None) -> dict:
+    """``cfg.seed`` seeds the extraction; ``system_seed`` (default: the same) seeds a random landscape."""
+    sys = make_system(system, cfg.seed if system_seed is None else system_seed)
     res = extract_cont(sys, cfg)
     ev = evaluate_1d(res, system) if system in ("double_well", "single_well") else \
         evaluate_landscape(res, sys, np.random.default_rng(99))
@@ -73,7 +84,7 @@ def run_one(system: str, cfg: ContConfig, out: Path, name: str, verbose=True) ->
               f"classes={res['n_classes']} stable={res['n_stable_classes']} {res['stable_class_sizes']} disc={res['discreteness']:.2f} "
               f"meta={res['metastability']:.2f} ops={res['n_operations']} classified={res['frac_pulses_classified']:.2f} "
               f"closure={res['closure']:.2f} monoid={mon.get('monoid_order')}/{mon.get('idempotents')}/{mon.get('constant_maps')}/{mon.get('units')} "
-              f"ARI={row['ari']}", flush=True)
+              f"ARI={row['ari']} eval={ {k: v for k, v in ev.items() if k in ('n_minima_analytic', 'object_to_minimum', 'class_mean_x')} }", flush=True)
     out.mkdir(parents=True, exist_ok=True)
     json.dump({"config": asdict(cfg), "result": {k: v for k, v in res.items() if k not in ("states", "labels")},
                "evaluation": ev}, open(out / f"{name}.json", "w"), default=float)
@@ -118,8 +129,9 @@ def cmd_landscape(a):
     base = ContConfig(U=4.0)
     for s in [int(x) for x in a.seeds.split(",")]:
         spec = f"landscape:{a.n}:{a.wells}"
-        for ex_seed in (0, 1):
-            rows.append(run_one(spec, replace(base, seed=s * 10 + ex_seed), out, f"land{a.n}d_w{a.wells}_s{s}_x{ex_seed}"))
+        for ex_seed in (0, 1):  # two independent extractions of the same landscape
+            rows.append(run_one(spec, replace(base, seed=100 * s + ex_seed), out,
+                                f"land{a.n}d_w{a.wells}_s{s}_x{ex_seed}", system_seed=s))
     json.dump(rows, open(out / f"landscape_{a.n}d.json", "w"), indent=1, default=float)
     _table(rows, out / f"landscape_{a.n}d.md", f"Random {a.n}-D landscape: blind quotient")
 
@@ -127,7 +139,7 @@ def cmd_landscape(a):
 def _table(rows, path, title):
     cols = ["name", "system", "dt", "K", "u_sigma", "T_skip", "D", "eps", "seed", "n_classes", "n_stable", "stable_sizes", "discreteness",
             "metastability", "n_operations", "frac_pulses_classified", "closure", "coherence", "monoid_order",
-            "monoid_idempotents", "monoid_constants", "monoid_units", "ari"]
+            "monoid_idempotents", "monoid_constants", "monoid_units", "ari", "n_minima_analytic", "objects_to_minima"]
     lines = [f"# {title}", "", "| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
     for r in rows:
         cells = []

@@ -55,6 +55,7 @@ class ContConfig:
     sigmas: tuple = (0.05, 0.1, 0.2, 0.4)  # state perturbation, relative to spread
     n_noise: int = 3
     n_pulses: int = 40  # continuous pulse values
+    n_realisations: int = 6  # noise realisations averaged when D > 0
     stable_retention: float = 0.75
     U: float = 3.0  # pulse range
     tau_pulse: float = 1.0
@@ -73,13 +74,19 @@ class ContSubstrate:
         return self.rng.normal(0, self.cfg.u_sigma, (S, self.L, self.sys.m))
 
     def behaviour(self, X, suffixes):
-        """(n, d) states x (S, L, m) suffixes -> (n, S*K*o) future observations."""
+        """(n, d) states x (S, L, m) suffixes -> (n, S*K*o) future observations.
+        With process noise the behaviour is the *expected* future: realisations
+        are averaged (``n_realisations``)."""
         n = X.shape[0]
+        R = self.cfg.n_realisations if self.cfg.D > 0 else 1
         feats = []
         for s in range(suffixes.shape[0]):
             U = np.repeat(suffixes[s][None], n, axis=0)
-            _, Y = integrate(self.sys, X, U, self.cfg.tau, self.cfg.dt, self.cfg.D, self.rng, self.sample_times)
-            feats.append(Y.reshape(n, -1))
+            acc = 0.0
+            for _ in range(R):
+                _, Y = integrate(self.sys, X, U, self.cfg.tau, self.cfg.dt, self.cfg.D, self.rng, self.sample_times)
+                acc = acc + Y.reshape(n, -1)
+            feats.append(acc / R)
         return np.concatenate(feats, axis=1)
 
     def pulse(self, X, u):
@@ -188,7 +195,7 @@ def extract_cont(sys: System, cfg: ContConfig) -> dict:
     known = maps >= 0
     n_classes_all = n_classes
     class_ret_stable = class_ret[stable_ids]
-    frac_known = float(known.mean())
+    frac_known = float(known.mean()) if known.size else 0.0
     # discovered operations: distinct induced maps (only fully classified pulses)
     ops = {}
     for j in range(cfg.n_pulses):
@@ -200,7 +207,7 @@ def extract_cont(sys: System, cfg: ContConfig) -> dict:
     # polarisation of the control: does u act discretely?  fraction of pulses whose
     # map is one of the discovered ops (i.e. fully classified) and the number of ops
     T = np.array([np.array(k) for k, _ in op_list]).T if op_list else np.zeros((n_stable, 0), dtype=int)
-    if T.shape[1]:
+    if T.shape[1] and n_stable:
         # canonical automaton from the largest stable class (there is no distinguished initial state)
         start = int(np.argmax(class_size[stable_ids]))
         C, order = canonical_automaton(T, start)
@@ -209,7 +216,7 @@ def extract_cont(sys: System, cfg: ContConfig) -> dict:
         C, mon = np.zeros((0, 0), dtype=int), {"total": False}
     # coherence: (x.u).v vs class of applying both pulses in sequence
     n_chk = n_coh = 0
-    for _ in range(min(12, len(op_list) ** 2 if op_list else 0)):
+    for _ in range(min(12, len(op_list) ** 2 if (op_list and n_stable) else 0)):
         (ka, ja), (kb, jb) = (op_list[rng.integers(len(op_list))] for _ in range(2))
         ua, ub = pulses[ja[0]], pulses[jb[0]]
         direct = np.array([remap.get(int(c), -1) for c in classify(sub.behaviour(sub.pulse(sub.pulse(Xrep, ua), ub), suff), leaders, scale, cfg.eps)])
