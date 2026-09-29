@@ -105,8 +105,8 @@ def cmd_report(a):
     if not runs:
         print("no runs"); return
     lines = ["# World prediction: blind quotient extraction", ""]
-    lines.append("| run | world | ref. minimal states | ref. monoid (order/idem/const/units) | final test acc | classes (reachable) | metastability | closure | coherence | law-free index | recovered monoid (order/idem/const/units) | group | abelian | actions bijective |")
-    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    lines.append("| run | world | task learned (test acc) | ref. minimal states | ref. monoid (order/idem/const/units) | classes (reachable) | metastability | closure | quotient = world's minimal automaton | recovered monoid (order/idem/const/units) | units fraction | group | abelian | actions bijective | coherence (automatic) | law-free index |")
+    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     timing = {}
     refs = {}
     for n, r in runs.items():
@@ -118,10 +118,18 @@ def cmd_report(a):
         mon = last["monoid"]
         ref_mon = transformation_monoid(T_ref)
         fmt = lambda d: f"{d.get('order', d.get('monoid_order', 'n/a'))}/{d.get('idempotents', 'n/a')}/{d.get('constant_maps', 'n/a')}/{d.get('units', 'n/a')}"
-        lines.append(f"| {n} | {r['config']['world']} | {m_ref} | {fmt(ref_mon)} | {tl[steps[-1]]['test_acc']:.3f} | "
+        from .extract_seq import canonical_automaton as _canon
+        Cref, _ = _canon(T_ref, 0)
+        C_last = np.array(last["canonical_table"])
+        matches = C_last.shape == Cref.shape and np.array_equal(C_last, Cref)
+        acc = tl[steps[-1]]["test_acc"]
+        learned = "yes" if acc >= 0.95 else "NO"
+        units_frac = (f"{mon['units'] / mon['monoid_order']:.2f}" if mon.get("total") and mon.get("monoid_order") else "n/a")
+        lines.append(f"| {n} | {r['config']['world']} | {learned} ({acc:.3f}) | {m_ref} | {fmt(ref_mon)} | "
                      f"{last['n_classes']} ({last['n_reachable_classes']}) | {last['metastability']:.2f} | {last['closure']:.2f} | "
-                     f"{last['action_coherence']:.2f} | {last['crystallization_lawfree']:.2f} | {fmt(mon) if mon.get('total') else 'not total'} | "
-                     f"{mon.get('is_group', 'n/a')} | {mon.get('abelian', 'n/a')} | {mon.get('actions_bijective', 'n/a')} |")
+                     f"{matches} | {fmt(mon) if mon.get('total') else 'not total'} | {units_frac} | "
+                     f"{mon.get('is_group', 'n/a')} | {mon.get('abelian', 'n/a')} | {mon.get('actions_bijective', 'n/a')} | "
+                     f"{last['action_coherence']:.2f} | {last['crystallization_lawfree']:.2f} |")
         test = [tl[s]["test_acc"] for s in steps]
         lf = [r["metrics"][s]["crystallization_lawfree"] for s in steps]
         ncl = [r["metrics"][s]["n_classes"] for s in steps]
