@@ -133,7 +133,7 @@ def cmd_report(a):
         matches = C_last.shape == Cref.shape and np.array_equal(C_last, Cref)
         acc = tl[steps[-1]]["test_acc"]
         learned = "yes" if acc >= 0.95 else "NO"
-        units_frac = (f"{mon['units'] / mon['monoid_order']:.2f}" if mon.get("total") and mon.get("monoid_order") else "n/a")
+        units_frac = (f"{mon['units'] / mon['monoid_order']:.2f}" if mon.get("total") and mon.get("monoid_order") and mon.get("units") is not None else "n/a")
         lines.append(f"| {n} | {r['config']['world']} | {learned} ({acc:.3f}) | {m_ref} | {fmt(ref_mon)} | "
                      f"{last['n_classes']} ({last['n_reachable_classes']}) | {last['metastability']:.2f} | {last['closure']:.2f} | "
                      f"{matches} | {fmt(mon) if mon.get('total') else 'not total'} | {units_frac} | "
