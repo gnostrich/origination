@@ -17,3 +17,4 @@ results/discover/*.log
 results/resolution/*.log
 results/click/**/checkpoints.pt
 results/click/logs/
+results/trace/logs/
