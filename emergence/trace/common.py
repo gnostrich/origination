@@ -68,14 +68,10 @@ def geometry(X, y, n_classes):
     cnt = np.bincount(y, minlength=n_classes)
     between = np.sum(cnt[ok] * np.sum((M[ok] - mu) ** 2, axis=1)) / len(X)
     d_own = np.linalg.norm(X - M[y], axis=1)
-    D = np.linalg.norm(X[:, None, :] - M[None, ok, :], axis=2) if len(X) * ok.sum() < 4e6 else None
-    if D is None:
-        idx = np.random.default_rng(0).choice(len(X), 1500, replace=False)
-        D = np.linalg.norm(X[idx, None, :] - M[None, ok, :], axis=2)
-        d_own_s = d_own[idx]
-        ys = y[idx]
-    else:
-        d_own_s, ys = d_own, y
+    Mo = M[ok]
+    sq = (X * X).sum(1)[:, None] + (Mo * Mo).sum(1)[None] - 2 * X @ Mo.T
+    D = np.sqrt(np.maximum(sq, 0))
+    d_own_s, ys = d_own, y
     cls = np.nonzero(ok)[0]
     own_col = np.searchsorted(cls, ys)
     D[np.arange(len(ys)), own_col] = np.inf
