@@ -930,6 +930,27 @@ Lean 4 core only (no Mathlib); `cd lean && lake build`.
   descended clicks (`onTypes_click`).
 * `TaskEquiv S₁ S₂` — homs both ways inducing mutually inverse maps on types.
 
+`Emergence/Interfaces.lean` (interfaces, multiway fits, higher-order interfaces —
+the click thesis stated exactly)
+* `fit h c := obs h c`; `Interface := Quot`, `iface := typeOf` — **an interface is
+  the equivalence class of a piece under all possible fits**; nothing is assumed
+  finite or discrete.  `throughIface` — anything depending on a piece only through
+  its fits factors through its interface.
+* `Assembly H n := (Fin n → H) → H` — a multiway fit `(A₁ … Aₙ) ⇝ B`.
+  `CongruentN` — it respects interfaces.  `congruentN_of_closed` — this is
+  *automatic* when the contexts are closed under "fix the other parts and
+  assemble" (the exact form of test C, context-general fit).
+* `assembleQ`, `assembleQ_iface` — the interface of an assembled piece is a
+  function of the interfaces of its parts alone.
+* `Signature`, `Term`, `eval`, `evalQ`, `evalQ_eq`, `evalQ_congr` — **recursive
+  generation**: the interface of any term over a signature of congruent
+  assemblies is computed recursively from the interfaces of the generators, so
+  new interfaces are produced from old ones by composition.
+* `opSystem n` — assemblies are themselves pieces of a system whose contexts are
+  (parts, context) pairs; `opSystem_behEq_iff_assembleQ` — **the interface of an
+  assembly is exactly its action on interfaces**, so the same definition of
+  interface applies at every order (`Interface₂`).
+
 `Emergence/Finite.lean` — every hypothesis is decidable over `Fin k`; the
 hand-written designed table is certified by `decide`.
 `emergence/export.py` writes a discovered table to `Emergence/Discovered.lean`;

@@ -133,7 +133,7 @@ def first_true(steps, ok):
     return None
 
 
-def report():
+def report(wds=WDS + (1.0,)):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -141,7 +141,7 @@ def report():
     c, X, Y, tr, te = data()
     G = c.hidden(X)
     runs = {}
-    for wd in WDS:
+    for wd in wds:
         for seed in SEEDS:
             d = run_dir(wd, seed)
             if not os.path.exists(os.path.join(d, "analysis.json")):
@@ -152,7 +152,9 @@ def report():
              f"Circuit seed {CIRCUIT_SEED} (accepted after {c.draws} draws), gate reuse {c.reuse()}, "
              f"train fraction {TRAIN_FRAC}, {STEPS} steps, lr {LR}.", "",
              "Flags per site: A substitutability (>=1 accepted direction), B sufficiency, C context-generality, "
-             "D reuse, E composition.  'click' = first checkpoint from which A,B,C,D all hold and keep holding.", ""]
+             "D reuse, E composition.  'click' = first checkpoint from which A,B,C,D all hold and keep holding.",
+             "wd 0 / 0.01 / 0.1 is the frozen sweep; wd 1.0 is the post-hoc extension of the same axis (everything else identical),",
+             "added because the frozen levels produced nearly identical weight norms and trajectories.", ""]
     summary = {}
     for (wd, seed), r in runs.items():
         an, curve = r["an"], r["curve"]
@@ -226,7 +228,7 @@ def report():
     # cross-seed correspondence at the final checkpoint
     lines += ["## Cross-seed correspondence (final checkpoint)", "",
               "For each accepted direction of one seed, the max |corr| over all inputs of its projection with any accepted direction of another seed at the same site; mean over directions.", ""]
-    for wd in WDS:
+    for wd in wds:
         for s in SITES:
             vals = []
             for a in SEEDS:
@@ -242,8 +244,8 @@ def report():
             lines.append(f"- wd={wd} {s}: " + (", ".join(f"{v:.2f}" for v in vals) if vals else "n/a"))
     lines.append("")
     # figure
-    fig, axes = plt.subplots(len(WDS), 2, figsize=(12, 3.2 * len(WDS)), squeeze=False)
-    for i, wd in enumerate(WDS):
+    fig, axes = plt.subplots(len(wds), 2, figsize=(12, 3.2 * len(wds)), squeeze=False)
+    for i, wd in enumerate(wds):
         for j, s in enumerate(SITES):
             ax = axes[i, j]
             for seed in SEEDS:
