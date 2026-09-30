@@ -34,6 +34,7 @@ EPS = [0.05, 0.07, 0.1, 0.14, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0]
 
 def probe_direction(Z, y, tr, te, steps=500):
     """Logistic probe z ↦ σ(wᵀz + b); returns unit w and held-out accuracy."""
+    torch.manual_seed(0)
     Zt = torch.as_tensor(Z, dtype=torch.float32)
     yt = torch.as_tensor(y, dtype=torch.float32)
     lin = torch.nn.Linear(Z.shape[1], 1)

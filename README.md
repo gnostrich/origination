@@ -46,11 +46,15 @@ sweep.  Outcome: **no emergent compositional interface** — every learner
 solves the task perfectly, but at no checkpoint, site or pressure level
 does any direction carry a resolution-stable, context-general, sufficient
 set of types; acceptances occur at the random-direction baseline rate.
-Post-hoc diagnostics show the generating gates are perfectly linearly
-decodable at both sites yet their probe directions are not interfaces
-either: the substrate is not invariant to within-class variation along
-them.  `lean/Emergence/Interfaces.lean` fixes the exact meaning of
-interface, multiway fit, recursive generation and higher-order interface.
+Post-hoc labelled diagnostics show the generating gates are perfectly
+linearly decodable at both sites yet their probe directions are not
+interfaces either at the frozen pressure levels (the substrate is not
+invariant to within-class variation along them); at a post-hoc stronger
+level (weight decay 1.0) the gate directions do become resolution-stable
+in half the cases — a real trend along the pressure axis, invisible to the
+label-free dictionaries and still short of a sufficient, composable set.
+`lean/Emergence/Interfaces.lean` fixes the exact meaning of interface,
+multiway fit, recursive generation and higher-order interface.
 
 **4. Theory phase and what remains conjectural** — the resolution-dependent
 behavioural quotient (section "Theory phase" below) separates every
@@ -1058,8 +1062,8 @@ criterion but interpret the negative result.
 held-out accuracy **1.000 at both sites in all nine runs**: the gates are
 present as linearly separable directions.  Pushed through the same frozen
 per-direction tests, all 108 gate-probe directions pass the A-tests
-(trivially, like everything else) but only 11 of 108 are resolution-stable
-(7 of 54 at `h1`, 4 of 54 at `h2`), and none is sufficient or reproducible
+(trivially, like everything else) but only 18 of 108 are resolution-stable
+(11 of 54 at `h1`, 7 of 54 at `h2`), and none is sufficient or reproducible
 across seeds.  So the failure is **not** a wrong dictionary: even the
 directions that a labelled observer would call "the gates" are not
 interfaces.  The substrate separates gate values by sign but is not
@@ -1075,8 +1079,29 @@ random directions and the twelve probes: counts fall smoothly from ≈ 20–30
 to 2–4; the widest constant stretch is 0.1–0.2 decades for dictionary and
 random directions alike (0.43 at most, wd 0.1), 0.2–0.5 for probes.  For
 comparison, the recovered finite worlds of the theory phase hold plateaus
-of a decade or more.  The representation is a continuous behavioural
-object along every direction examined, including the labelled ones.
+of a decade or more.  At the frozen pressure levels the representation is
+a continuous behavioural object along every direction examined, including
+the labelled ones.
+
+*What the extension adds (labelled).*  At weight decay 1.0 the gate-probe
+directions change character: their `N(ε)` curves start at ≈ 7–16 instead
+of ≈ 20 and hold 2, 3 or 4 types over up to 0.7 decades (e.g. seed 0,
+`h1`, gate 3: 2 types from ε = 0.2 to 1.0); 20 of 36 gate probes are
+resolution-stable at the three frozen resolutions, against 18 of 108 at
+the frozen levels, and their typings agree with the gate values.  So
+**stronger compression pressure does push the substrate toward invariance
+along the gate directions**, while the label-free dictionaries (principal
+and sensitivity directions) still do not contain those directions (their
+widest plateaus stay at 0.2–0.3 decades) and the frozen criterion still
+finds nothing.  Read strictly: the frozen experiment's outcome is 2; the
+labelled diagnostic says that at the strongest pressure tested the
+negative result is partly a *dictionary* limitation — the directions that
+are becoming interfaces are gate-aligned directions that neither variance
+nor output sensitivity singles out — and that the trend along the pressure
+axis is real but had not produced a sufficient, composable interface set
+by the end of training.  The next experiment, if any, is a label-free
+dictionary that can find such directions (e.g. directions of maximal
+transplant *discreteness*), run again frozen; it was not run here.
 
 ### Running
 
