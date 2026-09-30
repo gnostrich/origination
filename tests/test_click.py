@@ -38,3 +38,32 @@ def test_pipeline_runs_on_untrained_model():
         sr = r["sites"][s]
         assert sr["n_candidates"] == 6
         assert set(I.flags(sr, cfg)) == set("ABCDE")
+
+
+def test_bid_leader_cluster_matrix_matches_reference():
+    from emergence.click import bid as B
+    rng = np.random.default_rng(3)
+    for _ in range(10):
+        P = rng.normal(size=(40, 30)) * rng.uniform(0.1, 3)
+        eps = rng.uniform(0.5, 3)
+        l1, L1 = I.leader_cluster(P, eps)
+        l2, L2 = B.leader_cluster_matrix(B.rms_matrix(P, P), eps)
+        assert (l1 == l2).all() and (L1 == L2).all()
+
+
+def test_bid_objective_is_basis_invariant():
+    from emergence.click import bid as B
+    from emergence.click.task import Circuit, split
+    c = Circuit(seed=0)
+    X = c.all_inputs()
+    tr, te = split(len(X), 0.5, 0)
+    disc, val, fin = B.make_pools(tr, te)
+    assert not (set(disc["d_fit"]) & set(val["d_fit"])) and not (set(val["d_fit"]) & set(fin["d_ref"]))
+    m = MLP(seed=0).eval()
+    sub = I.Sub(m, X)
+    rng = np.random.default_rng(0)
+    U = B.random_subspace(rng, 4, 64)
+    Q, _ = np.linalg.qr(rng.normal(size=(4, 4)))
+    J1 = B.components(sub, "h1", U, disc)["J"]
+    J2 = B.components(sub, "h1", Q @ U, disc)["J"]
+    assert abs(J1 - J2) < 1e-6
