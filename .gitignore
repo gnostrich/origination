@@ -14,3 +14,4 @@ results/interface/*.log
 results/cont/*.log
 results/discover/**/checkpoints.pt
 results/discover/*.log
+results/resolution/*.log
