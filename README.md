@@ -1,6 +1,69 @@
-# origination — emergent discreteness, types and composition from continuous substrates
+# origination — recovering the endogenous interface language of trained computational systems
 
-## Status of the research phase (read this first)
+**Active project statement.**  Recover the endogenous interface language of
+arbitrary computational systems from behavioural substitution and
+composition, without assuming their ontology in advance:
+
+    trained substrate → behavioural interfaces/types → fits/interactions
+                      → composition → higher-order interfaces
+                      → an executable abstract description of the system
+
+The formal target is in **`INTERFACE_LANGUAGE.md`**: an interface is an
+equivalence class of internal pieces under substitution across a context
+family (never a neuron, direction, cluster, probe or label); a fit
+`(A₁…Aₙ) ⇝ B` is a reproducible interaction whose result is itself an
+interface; higher-order interfaces are classes of interaction patterns by
+the fits they induce; the deliverable is an executable model
+`M = (𝓘, 𝓕, 𝓒, ε, residual)` judged by **counterfactual fidelity on a
+held-out intervention suite against description complexity**, with
+compositional generalisation on withheld combinations and causal
+abstraction (`do(I = i)` through distinct realisations) as the decisive
+tests.  Discovery and evaluation are separated in code: discovery
+(`emergence/lang/discover.py`) sees pieces, interactions, behaviour and
+unlabelled contexts only; evaluation (`emergence/lang/evaluate.py`) may
+unseal known structure to *describe* the result, never to select it.
+
+Code: `emergence/lang/` — `substrate.py` (what discovery may touch, with a
+change-of-basis wrapper), `discover.py` (`discover_interfaces`,
+`discover_fits`, `compose`, `extract`), `model.py` (the executable
+`InterfaceModel`: `classify`, `run`, `spec`), `evaluate.py`
+(`heldout_suite`, `predict_intervention`, `evaluate_fidelity`,
+`measure_complexity`, random-abstraction and lookup baselines,
+`causal_abstraction`, `basis_robustness`, `unseal`), `run.py`
+(`extract` / `pareto` / `basis` / `report`).  Results: `results/lang/`.
+
+Benchmark ladder (validation before the target): Level 0 known finite
+structures on existing trained GRUs (S_4, reset monoid, counter monoid);
+Level 1 distributed realisation under a change of basis; Level 2 multiple
+valid decompositions; Level 3 one learned system with no privileged
+ontology, judged only by fidelity, compositional generalisation,
+compactness and reproducibility.  Level 3 is not attempted until Levels 0–2
+pass.
+
+**Milestone 1 results** (Level 0 and Level 1 on existing checkpoints) are
+in the section "Milestone 1: interface-language extraction on existing GRU
+world models" below.
+
+---
+
+## Historical groundwork: the emergence phase (closed)
+
+Everything from here to the milestone section is the previous research
+programme — emergent discreteness, grokking as crystallisation,
+"clicking", the resolution-dependent quotient, the Boolean-circuit
+negative and the backward-tracing final experiment (terminal conclusion C
+in `CONCLUSIONS.md`).  It is retained as methodological groundwork and as
+the control set for the new project: the extractors, the adversarial
+controls, the label-free discovery machinery and the Lean layer
+(`lean/Emergence/Interfaces.lean` formalises interfaces, multiway fits and
+higher-order interfaces exactly as the new target uses them).  None of its
+hypotheses organise future work: grokking, phase transitions, whether
+mathematics "emerges", discrete vs continuous, finite vs infinite
+quotients, compression as a causal theory, and groups/monoids as
+privileged targets are all set aside as research targets.
+
+
+## Status of the emergence phase (historical)
 
 Everything below is organised into four kinds of result.  Only the third
 kind bears on the generalised thesis; the first two are prerequisites.
@@ -1272,6 +1335,76 @@ by the end of training.  The next experiment, if any, is a label-free
 dictionary that can find such directions (e.g. directions of maximal
 transplant *discreteness*), run again frozen; it was not run here.
 
+## Milestone 1: interface-language extraction on existing GRU world models (Levels 0 and 1)
+
+`emergence/lang/`, `results/lang/REPORT.md`, `results/lang/pareto.png`,
+per-run `SPEC_eps*.md` (the extracted specification), `model_eps*.json`
+(the executable model), `eval_eps*.json`.
+
+**What discovery received.**  Pieces: the GRU's hidden configuration after
+unlabelled action prefixes (all prefixes up to length 3 plus 200 random
+length-8 ones, 285–341 pieces).  Interactions: continuation with action
+strings.  Behaviour: the predicted observation distribution at each step.
+Context family: all action chunks of length 1 and 2 (20 or 30 contexts).
+Nothing else: no world states, no automaton, no labels.
+
+**What it returned.**  `M = (𝓘, 𝓕, 𝓒, ε, residual)`: interfaces = ε-classes
+of pieces under substitution across the context family (each with its
+realisations, accepted contexts, effect and within-class disagreement);
+first-order fits `(I, a) ⇝ I'` from up to 12 realisations per interface
+(confidence = fraction landing in the majority interface); observed
+two-step fits for all length-2 chunks except a withheld 25 %; derived fits
+by chaining; second-order interfaces = chunks with the same induced map on
+interfaces; second-order fits `(W, W') ⇝ W''`.  `M.run(state, string)`
+predicts the substrate's output at every step without running it.
+
+**Held-out suite** (never used in discovery): 120 fresh pieces (prefixes of
+length 5–12 not in the discovery pool) × 40 fresh length-8 strings; a
+compositional set of strings containing the withheld chunks, scored at the
+steps that complete a withheld chunk; abstract interventions `do(I = i)`
+through up to five distinct realisations per interface.
+
+| system (3 seeds unless noted) | K | held-out fidelity (argmax / JS) | zero-shot compositional fidelity (model / lookup) | bits: model / lookup / substrate | random abstraction (same K, same class sizes) | causal commutation / abstract agreement | basis change (ARI, fit table) | unsealed: ARI vs world states, monoid |
+|---|---|---|---|---|---|---|---|---|
+| S_4 world, ε = 0.05–0.1 | 24 | 0.991–0.999 / 0.989–0.997 | 0.991–1.000 / 0.000 | 749 / 1536 / 2.0·10⁶ | 0.40–0.41 | 0.998–1.000 / 0.999–1.000 | 1.00, 1.00 | 1.00; order 24 (24) |
+| reset monoid, ε = 0.05 (2 seeds) | 25–26 | 0.990–0.998 / 0.989–0.997 | 0.988–0.999 / 0.000 | 1013–1037 / 2400–2496 / 2.0·10⁶ | 0.70 | 0.993–0.996 / 0.993–0.996 | 1.00, 0.95–0.98 | 0.98–0.99; first-order fits not total (1–2 rare classes) |
+| counter monoid, ε = 0.01–0.1 | 8 | 1.000 / 0.998 | 1.000 / 0.000 | 191 / 512 / 2.0·10⁶ | 0.83 | 1.000 / 1.000 | 1.00, 1.00 | 1.00; order 44 (44) |
+
+Reading the table against the four stop conditions of `INTERFACE_LANGUAGE.md`:
+
+* **held-out intervention fidelity** — 0.99–1.00 on unseen pieces and
+  unseen 8-step strings, with coverage 0.99–1.00 (the model rarely
+  abstains), at the resolutions 0.02–0.1; the Pareto sweep over ε shows the
+  collapse when the resolution is too coarse (K halves, fidelity 0.69–0.86)
+  and slight over-splitting when too fine (K = 25–30, fidelity 0.93–0.99);
+* **compression** — 191–1037 bits for the interface model against
+  2·10⁶ bits for the substrate and 512–2496 bits for a lookup catalogue
+  with the same observation budget that reaches fidelity 0.17–0.22 (it
+  answers at most two steps, then abstains); a random abstraction with the
+  same number of interfaces and class sizes reaches 0.40–0.83 and, because
+  it needs exceptions, costs 3–10 kbits;
+* **compositional prediction** — the withheld chunks (4 of 16 pairs, or 6
+  of 25) are predicted through the discovered intermediates at 0.99–1.00,
+  where the lookup model scores 0.00 because it has no entry for them;
+* **coordinate robustness** — an invertible affine change of basis of every
+  exposed piece leaves the interfaces identical (ARI 1.00, same K) and the
+  fit tables identical for S_4 and the counter (1.00) and 0.95–0.98 for the
+  reset monoid, where a few borderline pieces reclassify under float error.
+
+The causal-abstraction square commutes: distinct realisations of the same
+interface behave identically downstream (0.99–1.00) and as the abstract
+model predicts (0.99–1.00).  Unsealing the worlds afterwards, the
+interfaces are the worlds' minimal-automaton states (ARI 0.98–1.00) and the
+second-order structure generated by the first-order fits is the world's
+transformation monoid (orders 24 and 44); for the reset monoid the
+first-order table has one or two undefined entries at rare classes, so
+its monoid is not generated exactly — this is recorded as residual, and
+the fidelity is unaffected.
+
+Stop condition for the milestone: met on Levels 0 and 1.  Level 2
+(multiple valid decompositions) and Level 3 (one learned system with no
+privileged ontology) have not been attempted.
+
 ### Running
 
 ```
@@ -1296,6 +1429,9 @@ python -m emergence.click.novelty --all          # sealed novelty diagnostic (NO
 python -m emergence.trace.run trace --run results/grok/mlp_s0        # backward tracing of final interfaces (final experiment)
 python -m emergence.trace.run trace --run results/world/perm4_s0
 python -m emergence.trace.run report                                # TRACE_REPORT.md, trace_*.png
+python -m emergence.lang.run pareto --run results/world/perm4_s0    # interface-language extraction: ε sweep, baselines, causal abstraction, unsealing
+python -m emergence.lang.run basis  --run results/world/perm4_s0    # change-of-basis robustness
+python -m emergence.lang.run report                                 # results/lang/REPORT.md, pareto.png
 ```
 
 ---
@@ -1374,7 +1510,9 @@ emergence/export.py       finite table -> Lean certificate
 emergence/grok/           table tasks + world prediction; MLP/transformer/GRU substrates; label-free extraction; comparison
 emergence/cont/           continuous ODE substrates (double well, random landscapes)
 emergence/click/          the click experiment: random Boolean circuit task, MLP, frozen interface discovery, diagnostics
-emergence/trace/          final experiment: backward tracing of final interfaces over existing checkpoints
+emergence/trace/          final experiment of the emergence phase: backward tracing of final interfaces
+emergence/lang/           ACTIVE: interface-language extraction (substrate, discover, model, evaluate, run)
+INTERFACE_LANGUAGE.md     the formal target of the active project
 CONCLUSIONS.md            terminal conclusions of the research phase
 lean/Emergence/*.lean     Basic, Finite, Multi, Equiv, Behavioural, Interfaces, Discovered (generated)
 tests/                    gradient checks, algebra checks, comparison utilities

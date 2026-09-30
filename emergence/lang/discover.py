@@ -25,7 +25,7 @@ def all_chunks(n_actions, max_len):
 def discovery_pool(n_actions, rng, max_len=3, n_random=200, rand_len=8):
     """Unlabelled pieces: every prefix up to max_len plus random longer ones."""
     pre = [()] + all_chunks(n_actions, max_len)
-    pre += [tuple(rng.integers(0, n_actions, rand_len)) for _ in range(n_random)]
+    pre += [tuple(int(a) for a in rng.integers(0, n_actions, rand_len)) for _ in range(n_random)]
     return pre
 
 
