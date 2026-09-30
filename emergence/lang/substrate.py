@@ -31,6 +31,7 @@ class SeqSubstrate:
         return h @ Q.T + b
 
     def _internal(self, x):
+        x = torch.as_tensor(np.asarray(x), dtype=torch.float32) if not torch.is_tensor(x) else x
         if self.basis is None:
             return x
         Q, b = self.basis
