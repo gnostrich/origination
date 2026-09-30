@@ -15,3 +15,5 @@ results/cont/*.log
 results/discover/**/checkpoints.pt
 results/discover/*.log
 results/resolution/*.log
+results/click/**/checkpoints.pt
+results/click/logs/
