@@ -64,6 +64,22 @@ about the learner, not the coordinates.  `lean/Emergence/Interfaces.lean`
 fixes the exact meaning of interface, multiway fit, recursive generation
 and higher-order interface.
 
+**6. Final experiment and conclusions** (`emergence/trace/`, `CONCLUSIONS.md`) —
+the final interfaces of every positive run (modular-addition grokking, MLP
+and transformer; the S_4 GRU) were frozen at the last checkpoint and traced
+backward through all checkpoints, measuring identity, causal effect,
+substitutability, context independence, fit, composition and recursion
+separately on held-out instances, with a preregistered set of microscopic
+quantities and a matched no-weight-decay negative.  Result: in modular
+addition every interface property transitions *with* generalisation (same
+t50, same width, no earlier decodable phase); in S_4 the post-accuracy
+crystallisation is a gradual contraction that tracks the loss through the
+extractor's thresholds with zero representational drift; the microscopic
+candidates (rank collapse, drift spikes) occur equally in the negative run.
+**Terminal conclusion C: no independently identifiable click.**  The
+research phase is closed; `CONCLUSIONS.md` separates demonstrated results
+from conjecture and grades each arrow of the thesis.
+
 **4. Theory phase and what remains conjectural** — the resolution-dependent
 behavioural quotient (section "Theory phase" below) separates every
 measured case: a finite canonical algebra appears exactly where `N_cov(ε)`
@@ -1168,6 +1184,44 @@ interface objective to be found from random restarts, or is not an
 interface in the operational sense when the objective is allowed to look
 everywhere.
 
+### Final experiment: tracing the final interfaces backward (`emergence/trace/`)
+
+The last experiment of the phase asks what changes inside a learner when
+behavioural interfaces form, using only the existing checkpoint
+trajectories: the six positive modular-addition runs (3 MLP, 3
+transformer), the matched transformer without weight decay (never
+generalises), and the three S_4 GRU runs.  At the final checkpoint the
+frozen extractor's classes are taken as the interfaces; their identities
+are frozen as a partition of a fixed instance pool and traced back through
+every checkpoint without re-clustering.  On held-out instances, against
+that frozen partition: identity (linear probe, 1-NN), causal effect
+(removing / keeping the between-eventual-class subspace, against a random
+subspace), substitutability (same-class donor from the other split),
+context independence (S_4: four disjoint suffix families; modular addition:
+closed loop), fit, composition, reuse and recursion (composites land in the
+eventual class of the composite), plus the existing quotient measures and a
+preregistered microscopic set (parameter norm, effective rank, top-5
+spectral share, between/within ratio, margin, Jacobian energy in the
+eventual-type subspace and its context dependence, adjacent-layer
+alignment, class-direction interference, CKA drift, weight drift).  Each
+series gets persistent 10/50/90 % crossing steps and a width.
+`results/trace/TRACE_REPORT.md`, `trace_modadd.png`, `trace_s4.png`.
+
+Findings (detail and numbers in `CONCLUSIONS.md` §1): in modular addition
+all interface properties rise with test accuracy — t50 equal within one
+checkpoint in all six runs, widths identical (1500 steps MLP, 2500–4000
+transformer), identity 0.00 on unseen inputs throughout memorisation; the
+quotient compresses one to two checkpoints later, gradually.  In S_4 the
+large move of every property coincides with accuracy (steps 50 → 200); the
+subsequent crystallisation (substitutability 0.97 → 1.00, classes 96 → 24)
+is gradual (widths 1000–2800 steps, increments ≤ 0.03 per checkpoint),
+correlates with log test loss at 0.75–1.00, and happens with CKA drift 0.00
+— the representation contracts but does not reorganise.  Effective-rank
+collapse and drift spikes precede grokking but occur equally in the
+no-weight-decay run that never forms interfaces.  No intervention was
+performed because no candidate mechanism survived the negative comparison.
+**Conclusion C** (`CONCLUSIONS.md`): no independently identifiable click.
+
 ### Post-hoc diagnostics: extraction failure or absence? (`emergence/click/diagnose.py`, `results/click/DIAGNOSTICS.md`)
 
 Two labelled diagnostics at the final checkpoints, which do not change the
@@ -1239,6 +1293,9 @@ python -m emergence.click.diagnose               # post-hoc N(ε) curves and lab
 results/click/logs/bid_sweep.sh 0.1              # behavioural interface discovery over the existing checkpoints (+ shuffled nulls)
 python -m emergence.click.run_bid report         # BID_REPORT.md, bid.png
 python -m emergence.click.novelty --all          # sealed novelty diagnostic (NOVELTY.md) — run last
+python -m emergence.trace.run trace --run results/grok/mlp_s0        # backward tracing of final interfaces (final experiment)
+python -m emergence.trace.run trace --run results/world/perm4_s0
+python -m emergence.trace.run report                                # TRACE_REPORT.md, trace_*.png
 ```
 
 ---
@@ -1317,6 +1374,8 @@ emergence/export.py       finite table -> Lean certificate
 emergence/grok/           table tasks + world prediction; MLP/transformer/GRU substrates; label-free extraction; comparison
 emergence/cont/           continuous ODE substrates (double well, random landscapes)
 emergence/click/          the click experiment: random Boolean circuit task, MLP, frozen interface discovery, diagnostics
+emergence/trace/          final experiment: backward tracing of final interfaces over existing checkpoints
+CONCLUSIONS.md            terminal conclusions of the research phase
 lean/Emergence/*.lean     Basic, Finite, Multi, Equiv, Behavioural, Interfaces, Discovered (generated)
 tests/                    gradient checks, algebra checks, comparison utilities
 ```
