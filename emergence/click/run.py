@@ -10,6 +10,7 @@ Design frozen before the first run; see README "The click experiment".
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import os
 import time
@@ -114,7 +115,8 @@ def analyse(wd, seed):
         print(f"step {ck['step']:6d}  " + "  ".join(
             f"{s}: acc={r['sites'][s]['n_accepted']} rand={r['sites'][s]['n_pass_rand']} {fl[s]}" for s in SITES),
             f"  ({time.time()-t0:.0f}s)", flush=True)
-    json.dump(out, open(os.path.join(d, "analysis.json"), "w"))
+    with gzip.open(os.path.join(d, "analysis.json.gz"), "wt") as f:
+        json.dump(out, f)
 
 
 # ------------------------------------------------------------------ report
@@ -144,10 +146,11 @@ def report(wds=WDS + (1.0,)):
     for wd in wds:
         for seed in SEEDS:
             d = run_dir(wd, seed)
-            if not os.path.exists(os.path.join(d, "analysis.json")):
+            if not os.path.exists(os.path.join(d, "analysis.json.gz")):
                 continue
-            runs[(wd, seed)] = dict(curve=json.load(open(os.path.join(d, "curve.json"))),
-                                    an=json.load(open(os.path.join(d, "analysis.json"))))
+            with gzip.open(os.path.join(d, "analysis.json.gz"), "rt") as f:
+                an = json.load(f)
+            runs[(wd, seed)] = dict(curve=json.load(open(os.path.join(d, "curve.json"))), an=an)
     lines = ["# Click experiment: results", "",
              f"Circuit seed {CIRCUIT_SEED} (accepted after {c.draws} draws), gate reuse {c.reuse()}, "
              f"train fraction {TRAIN_FRAC}, {STEPS} steps, lr {LR}.", "",
