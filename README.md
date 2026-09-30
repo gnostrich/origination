@@ -1364,32 +1364,38 @@ compositional set of strings containing the withheld chunks, scored at the
 steps that complete a withheld chunk; abstract interventions `do(I = i)`
 through up to five distinct realisations per interface.
 
-| system (3 seeds unless noted) | K | held-out fidelity (argmax / JS) | zero-shot compositional fidelity (model / lookup) | bits: model / lookup / substrate | random abstraction (same K, same class sizes) | causal commutation / abstract agreement | basis change (ARI, fit table) | unsealed: ARI vs world states, monoid |
+| system (3 seeds unless noted) | K | held-out fidelity (argmax) | zero-shot compositional fidelity (model / lookup) | bits: model / lookup / substrate | random abstraction (same K, same class sizes) | causal commutation / abstract agreement | basis change (ARI, fit table at ε 0.05) | unsealed: ARI vs world states, monoid |
 |---|---|---|---|---|---|---|---|---|
-| S_4 world, ε = 0.05–0.1 | 24 | 0.991–0.999 / 0.989–0.997 | 0.991–1.000 / 0.000 | 749 / 1536 / 2.0·10⁶ | 0.40–0.41 | 0.998–1.000 / 0.999–1.000 | 1.00, 1.00 | 1.00; order 24 (24) |
-| reset monoid, ε = 0.05 (2 seeds) | 25–26 | 0.990–0.998 / 0.989–0.997 | 0.988–0.999 / 0.000 | 1013–1037 / 2400–2496 / 2.0·10⁶ | 0.70 | 0.993–0.996 / 0.993–0.996 | 1.00, 0.95–0.98 | 0.98–0.99; first-order fits not total (1–2 rare classes) |
-| counter monoid, ε = 0.01–0.1 | 8 | 1.000 / 0.998 | 1.000 / 0.000 | 191 / 512 / 2.0·10⁶ | 0.83 | 1.000 / 1.000 | 1.00, 1.00 | 1.00; order 44 (44) |
+| S_4 world, ε = 0.1–0.4 | 24 | 0.982–0.999 | 0.983–1.000 / 0.000 | 760–783 / 1536 / 2.0·10⁶ | 0.38–0.39 | 0.998–1.000 / 0.999–1.000 | 1.00, 0.97–1.00 | 1.00; order 24 (24) |
+| reset monoid, ε = 0.2–0.4 (2 seeds) | 26–29 | 0.981–0.998 | 0.981–0.999 / 0.000 | 1072–1168 / 2496–2784 / 2.0·10⁶ | 0.66–0.70 | 0.993–0.996 / 0.983–0.993 | 1.00, 0.81–0.87 | 0.98–0.99; first-order fits not total (rare classes) |
+| counter monoid, ε = 0.05–0.4 | 8 | 1.000 | 1.000 / 0.000 | 191–199 / 512 / 2.0·10⁶ | 0.73 | 1.000 / 1.000 | 1.00, 1.00 | 1.00; order 44 (44) |
+
+(Numbers under the corrected behavioural distance — the maximum over
+contexts, see Milestone 2; the earlier table under the mean distance is
+archived in `results/lang/m1_old/`.  Under the maximum the best
+resolution moves coarser, ε = 0.1–0.4; at ε = 0.01–0.02 the GRUs are
+over-split, K = 26–40, fidelity 0.85–0.96.)
 
 Reading the table against the four stop conditions of `INTERFACE_LANGUAGE.md`:
 
-* **held-out intervention fidelity** — 0.99–1.00 on unseen pieces and
-  unseen 8-step strings, with coverage 0.99–1.00 (the model rarely
-  abstains), at the resolutions 0.02–0.1; the Pareto sweep over ε shows the
-  collapse when the resolution is too coarse (K halves, fidelity 0.69–0.86)
-  and slight over-splitting when too fine (K = 25–30, fidelity 0.93–0.99);
-* **compression** — 191–1037 bits for the interface model against
-  2·10⁶ bits for the substrate and 512–2496 bits for a lookup catalogue
+* **held-out intervention fidelity** — 0.98–1.00 on unseen pieces and
+  unseen 8-step strings, with coverage ≈ 1.00 (the model rarely abstains),
+  at resolutions 0.1–0.4; the ε sweep shows over-splitting when the
+  resolution is too fine (K = 26–40, fidelity 0.85–0.96);
+* **compression** — 191–1168 bits for the interface model against
+  2·10⁶ bits for the substrate and 512–2784 bits for a lookup catalogue
   with the same observation budget that reaches fidelity 0.17–0.22 (it
   answers at most two steps, then abstains); a random abstraction with the
-  same number of interfaces and class sizes reaches 0.40–0.83 and, because
+  same number of interfaces and class sizes reaches 0.38–0.73 and, because
   it needs exceptions, costs 3–10 kbits;
 * **compositional prediction** — the withheld chunks (4 of 16 pairs, or 6
   of 25) are predicted through the discovered intermediates at 0.99–1.00,
   where the lookup model scores 0.00 because it has no entry for them;
 * **coordinate robustness** — an invertible affine change of basis of every
   exposed piece leaves the interfaces identical (ARI 1.00, same K) and the
-  fit tables identical for S_4 and the counter (1.00) and 0.95–0.98 for the
-  reset monoid, where a few borderline pieces reclassify under float error.
+  fit tables identical for the counter (1.00), 0.97–1.00 for S_4 and
+  0.81–0.87 for the reset monoid at ε = 0.05, where borderline pieces of
+  rare classes reclassify under float error.
 
 The causal-abstraction square commutes: distinct realisations of the same
 interface behave identically downstream (0.99–1.00) and as the abstract
