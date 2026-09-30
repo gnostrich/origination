@@ -1405,6 +1405,61 @@ Stop condition for the milestone: met on Levels 0 and 1.  Level 2
 (multiple valid decompositions) and Level 3 (one learned system with no
 privileged ontology) have not been attempted.
 
+## Milestone 2: non-unique ontology (Level 2)
+
+`emergence/lang/systems.py` (the system and its sealed decompositions),
+`emergence/lang/m2.py` (protocol), `results/lang/m2/` (`M2_REPORT.md`,
+`pareto_m2.png`, `m2_results.json`, per-language `SPEC_*.md` and
+`model_*.json`).
+
+**1. System.**  A write-once free-order reader: three slots A, B, D over
+Z_3 are set by nine actions `set(slot, v)` in any order (a set on an
+already-set slot is a no-op); a tenth action `query` emits
+`Y = (a·b + d) mod 3` once all three are set and ⊥ otherwise; set actions
+emit ⊥.  Observations {⊥, 0, 1, 2}.  The internal configuration is a
+random 16-dimensional vector per partial assignment; discovery receives
+pieces (these vectors), continuations and one-hot behaviour, nothing
+else.  The substrate itself costs 5120 bits (transition and observation
+tables over 64 configurations).
+
+**2. Sealed decompositions.**  The same Y factors through different
+intermediates depending on which pair is combined first:
+D1 `(A,B) ⇝ C, (C,D) ⇝ Y` with `C = a·b mod 3` (3 classes);
+D2 `(B,D) ⇝ E, (A,E) ⇝ Y` with `E` the class of the map `a ↦ a·b + d`
+(9 classes); D3 `(A,D) ⇝ F, (F,B) ⇝ Y` with `F` the class of
+`b ↦ a·b + d` (9 classes).  C, E and F are quotients of different sets, of
+different sizes, none a permutation, relabelling, refinement or coarsening
+of another; each supports a compact executable explanation for its own
+reading order (10, 16 and 16 interfaces respectively, including the
+empty, single-slot and answer interfaces), and the free-order substrate
+privileges none.  All three were sealed from discovery and used only in
+the last, diagnostic step.
+
+**3. Protocol.**  Discovery ran under 24 initialisations: reading-order
+policy of the unlabelled piece pool (free: all prefixes to length 3 plus
+200 random length-8 strings, 1311 pieces; ABD, BDA, ADB: prefixes that set
+slots in that order, 77 pieces) × discovery seed (3) × context length (2
+or 3, i.e. 110 or 1110 unlabelled contexts), at ε = 0.05, with 25 of the
+100 length-2 chunks withheld from fit observation.  Every language was
+evaluated, without selection, on one common held-out suite: 120 fresh
+free-order pieces × 40 fresh length-6 strings; a compositional set scored
+at the steps completing withheld chunks; and an exhaustive block of all
+34 behaviourally distinct configurations × all 1000 length-3 strings.
+Baselines: random abstraction of matched interface count and class sizes;
+non-compositional lookup of matched observation budget; the substrate as
+ceiling.  Languages were compared by a behavioural distance: disagreement
+of their predictions on the exhaustive block (abstention by either counts
+as disagreement).
+
+**Implementation correction exposed by this system (before any
+evaluation).**  Milestone 1 typed pieces by the *mean* JS distance over
+contexts; on this system, where two pieces differ in a handful of the
+1110 contexts, that merged genuinely different pieces (4 types instead of
+34).  The definition in `INTERFACE_LANGUAGE.md` quantifies over every
+context, so the implementation now uses the *maximum* over contexts and
+steps (`beh_dist`).  Milestone 1 was re-run under the corrected distance;
+its table above reports the corrected numbers.
+
 ### Running
 
 ```
