@@ -261,7 +261,7 @@ def report(wds=WDS + (1.0,)):
                 ax2 = ax.twinx() if seed == SEEDS[0] else ax2
                 ax2.plot(steps, [a["sites"][s]["n_accepted"] for a in r["an"]], color=f"C{seed}", alpha=0.4, lw=2)
             ax.set_xscale("symlog", linthresh=10)
-            ax.set_title(f"wd={wd} site {s}: acc (solid/dotted), A-D fraction (dashed), #accepted (thick, right)")
+            ax.set_title(f"wd={wd} {s}: test/train acc (solid/dotted), A-D fraction (dashed), #accepted (thick, right)", fontsize=8)
             ax.set_ylim(-0.05, 1.05)
             if i == 0 and j == 0:
                 ax.legend(fontsize=6)

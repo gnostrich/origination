@@ -36,6 +36,22 @@ by this experiment; the weaker statement — learning produces substitutable,
 predictive internal types that mirror the source's predictive structure —
 is.
 
+**5. The click experiment** (`emergence/click/`, section "The click
+experiment" below) — the framing corrected to what the thesis actually
+claims (stable interfaces → reproducible fits → composition → higher-order
+interfaces; discreteness and finiteness are special cases, not the claim),
+and one frozen experiment on a task with no planted decomposition (a
+random layered Boolean circuit with reuse pressure) under a weight-decay
+sweep.  Outcome: **no emergent compositional interface** — every learner
+solves the task perfectly, but at no checkpoint, site or pressure level
+does any direction carry a resolution-stable, context-general, sufficient
+set of types; acceptances occur at the random-direction baseline rate.
+Post-hoc diagnostics show the generating gates are perfectly linearly
+decodable at both sites yet their probe directions are not interfaces
+either: the substrate is not invariant to within-class variation along
+them.  `lean/Emergence/Interfaces.lean` fixes the exact meaning of
+interface, multiway fit, recursive generation and higher-order interface.
+
 **4. Theory phase and what remains conjectural** — the resolution-dependent
 behavioural quotient (section "Theory phase" below) separates every
 measured case: a finite canonical algebra appears exactly where `N_cov(ε)`
@@ -882,6 +898,186 @@ substitutable types, but no section is canonical.  Whether some
 non-finite task can drive a substrate to a finite plateau anyway remains the
 open conjecture, untested.
 
+## The click experiment: stable interfaces on a task with no planted decomposition
+
+### The framing, corrected
+
+The thesis of this repository is **not** that learned substrates become
+discrete, nor that behavioural quotients are finite, nor that groups or
+tables appear.  It is a claim about *interfaces*:
+
+    learning → stable interfaces → reproducible fits → composition / reuse → higher-order interfaces
+
+An **interface** is an equivalence class of internal pieces under all the
+ways they can be fitted into contexts; a **fit** is reproducible when the
+result of fitting depends only on the interfaces of the pieces; pieces
+**compose** when the assembled piece has an interface determined by the
+interfaces of its parts; that composite is itself a new piece with a new
+interface, recursively (`lean/Emergence/Interfaces.lean` states exactly
+this, with no finiteness or discreteness assumed anywhere).  Everything
+earlier in this README — finite quotients, plateaus in `N(ε)`, recovered
+groups — is a *special case* where the interfaces happen to be finite; it is
+not the claim.  The question this experiment asks is whether interfaces in
+the above sense **emerge** in an ordinary learner when the task does not
+say where they should be.
+
+### The task (chosen so that the decomposition is underdetermined)
+
+`emergence/click/task.py`: a random layered Boolean circuit, 12 input bits,
+6 hidden gates (random truth tables on random 3-subsets of the inputs), 6
+output bits (random truth tables on random 3-subsets of the gates).  The
+learner sees only input → output pairs (2048 of the 4096 inputs for
+training, the rest held out).  Gates are reused by 2–4 outputs each, so a
+shared intermediate is cheaper than six separate functions — that is the
+only *pressure* toward internal reuse — but nothing about gates, arities,
+boundaries or tables is visible, and many different circuits compute the
+same function.  Draws are rejected before training if an output is nearly
+constant or coincides with a single gate or input (the accepted circuit is
+draw 2 of seed 0).  Not planted: no group, no monoid, no modules, no
+latent objects, no ports, no types, no factor boundaries, no state
+decomposition, no Cayley table.
+
+The learner is a plain 12→64→64→6 ReLU MLP with two hidden sites (`h1`,
+`h2`), AdamW, lr 1e-3, full batch, 20 000 steps, 31 log-spaced
+checkpoints.  **Pressure axis:** weight decay 0 / 0.01 / 0.1, three seeds
+each, everything else matched.
+
+### Interface discovery (frozen before the sweep; `emergence/click/interfaces.py`)
+
+Candidate interfaces are unit *directions* in a site's activation space,
+never neurons, layers, clusters or finite state sets.  Two coordinate-free
+dictionaries per site (16 each): principal directions of the site's
+activations, and eigen-directions of the site's mean output sensitivity
+`E_x[JᵀJ]`.  A third dictionary of 16 random unit directions goes through
+the identical pipeline as the baseline.  A fit along direction `u` is the
+transplant `z ← z_r + u uᵀ(z_d − z_r)` of donor `d` into recipient `r`; its
+result is the change of the six output logits.  Donors are typed by leader
+clustering of their effect profiles on a reference recipient pool at
+resolution 0.3 × rms effect.  All pools are fixed once; fresh donors and
+fresh recipients come from the held-out inputs.
+
+Tests, each a number with a fixed threshold:
+
+* **A substitutability** — a fresh donor, typed on the reference recipients,
+  has its effects on *fresh* recipients predicted by its type's leader
+  (R² ≥ 0.8, and ≥ 0.3 above shuffled types);
+* **B sufficiency** — transplanting only along the accepted directions
+  reproduces the output bits of the full transplant (≥ 0.9, and ≥ 0.1 above
+  a random subspace of the same dimension); the minimal sufficient prefix is
+  also reported;
+* **C context-general fit** — retyping with an independent recipient pool
+  gives the same partition (ARI ≥ 0.6);
+* **D reuse** — the direction moves ≥ 2 outputs;
+* **E composition** — a pair of accepted directions typed jointly predicts
+  the joint transplant on fresh recipients (R² ≥ 0.8), with the number of
+  joint types compared with the product of the factors';
+* plus 2 ≤ types ≤ 8, no type above 85 %, rms effect ≥ 0.3 logits.
+
+**Click** is defined operationally, not as grokking: the first checkpoint
+from which A, B, C and D all hold at a site and keep holding.  The
+preregistered aggregate (fraction of A–D passing) is kept alongside its
+constituents.  Threshold robustness is reported at A_min 0.7/0.8/0.9 and
+resolution 0.2/0.3/0.4.
+
+**One amendment, made after a throw-away smoke run and before the sweep.**
+A transplant along one direction carries only a scalar of the donor, so
+binning that scalar "predicts" the effect along *any* direction: in the
+smoke run 11–13 of 16 random directions passed A–D.  The criterion
+therefore also requires **resolution stability** — the type count must be
+the same (±1) at resolutions 0.2, 0.3 and 0.4, the per-direction analogue
+of the plateau of the theory phase.  A direction along which donors spread
+continuously has a count ∝ 1/ε (12/8/6 in the smoke run); one along which
+they fall into separated groups keeps its count.  With this in place
+nothing passed in the smoke run, dictionary or random, so the pipeline had
+a real chance to fail.  No task, threshold or dictionary was changed after
+the sweep.
+
+### Result of the frozen sweep: outcome 2, no emergent compositional interface
+
+`results/click/REPORT.md`, `results/click/click.png`.  All nine runs reach
+train and test accuracy 1.000 by step ≈ 470 (no train/test gap, no delayed
+generalisation; the weight-decay levels change the final weight norm only
+from 35 to 29 and the trajectories are indistinguishable — the frozen
+pressure axis turned out to exert almost no pressure, see the extension
+below).
+
+| | dictionary directions | random directions |
+|---|---|---|
+| site-checkpoints (9 runs × 31 checkpoints × 2 sites = 540) with ≥ 1 accepted direction | 6 | 4 |
+| resolution-stable candidates among those with rms effect ≥ 0.3, over all site-checkpoints | 6 / 7 327 (0.08 %) | 5 / 3 906 (0.13 %) |
+| B (sufficiency) ever passing | never | — |
+| E (composition) ever evaluated with a pair | never | — |
+| click (A–D persisting) | none, at any site, any run | — |
+
+The six acceptances are isolated single checkpoints (one direction each,
+7–8 types, at steps 925 … 20 000), never at the same checkpoint at both
+sites, never at two consecutive checkpoints, and at the same rate as the
+random-direction baseline once the dictionaries' larger size is accounted
+for.  The one acceptance at a final checkpoint (wd 0.01, seed 2, `h1`,
+first principal direction) correlates 0.85 with generating gate 1 but
+its donor typing has ARI 0.34 with that gate and it appears in no other
+seed.  Threshold robustness: at every A_min the count of candidates
+passing the A-tests alone is 25–29 of 32 for the dictionaries and 11–14
+of 16 for random directions (they are trivially substitutable); the
+resolution-stability count is 0–2 at every resolution.  Cross-seed
+correspondence is undefined because no run has an accepted set.
+
+**Novelty test:** not applicable — nothing to test.  The organisation the
+learner reached is not one that can be derived from the task specification,
+but it is also not an interface in the sense defined: no direction at
+either site carries a resolution-stable, context-general, sufficient set
+of types at any point of training.
+
+### Extension of the pressure axis: weight decay 1.0 (post hoc, everything else identical)
+
+Because the frozen levels 0 / 0.01 / 0.1 barely differed (AdamW's decoupled
+decay at lr 1e-3 is 1e-4 per step or less), the same pipeline was run at
+weight decay 1.0 for the same three seeds after the frozen sweep, with no
+other change.  Final weight norms 27.5–28.8 (vs 35 at zero decay);
+accuracy 1.000 by step 600 (slightly later).  Result: **the same outcome**.
+Site-checkpoints with an accepted direction: 8 of 180 (dictionary) vs 2 of
+180 (random); resolution-stable candidates among those with an effect:
+8 / 2 284 (0.35 %) vs 2 / 1 241 (0.16 %).  All eight acceptances are single
+directions at isolated checkpoints (seed 1 alone accepts three different
+directions at three non-adjacent checkpoints of `h1`), B never passes
+(0.56–0.63 against a random-subspace baseline of 0.56), no pair is ever
+evaluated, no click.  The rate of isolated acceptances is a few times
+higher than at the frozen levels — a trend along the pressure axis that
+is compatible with stronger compression making some directions
+transiently more type-like — but nothing persists and nothing composes.
+Stronger or different pressure (bottlenecks, sparsity, longer training) is
+the obvious next axis; it was not run, because the point of this
+experiment was one frozen sweep.
+
+### Post-hoc diagnostics: extraction failure or absence? (`emergence/click/diagnose.py`, `results/click/DIAGNOSTICS.md`)
+
+Two labelled diagnostics at the final checkpoints, which do not change the
+criterion but interpret the negative result.
+
+*Is it the dictionary?*  Logistic probes for the six generating gates reach
+held-out accuracy **1.000 at both sites in all nine runs**: the gates are
+present as linearly separable directions.  Pushed through the same frozen
+per-direction tests, all 108 gate-probe directions pass the A-tests
+(trivially, like everything else) but only 11 of 108 are resolution-stable
+(7 of 54 at `h1`, 4 of 54 at `h2`), and none is sufficient or reproducible
+across seeds.  So the failure is **not** a wrong dictionary: even the
+directions that a labelled observer would call "the gates" are not
+interfaces.  The substrate separates gate values by sign but is not
+*invariant* to the within-class spread along those directions — the effect
+of a transplant on the outputs varies continuously with how far inside its
+class a donor sits, so the fit is not reproducible at the level of
+behaviour, only at the level of the final decision (which is discrete by
+construction of the task and privileges no direction).
+
+*Is there a plateau anywhere?*  `N(ε)` over a full decade of resolutions
+(0.05 … 1.0) for the four leading directions of each dictionary, four
+random directions and the twelve probes: counts fall smoothly from ≈ 20–30
+to 2–4; the widest constant stretch is 0.1–0.2 decades for dictionary and
+random directions alike (0.43 at most, wd 0.1), 0.2–0.5 for probes.  For
+comparison, the recovered finite worlds of the theory phase hold plateaus
+of a decade or more.  The representation is a continuous behavioural
+object along every direction examined, including the labelled ones.
+
 ### Running
 
 ```
@@ -897,6 +1093,9 @@ python -m emergence.grok.discover --gain 2.5 --seeds 0,1,2 --out results/discove
 python -m emergence.grok.discover --gain 2.5 --seeds 0,1,2 --phase analyse --at best --out results/discover
 python -m emergence.cont.run battery --out results/cont                           # continuous-substrate unit test (closed)
 python -m emergence.grok.resolution --system world --run results/world/perm4_s0   # N_cov(t, ε), congruence defect, closure
+results/click/logs/sweep.sh 0.01                 # the click experiment: train + analyse three seeds at one weight-decay level
+python -m emergence.click.run report             # REPORT.md, click.png (all levels found under results/click/)
+python -m emergence.click.diagnose               # post-hoc N(ε) curves and labelled probe directions (DIAGNOSTICS.md)
 ```
 
 ---
@@ -973,7 +1172,9 @@ emergence/compose.py      products, closure, substitutability, associativity, ex
 emergence/experiment.py   Langevin pipeline + composite score
 emergence/export.py       finite table -> Lean certificate
 emergence/grok/           table tasks + world prediction; MLP/transformer/GRU substrates; label-free extraction; comparison
-lean/Emergence/*.lean     Basic, Finite, Multi, Equiv, Discovered (generated)
+emergence/cont/           continuous ODE substrates (double well, random landscapes)
+emergence/click/          the click experiment: random Boolean circuit task, MLP, frozen interface discovery, diagnostics
+lean/Emergence/*.lean     Basic, Finite, Multi, Equiv, Behavioural, Interfaces, Discovered (generated)
 tests/                    gradient checks, algebra checks, comparison utilities
 ```
 
