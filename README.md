@@ -1053,6 +1053,49 @@ Stronger or different pressure (bottlenecks, sparsity, longer training) is
 the obvious next axis; it was not run, because the point of this
 experiment was one frozen sweep.
 
+### Follow-up: behavioural interface discovery (`emergence/click/bid.py`, `run_bid.py`, `novelty.py`)
+
+The negative result above could not separate H0 (no stable compositional
+interfaces formed) from H1 (they exist, but principal / output-sensitivity
+directions are the wrong dictionary).  This follow-up replaces the
+**candidate dictionary** and nothing else: same task, model, runs,
+checkpoints, pressure levels, and the same acceptance criterion for an
+interface.  The generating gates are sealed until the very end.
+
+*Candidates.*  Subspaces `U` of rank 1, 2, 4 or 8 of a site's activation
+space, found by a label-free search that maximises, on a **discovery pool**
+(training inputs), the geometric mean of seven first-order interface
+properties of the transplant `z ← z_r + P_U(z_d − z_r)`: non-trivial effect;
+few (2–8) types; type count stable across resolutions 0.2/0.3/0.4; type
+partition stable across those resolutions; held-out donors covered by the
+types; effects on held-out recipients predicted by the type leader (test A
+inside the discovery pool); balanced usage.  Sufficiency (B),
+independent-pool context generality (C), reuse (D) and composition (E) are
+*not* in the objective.  The objective depends on `U` only through the
+projector `UᵀU`, so the basis inside `U` is irrelevant; the search moves on
+the Grassmannian by Gaussian steps followed by re-orthonormalisation
+(8 random restarts × 150 steps per rank, step size annealed 0.3 → 0.02).
+
+*Selection and testing.*  Every restart's best subspace is re-scored on a
+disjoint **validation pool** (half of the held-out inputs) with the frozen
+acceptance criterion of the first experiment (effect ≥ 0.3, 2–8 types,
+balance, A ≥ 0.8 and ≥ 0.3 above shuffled types, resolution stability);
+validated subspaces are deduplicated by span (kept if less than half their
+energy lies in the span of those already kept).  The accepted set is then
+run exactly once, on the **final pool** (the other half of the held-out
+inputs), through A–E, and through two composition stages: for pairs
+`(I,J) ⇝ B`, the joint transplant along `U_I ⊕ U_J` must be predicted from
+the joint type on fresh recipients (R² ≥ 0.8), must not be the sum of the
+two individual effects (interaction share ≥ 0.1), and the interaction
+itself must be predicted by the joint type (R² ≥ 0.8); for each stable
+composite, `(B,K) ⇝ C` with a third interface is tested the same way,
+treating `B` as a unit.  Controls: 20 matched random subspaces of the same
+rank per accepted interface through validation and final A; the same
+search on shuffled-weight copies of every final model.  Sixteen of the 31
+checkpoints per run (every other one, the last included) are analysed so
+the temporal question can be answered.  All settings were frozen after a
+smoke test that only checked execution.
+
 ### Post-hoc diagnostics: extraction failure or absence? (`emergence/click/diagnose.py`, `results/click/DIAGNOSTICS.md`)
 
 Two labelled diagnostics at the final checkpoints, which do not change the
