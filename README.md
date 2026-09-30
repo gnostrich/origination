@@ -53,8 +53,16 @@ invariant to within-class variation along them); at a post-hoc stronger
 level (weight decay 1.0) the gate directions do become resolution-stable
 in half the cases — a real trend along the pressure axis, invisible to the
 label-free dictionaries and still short of a sufficient, composable set.
-`lean/Emergence/Interfaces.lean` fixes the exact meaning of interface,
-multiway fit, recursive generation and higher-order interface.
+A follow-up replaced the candidate dictionary with a label-free
+**behavioural interface discovery** (Grassmannian search over subspaces of
+rank 1–8 directly for the interface properties, disjoint discovery /
+validation / final pools, shuffled-weight and matched-random controls) and
+found **outcome 1: no interfaces even with behavioural search** — the
+trained networks' best interface quality equals that of weight-shuffled
+networks at every checkpoint and pressure level; the negative result is
+about the learner, not the coordinates.  `lean/Emergence/Interfaces.lean`
+fixes the exact meaning of interface, multiway fit, recursive generation
+and higher-order interface.
 
 **4. Theory phase and what remains conjectural** — the resolution-dependent
 behavioural quotient (section "Theory phase" below) separates every
@@ -1096,6 +1104,70 @@ checkpoints per run (every other one, the last included) are analysed so
 the temporal question can be answered.  All settings were frozen after a
 smoke test that only checked execution.
 
+**Result: outcome 1 — no interfaces even with behavioural search.**
+(`results/click/BID_REPORT.md`, `bid.png`, `NOVELTY.md`; raw results
+`results/click/wd*/bid.json.gz`, nulls `bid_null.json.gz`.)
+
+| | trained models (12 runs × 16 checkpoints × 2 sites = 384 site-checkpoints) | shuffled-weight nulls (12 × 2 = 24) |
+|---|---|---|
+| site-checkpoints with an accepted (validated) interface | 4 | 1 |
+| accepted interfaces persisting to the next analysed checkpoint | 0 | — |
+| B (sufficiency) passing on the final pool | never (0.55 vs random-subspace 0.55) | never |
+| stable composites `(I,J) ⇝ B` | none evaluated (never two interfaces at once) | none |
+| validation pass rate of matched random subspaces | 0.0001 | — |
+| candidates at the final checkpoints (768 = 12 runs × 2 sites × 32) failing resolution stability | 768 of 768 | 768 of 768 |
+
+The search did what it could with every property it was given: on the
+validation pool the best candidates have effect 1.00 (saturated), held-out
+donor coverage 0.98, substitutability A 0.96, balance 0.87 — and
+resolution stability 0.62–0.69, partition stability 0.66–0.69, at every
+rank, every checkpoint and every pressure level.  Higher rank makes it
+worse (mean type count at resolution 0.3: 7.6 at rank 1, 8.4 at 2, 12.0 at
+4, 20.6 at 8; the count still scales with resolution, 10.7 / 7.6 / 6.1 at
+rank 1 across ε 0.2 / 0.3 / 0.4).  The four accepted subspaces are single
+isolated checkpoints at steps 467–3626 with 7–8 types, each failing B and
+never recurring; one of the 24 shuffled-weight null models produces the
+same kind of acceptance, so the trained rate is the null rate.
+
+*Temporal.*  The only component that moves with training is the effect
+size: it rises from 0.11 at initialisation to saturation by step ≈ 60–119,
+before accuracy (step 467), simply because the weights grow.  Resolution
+stability (0.63 → 0.67) and partition stability (0.69 → 0.69) are flat
+from step 0 to 20 000 and equal to the shuffled-weight nulls (0.66 / 0.67);
+they do not differ across weight decay 0 / 0.01 / 0.1 / 1.0 (0.68 / 0.68 /
+0.66 / 0.66).  There is nothing gradual or sharp to time against
+generalisation: the interface-quality objective of the trained network is
+the objective of an arbitrary ReLU network of the same weight scale.
+
+*Sealed novelty diagnostic* (gates unsealed only now, on the four accepted
+subspaces): their overlap with the six gate-probe directions is 0.05–0.09,
+the chance level for a random subspace of ℝ⁶⁴ (6/64 ≈ 0.09); their types
+have ARI ≤ 0.24 with any gate and purity ≤ 0.84 against a binary gate with
+7–8 types, which is the imbalance baseline; none combines or splits gates;
+cross-seed correspondence is undefined because no two seeds ever hold an
+interface at the same time.  They are behaviourally valid at one
+checkpoint by test A alone and unrelated to the generating circuit — but
+they are not stable, not sufficient and not compositional, so they are not
+evidence of an invented decomposition either.
+
+*Identification.*  The follow-up was built to separate H0 (no stable
+compositional interfaces formed) from H1 (they exist, the dictionary was
+wrong).  The answer is H0 for this task and learner: a label-free search
+that directly rewards the interface properties, over subspaces of rank 1
+to 8, on 16 checkpoints of 12 runs at four pressure levels, cannot find
+any subspace whose transplant typing is stable across resolution, and the
+best it finds is indistinguishable from what the same search finds in a
+weight-shuffled network.  The negative result of the frozen experiment was
+about the learner, not about the coordinates used to look inside it.  The
+one thing left open by the labelled diagnostic below — gate-aligned
+directions becoming resolution-stable at weight decay 1.0 — is not
+recovered by the behavioural search either: at weight decay 1.0 the best
+found resolution stability is 0.66, no better than at zero decay, so
+whatever those directions carry is not a strong enough optimum of the
+interface objective to be found from random restarts, or is not an
+interface in the operational sense when the objective is allowed to look
+everywhere.
+
 ### Post-hoc diagnostics: extraction failure or absence? (`emergence/click/diagnose.py`, `results/click/DIAGNOSTICS.md`)
 
 Two labelled diagnostics at the final checkpoints, which do not change the
@@ -1164,6 +1236,9 @@ python -m emergence.grok.resolution --system world --run results/world/perm4_s0 
 results/click/logs/sweep.sh 0.01                 # the click experiment: train + analyse three seeds at one weight-decay level
 python -m emergence.click.run report             # REPORT.md, click.png (all levels found under results/click/)
 python -m emergence.click.diagnose               # post-hoc N(ε) curves and labelled probe directions (DIAGNOSTICS.md)
+results/click/logs/bid_sweep.sh 0.1              # behavioural interface discovery over the existing checkpoints (+ shuffled nulls)
+python -m emergence.click.run_bid report         # BID_REPORT.md, bid.png
+python -m emergence.click.novelty --all          # sealed novelty diagnostic (NOVELTY.md) — run last
 ```
 
 ---
