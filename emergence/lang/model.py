@@ -11,7 +11,7 @@ from itertools import product
 
 import numpy as np
 
-from emergence.lang.substrate import js_distance
+from emergence.lang.substrate import js_distance, beh_dist, unique_rows
 
 
 @dataclass
@@ -46,17 +46,18 @@ class InterfaceModel:
 
     # ---------------------------------------------------------- abstraction map α
     def classify(self, signatures):
-        """Nearest leader within ε (mean JS distance over discovery contexts); -1 otherwise."""
-        n = signatures.shape[0]
-        out = np.full(n, -1, dtype=int)
-        dist = np.full(n, np.inf)
+        """Nearest leader within ε (largest JS distance over discovery contexts and steps); -1 otherwise."""
+        first, inv = unique_rows(signatures)
+        U = signatures[first]
+        out = np.full(len(U), -1, dtype=int)
+        dist = np.full(len(U), np.inf)
         for k in range(self.K):
-            d = np.nanmean(js_distance(signatures, self.leaders[k][None]), axis=(1, 2))
+            d = beh_dist(U, self.leaders[k][None])
             better = d < dist
             dist[better] = d[better]
             out[better] = k
         out[dist >= self.eps] = -1
-        return out, dist
+        return out[inv], dist[inv]
 
     # ---------------------------------------------------------- execution
     def transition(self, state, action):

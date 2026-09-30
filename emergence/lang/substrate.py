@@ -91,6 +91,22 @@ def random_basis(d, seed):
     return torch.as_tensor(Q, dtype=torch.float32), torch.as_tensor(b, dtype=torch.float32)
 
 
+def unique_rows(S, decimals=4):
+    """Indices of unique signatures (rounded) and the inverse map; exact
+    deduplication so that identical behaviours are typed once."""
+    flat = np.nan_to_num(np.round(S.reshape(S.shape[0], -1), decimals), nan=-1.0)
+    _, first, inv = np.unique(flat, axis=0, return_index=True, return_inverse=True)
+    return first, np.asarray(inv).ravel()
+
+
+def beh_dist(S1, S2):
+    """Behavioural distance between signatures (…, C, L, o): the LARGEST JS
+    distance over contexts and steps — `x ~ y` requires closeness in every
+    context, as INTERFACE_LANGUAGE.md states.  (A mean over contexts dilutes
+    rare but decisive differences; Milestone 2 exposed this.)"""
+    return np.nanmax(js_distance(S1, S2), axis=(-2, -1))
+
+
 def js_distance(P, Q, eps=1e-12):
     """Jensen–Shannon distance (sqrt of JS divergence in bits) along the last axis."""
     M = 0.5 * (P + Q)

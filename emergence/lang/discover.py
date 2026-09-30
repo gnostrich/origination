@@ -12,7 +12,7 @@ from itertools import product
 import numpy as np
 
 from emergence.lang.model import Fit, InterfaceModel
-from emergence.lang.substrate import js_distance
+from emergence.lang.substrate import js_distance, beh_dist, unique_rows
 
 
 def all_chunks(n_actions, max_len):
@@ -31,19 +31,20 @@ def discovery_pool(n_actions, rng, max_len=3, n_random=200, rand_len=8):
 
 def leader_cluster(signatures, eps):
     """Greedy ε-typing of behaviour signatures (n, C, L, o) by mean JS distance to the leader."""
-    n = signatures.shape[0]
-    labels = np.full(n, -1, dtype=int)
+    first, inv = unique_rows(signatures)
+    U = signatures[first]
+    ulabels = np.full(len(U), -1, dtype=int)
     leaders = []
-    for i in range(n):
+    for i in range(len(U)):
         if leaders:
-            d = np.nanmean(js_distance(signatures[leaders], signatures[i][None]), axis=(1, 2))
+            d = beh_dist(U[leaders], U[i][None])
             j = int(np.argmin(d))
             if d[j] < eps:
-                labels[i] = j
+                ulabels[i] = j
                 continue
         leaders.append(i)
-        labels[i] = len(leaders) - 1
-    return labels, np.array(leaders)
+        ulabels[i] = len(leaders) - 1
+    return ulabels[inv], first[np.array(leaders)]
 
 
 def discover_interfaces(sub, prefixes, contexts, eps):
@@ -66,21 +67,24 @@ def discover_interfaces(sub, prefixes, contexts, eps):
     return model, X, S, labels
 
 
-def discover_fits(sub, model, X, labels, chunks, contexts, max_real=12, rng=None):
+def discover_fits(sub, model, X, labels, chunks, contexts, max_real=8, rng=None):
     """For every interface and every chunk in `chunks`: continue up to `max_real`
     realisations, type the results, record the majority interface and confidence."""
     rng = rng or np.random.default_rng(0)
+    chunks = [tuple(c) for c in chunks]
     for k in range(model.K):
         idx = np.array(model.realizations[k])
         if len(idx) > max_real:
             idx = rng.choice(idx, max_real, replace=False)
-        for chunk in chunks:
-            Y = sub.step(X[idx], chunk)
-            Sy = sub.behave(Y, contexts)
-            t, _ = model.classify(Sy)
-            vals, counts = np.unique(t, return_counts=True)
-            j = int(np.argmax(counts))
-            model.fits[(k, tuple(chunk))] = Fit(k, tuple(chunk), int(vals[j]), float(counts[j] / len(t)), int(len(t)), True)
+        # all chunks for this interface in one behavioural query (batched by rows)
+        Ys = [sub.step(X[idx], c) for c in chunks]
+        Sy = sub.behave(np.concatenate(Ys, axis=0), contexts)
+        t, _ = model.classify(Sy)
+        for j, c in enumerate(chunks):
+            tj = t[j * len(idx): (j + 1) * len(idx)]
+            vals, counts = np.unique(tj, return_counts=True)
+            b = int(np.argmax(counts))
+            model.fits[(k, c)] = Fit(k, c, int(vals[b]), float(counts[b] / len(tj)), int(len(tj)), True)
     return model
 
 
@@ -121,10 +125,12 @@ def compose(model, max_len=2):
     return model
 
 
-def extract(sub, eps, rng, ctx_len=2, withhold=None, max_real=12, pool_kw=None):
+def extract(sub, eps, rng, ctx_len=2, withhold=None, max_real=8, pool_kw=None, prefixes=None):
     """Full discovery pipeline.  `withhold`: chunks (tuples) excluded from fit
-    observation; their fits are only derived by chaining."""
-    prefixes = discovery_pool(sub.n_actions, rng, **(pool_kw or {}))
+    observation; their fits are only derived by chaining.  `prefixes`: an
+    explicit unlabelled piece pool (default: `discovery_pool`)."""
+    if prefixes is None:
+        prefixes = discovery_pool(sub.n_actions, rng, **(pool_kw or {}))
     contexts = all_chunks(sub.n_actions, ctx_len)
     model, X, S, labels = discover_interfaces(sub, prefixes, contexts, eps)
     withhold = set(map(tuple, withhold or []))
