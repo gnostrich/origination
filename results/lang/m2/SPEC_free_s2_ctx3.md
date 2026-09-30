@@ -1,0 +1,478 @@
+# Extracted interface model (ε = 0.05, 34 interfaces, 3740 fits)
+
+## Interfaces
+- Interface I0: 115 substitutable realisations (e.g. (0, 3, 8), (0, 4, 8), (0, 5, 8), (0, 8, 3)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o3 (1.00)
+- Interface I1: 107 substitutable realisations (e.g. (0, 3, 7), (0, 4, 7), (0, 5, 7), (0, 7, 3)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o2 (1.00)
+- Interface I2: 108 substitutable realisations (e.g. (0, 3, 6), (0, 4, 6), (0, 5, 6), (0, 6, 3)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o1 (1.00)
+- Interface I3: 29 substitutable realisations (e.g. (3, 8), (8, 3), (3, 3, 8), (3, 4, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I4: 28 substitutable realisations (e.g. (5, 8), (8, 5), (5, 3, 8), (5, 4, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I5: 27 substitutable realisations (e.g. (4, 8), (8, 4), (4, 3, 8), (4, 4, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I6: 27 substitutable realisations (e.g. (4, 7), (7, 4), (4, 3, 7), (4, 4, 7)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I7: 26 substitutable realisations (e.g. (3, 7), (7, 3), (3, 3, 7), (3, 4, 7)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I8: 28 substitutable realisations (e.g. (5, 7), (7, 5), (5, 3, 7), (5, 4, 7)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I9: 26 substitutable realisations (e.g. (5, 6), (6, 5), (5, 3, 6), (5, 4, 6)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I10: 26 substitutable realisations (e.g. (4, 6), (6, 4), (4, 3, 6), (4, 4, 6)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I11: 27 substitutable realisations (e.g. (3, 6), (6, 3), (3, 3, 6), (3, 4, 6)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I12: 29 substitutable realisations (e.g. (0, 8), (8, 0), (0, 0, 8), (0, 1, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I13: 27 substitutable realisations (e.g. (2, 8), (8, 2), (2, 0, 8), (2, 1, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I14: 27 substitutable realisations (e.g. (1, 8), (8, 1), (1, 0, 8), (1, 1, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I15: 27 substitutable realisations (e.g. (1, 7), (7, 1), (1, 0, 7), (1, 1, 7)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I16: 27 substitutable realisations (e.g. (0, 7), (7, 0), (0, 0, 7), (0, 1, 7)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I17: 29 substitutable realisations (e.g. (2, 7), (7, 2), (2, 0, 7), (2, 1, 7)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I18: 26 substitutable realisations (e.g. (2, 6), (6, 2), (2, 0, 6), (2, 1, 6)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I19: 27 substitutable realisations (e.g. (1, 6), (6, 1), (1, 0, 6), (1, 1, 6)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I20: 28 substitutable realisations (e.g. (0, 6), (6, 0), (0, 0, 6), (0, 1, 6)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I21: 53 substitutable realisations (e.g. (1, 5), (2, 4), (4, 2), (5, 1)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I22: 54 substitutable realisations (e.g. (1, 4), (2, 5), (4, 1), (5, 2)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I23: 136 substitutable realisations (e.g. (0, 3), (0, 4), (0, 5), (1, 3)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I24: 27 substitutable realisations (e.g. (8,), (8, 6), (8, 7), (8, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I25: 27 substitutable realisations (e.g. (7,), (7, 6), (7, 7), (7, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I26: 27 substitutable realisations (e.g. (6,), (6, 6), (6, 7), (6, 8)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I27: 27 substitutable realisations (e.g. (5,), (5, 3), (5, 4), (5, 5)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I28: 27 substitutable realisations (e.g. (4,), (4, 3), (4, 4), (4, 5)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I29: 27 substitutable realisations (e.g. (3,), (3, 3), (3, 4), (3, 5)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I30: 27 substitutable realisations (e.g. (2,), (2, 0), (2, 1), (2, 2)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I31: 27 substitutable realisations (e.g. (1,), (1, 0), (1, 1), (1, 2)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I32: 27 substitutable realisations (e.g. (0,), (0, 0), (0, 1), (0, 2)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+- Interface I33: 4 substitutable realisations (e.g. (), (9,), (9, 9), (9, 9, 9)); accepted contexts: all 1110 discovery contexts; within-class disagreement 0.000; effect: a0→o0 (1.00); a1→o0 (1.00); a2→o0 (1.00); a3→o0 (1.00); a4→o0 (1.00); a5→o0 (1.00); a6→o0 (1.00); a7→o0 (1.00); a8→o0 (1.00); a9→o0 (1.00)
+
+## First-order fits  (I, action) ⇝ I'
+- (I0, a0) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a0) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a0) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a0) ⇝ I0   confidence 1.00 (n=8)
+- (I4, a0) ⇝ I0   confidence 1.00 (n=8)
+- (I5, a0) ⇝ I0   confidence 1.00 (n=8)
+- (I6, a0) ⇝ I1   confidence 1.00 (n=8)
+- (I7, a0) ⇝ I1   confidence 1.00 (n=8)
+- (I8, a0) ⇝ I1   confidence 1.00 (n=8)
+- (I9, a0) ⇝ I2   confidence 1.00 (n=8)
+- (I10, a0) ⇝ I2   confidence 1.00 (n=8)
+- (I11, a0) ⇝ I2   confidence 1.00 (n=8)
+- (I12, a0) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a0) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a0) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a0) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a0) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a0) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a0) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a0) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a0) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a0) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a0) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a0) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a0) ⇝ I12   confidence 1.00 (n=8)
+- (I25, a0) ⇝ I16   confidence 1.00 (n=8)
+- (I26, a0) ⇝ I20   confidence 1.00 (n=8)
+- (I27, a0) ⇝ I23   confidence 1.00 (n=8)
+- (I28, a0) ⇝ I23   confidence 1.00 (n=8)
+- (I29, a0) ⇝ I23   confidence 1.00 (n=8)
+- (I30, a0) ⇝ I30   confidence 1.00 (n=8)
+- (I31, a0) ⇝ I31   confidence 1.00 (n=8)
+- (I32, a0) ⇝ I32   confidence 1.00 (n=8)
+- (I33, a0) ⇝ I32   confidence 1.00 (n=4)
+- (I0, a1) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a1) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a1) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a1) ⇝ I0   confidence 1.00 (n=8)
+- (I4, a1) ⇝ I1   confidence 1.00 (n=8)
+- (I5, a1) ⇝ I2   confidence 1.00 (n=8)
+- (I6, a1) ⇝ I0   confidence 1.00 (n=8)
+- (I7, a1) ⇝ I1   confidence 1.00 (n=8)
+- (I8, a1) ⇝ I2   confidence 1.00 (n=8)
+- (I9, a1) ⇝ I0   confidence 1.00 (n=8)
+- (I10, a1) ⇝ I1   confidence 1.00 (n=8)
+- (I11, a1) ⇝ I2   confidence 1.00 (n=8)
+- (I12, a1) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a1) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a1) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a1) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a1) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a1) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a1) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a1) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a1) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a1) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a1) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a1) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a1) ⇝ I14   confidence 1.00 (n=8)
+- (I25, a1) ⇝ I15   confidence 1.00 (n=8)
+- (I26, a1) ⇝ I19   confidence 1.00 (n=8)
+- (I27, a1) ⇝ I21   confidence 1.00 (n=8)
+- (I28, a1) ⇝ I22   confidence 1.00 (n=8)
+- (I29, a1) ⇝ I23   confidence 1.00 (n=8)
+- (I30, a1) ⇝ I30   confidence 1.00 (n=8)
+- (I31, a1) ⇝ I31   confidence 1.00 (n=8)
+- (I32, a1) ⇝ I32   confidence 1.00 (n=8)
+- (I33, a1) ⇝ I31   confidence 1.00 (n=4)
+- (I0, a2) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a2) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a2) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a2) ⇝ I0   confidence 1.00 (n=8)
+- (I4, a2) ⇝ I2   confidence 1.00 (n=8)
+- (I5, a2) ⇝ I1   confidence 1.00 (n=8)
+- (I6, a2) ⇝ I2   confidence 1.00 (n=8)
+- (I7, a2) ⇝ I1   confidence 1.00 (n=8)
+- (I8, a2) ⇝ I0   confidence 1.00 (n=8)
+- (I9, a2) ⇝ I1   confidence 1.00 (n=8)
+- (I10, a2) ⇝ I0   confidence 1.00 (n=8)
+- (I11, a2) ⇝ I2   confidence 1.00 (n=8)
+- (I12, a2) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a2) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a2) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a2) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a2) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a2) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a2) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a2) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a2) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a2) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a2) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a2) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a2) ⇝ I13   confidence 1.00 (n=8)
+- (I25, a2) ⇝ I17   confidence 1.00 (n=8)
+- (I26, a2) ⇝ I18   confidence 1.00 (n=8)
+- (I27, a2) ⇝ I22   confidence 1.00 (n=8)
+- (I28, a2) ⇝ I21   confidence 1.00 (n=8)
+- (I29, a2) ⇝ I23   confidence 1.00 (n=8)
+- (I30, a2) ⇝ I30   confidence 1.00 (n=8)
+- (I31, a2) ⇝ I31   confidence 1.00 (n=8)
+- (I32, a2) ⇝ I32   confidence 1.00 (n=8)
+- (I33, a2) ⇝ I30   confidence 1.00 (n=4)
+- (I0, a3) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a3) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a3) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a3) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a3) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a3) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a3) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a3) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a3) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a3) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a3) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a3) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a3) ⇝ I0   confidence 1.00 (n=8)
+- (I13, a3) ⇝ I0   confidence 1.00 (n=8)
+- (I14, a3) ⇝ I0   confidence 1.00 (n=8)
+- (I15, a3) ⇝ I1   confidence 1.00 (n=8)
+- (I16, a3) ⇝ I1   confidence 1.00 (n=8)
+- (I17, a3) ⇝ I1   confidence 1.00 (n=8)
+- (I18, a3) ⇝ I2   confidence 1.00 (n=8)
+- (I19, a3) ⇝ I2   confidence 1.00 (n=8)
+- (I20, a3) ⇝ I2   confidence 1.00 (n=8)
+- (I21, a3) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a3) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a3) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a3) ⇝ I3   confidence 1.00 (n=8)
+- (I25, a3) ⇝ I7   confidence 1.00 (n=8)
+- (I26, a3) ⇝ I11   confidence 1.00 (n=8)
+- (I27, a3) ⇝ I27   confidence 1.00 (n=8)
+- (I28, a3) ⇝ I28   confidence 1.00 (n=8)
+- (I29, a3) ⇝ I29   confidence 1.00 (n=8)
+- (I30, a3) ⇝ I23   confidence 1.00 (n=8)
+- (I31, a3) ⇝ I23   confidence 1.00 (n=8)
+- (I32, a3) ⇝ I23   confidence 1.00 (n=8)
+- (I33, a3) ⇝ I29   confidence 1.00 (n=4)
+- (I0, a4) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a4) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a4) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a4) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a4) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a4) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a4) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a4) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a4) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a4) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a4) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a4) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a4) ⇝ I0   confidence 1.00 (n=8)
+- (I13, a4) ⇝ I1   confidence 1.00 (n=8)
+- (I14, a4) ⇝ I2   confidence 1.00 (n=8)
+- (I15, a4) ⇝ I0   confidence 1.00 (n=8)
+- (I16, a4) ⇝ I1   confidence 1.00 (n=8)
+- (I17, a4) ⇝ I2   confidence 1.00 (n=8)
+- (I18, a4) ⇝ I0   confidence 1.00 (n=8)
+- (I19, a4) ⇝ I1   confidence 1.00 (n=8)
+- (I20, a4) ⇝ I2   confidence 1.00 (n=8)
+- (I21, a4) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a4) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a4) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a4) ⇝ I5   confidence 1.00 (n=8)
+- (I25, a4) ⇝ I6   confidence 1.00 (n=8)
+- (I26, a4) ⇝ I10   confidence 1.00 (n=8)
+- (I27, a4) ⇝ I27   confidence 1.00 (n=8)
+- (I28, a4) ⇝ I28   confidence 1.00 (n=8)
+- (I29, a4) ⇝ I29   confidence 1.00 (n=8)
+- (I30, a4) ⇝ I21   confidence 1.00 (n=8)
+- (I31, a4) ⇝ I22   confidence 1.00 (n=8)
+- (I32, a4) ⇝ I23   confidence 1.00 (n=8)
+- (I33, a4) ⇝ I28   confidence 1.00 (n=4)
+- (I0, a5) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a5) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a5) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a5) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a5) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a5) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a5) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a5) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a5) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a5) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a5) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a5) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a5) ⇝ I0   confidence 1.00 (n=8)
+- (I13, a5) ⇝ I2   confidence 1.00 (n=8)
+- (I14, a5) ⇝ I1   confidence 1.00 (n=8)
+- (I15, a5) ⇝ I2   confidence 1.00 (n=8)
+- (I16, a5) ⇝ I1   confidence 1.00 (n=8)
+- (I17, a5) ⇝ I0   confidence 1.00 (n=8)
+- (I18, a5) ⇝ I1   confidence 1.00 (n=8)
+- (I19, a5) ⇝ I0   confidence 1.00 (n=8)
+- (I20, a5) ⇝ I2   confidence 1.00 (n=8)
+- (I21, a5) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a5) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a5) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a5) ⇝ I4   confidence 1.00 (n=8)
+- (I25, a5) ⇝ I8   confidence 1.00 (n=8)
+- (I26, a5) ⇝ I9   confidence 1.00 (n=8)
+- (I27, a5) ⇝ I27   confidence 1.00 (n=8)
+- (I28, a5) ⇝ I28   confidence 1.00 (n=8)
+- (I29, a5) ⇝ I29   confidence 1.00 (n=8)
+- (I30, a5) ⇝ I22   confidence 1.00 (n=8)
+- (I31, a5) ⇝ I21   confidence 1.00 (n=8)
+- (I32, a5) ⇝ I23   confidence 1.00 (n=8)
+- (I33, a5) ⇝ I27   confidence 1.00 (n=4)
+- (I0, a6) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a6) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a6) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a6) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a6) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a6) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a6) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a6) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a6) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a6) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a6) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a6) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a6) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a6) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a6) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a6) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a6) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a6) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a6) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a6) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a6) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a6) ⇝ I0   confidence 1.00 (n=8)
+- (I22, a6) ⇝ I1   confidence 1.00 (n=8)
+- (I23, a6) ⇝ I2   confidence 1.00 (n=8)
+- (I24, a6) ⇝ I24   confidence 1.00 (n=8)
+- (I25, a6) ⇝ I25   confidence 1.00 (n=8)
+- (I26, a6) ⇝ I26   confidence 1.00 (n=8)
+- (I27, a6) ⇝ I9   confidence 1.00 (n=8)
+- (I28, a6) ⇝ I10   confidence 1.00 (n=8)
+- (I29, a6) ⇝ I11   confidence 1.00 (n=8)
+- (I30, a6) ⇝ I18   confidence 1.00 (n=8)
+- (I31, a6) ⇝ I19   confidence 1.00 (n=8)
+- (I32, a6) ⇝ I20   confidence 1.00 (n=8)
+- (I33, a6) ⇝ I26   confidence 1.00 (n=4)
+- (I0, a7) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a7) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a7) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a7) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a7) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a7) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a7) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a7) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a7) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a7) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a7) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a7) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a7) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a7) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a7) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a7) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a7) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a7) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a7) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a7) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a7) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a7) ⇝ I2   confidence 1.00 (n=8)
+- (I22, a7) ⇝ I0   confidence 1.00 (n=8)
+- (I23, a7) ⇝ I1   confidence 1.00 (n=8)
+- (I24, a7) ⇝ I24   confidence 1.00 (n=8)
+- (I25, a7) ⇝ I25   confidence 1.00 (n=8)
+- (I26, a7) ⇝ I26   confidence 1.00 (n=8)
+- (I27, a7) ⇝ I8   confidence 1.00 (n=8)
+- (I28, a7) ⇝ I6   confidence 1.00 (n=8)
+- (I29, a7) ⇝ I7   confidence 1.00 (n=8)
+- (I30, a7) ⇝ I17   confidence 1.00 (n=8)
+- (I31, a7) ⇝ I15   confidence 1.00 (n=8)
+- (I32, a7) ⇝ I16   confidence 1.00 (n=8)
+- (I33, a7) ⇝ I25   confidence 1.00 (n=4)
+- (I0, a8) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a8) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a8) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a8) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a8) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a8) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a8) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a8) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a8) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a8) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a8) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a8) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a8) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a8) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a8) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a8) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a8) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a8) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a8) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a8) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a8) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a8) ⇝ I1   confidence 1.00 (n=8)
+- (I22, a8) ⇝ I2   confidence 1.00 (n=8)
+- (I23, a8) ⇝ I0   confidence 1.00 (n=8)
+- (I24, a8) ⇝ I24   confidence 1.00 (n=8)
+- (I25, a8) ⇝ I25   confidence 1.00 (n=8)
+- (I26, a8) ⇝ I26   confidence 1.00 (n=8)
+- (I27, a8) ⇝ I4   confidence 1.00 (n=8)
+- (I28, a8) ⇝ I5   confidence 1.00 (n=8)
+- (I29, a8) ⇝ I3   confidence 1.00 (n=8)
+- (I30, a8) ⇝ I13   confidence 1.00 (n=8)
+- (I31, a8) ⇝ I14   confidence 1.00 (n=8)
+- (I32, a8) ⇝ I12   confidence 1.00 (n=8)
+- (I33, a8) ⇝ I24   confidence 1.00 (n=4)
+- (I0, a9) ⇝ I0   confidence 1.00 (n=8)
+- (I1, a9) ⇝ I1   confidence 1.00 (n=8)
+- (I2, a9) ⇝ I2   confidence 1.00 (n=8)
+- (I3, a9) ⇝ I3   confidence 1.00 (n=8)
+- (I4, a9) ⇝ I4   confidence 1.00 (n=8)
+- (I5, a9) ⇝ I5   confidence 1.00 (n=8)
+- (I6, a9) ⇝ I6   confidence 1.00 (n=8)
+- (I7, a9) ⇝ I7   confidence 1.00 (n=8)
+- (I8, a9) ⇝ I8   confidence 1.00 (n=8)
+- (I9, a9) ⇝ I9   confidence 1.00 (n=8)
+- (I10, a9) ⇝ I10   confidence 1.00 (n=8)
+- (I11, a9) ⇝ I11   confidence 1.00 (n=8)
+- (I12, a9) ⇝ I12   confidence 1.00 (n=8)
+- (I13, a9) ⇝ I13   confidence 1.00 (n=8)
+- (I14, a9) ⇝ I14   confidence 1.00 (n=8)
+- (I15, a9) ⇝ I15   confidence 1.00 (n=8)
+- (I16, a9) ⇝ I16   confidence 1.00 (n=8)
+- (I17, a9) ⇝ I17   confidence 1.00 (n=8)
+- (I18, a9) ⇝ I18   confidence 1.00 (n=8)
+- (I19, a9) ⇝ I19   confidence 1.00 (n=8)
+- (I20, a9) ⇝ I20   confidence 1.00 (n=8)
+- (I21, a9) ⇝ I21   confidence 1.00 (n=8)
+- (I22, a9) ⇝ I22   confidence 1.00 (n=8)
+- (I23, a9) ⇝ I23   confidence 1.00 (n=8)
+- (I24, a9) ⇝ I24   confidence 1.00 (n=8)
+- (I25, a9) ⇝ I25   confidence 1.00 (n=8)
+- (I26, a9) ⇝ I26   confidence 1.00 (n=8)
+- (I27, a9) ⇝ I27   confidence 1.00 (n=8)
+- (I28, a9) ⇝ I28   confidence 1.00 (n=8)
+- (I29, a9) ⇝ I29   confidence 1.00 (n=8)
+- (I30, a9) ⇝ I30   confidence 1.00 (n=8)
+- (I31, a9) ⇝ I31   confidence 1.00 (n=8)
+- (I32, a9) ⇝ I32   confidence 1.00 (n=8)
+- (I33, a9) ⇝ I33   confidence 1.00 (n=4)
+
+## Observed multi-step fits (2550; the rest are derived by chaining)
+- (I0, (0, 0)) ⇝ I0   confidence 1.00
+- (I0, (0, 1)) ⇝ I0   confidence 1.00
+- (I0, (0, 3)) ⇝ I0   confidence 1.00
+- (I0, (0, 4)) ⇝ I0   confidence 1.00
+- (I0, (0, 5)) ⇝ I0   confidence 1.00
+- (I0, (0, 7)) ⇝ I0   confidence 1.00
+- (I0, (0, 8)) ⇝ I0   confidence 1.00
+- (I0, (1, 3)) ⇝ I0   confidence 1.00
+- (I0, (1, 5)) ⇝ I0   confidence 1.00
+- (I0, (1, 6)) ⇝ I0   confidence 1.00
+- (I0, (1, 7)) ⇝ I0   confidence 1.00
+- (I0, (1, 8)) ⇝ I0   confidence 1.00
+- … 2538 more
+
+## Second-order interfaces (chunk types): 37
+- W0: chunks [(0,), (0, 0), (0, 1), (0, 2), (0, 9), (9, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I21 I22→I22 I23→I23 I24→I12 I25→I16 I26→I20 I27→I23 I28→I23 I29→I23 I30→I30 I31→I31 I32→I32 I33→I32
+- W1: chunks [(1,), (1, 0), (1, 1), (1, 2), (1, 9), (9, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I21 I22→I22 I23→I23 I24→I14 I25→I15 I26→I19 I27→I21 I28→I22 I29→I23 I30→I30 I31→I31 I32→I32 I33→I31
+- W2: chunks [(2,), (2, 0), (2, 1), (2, 2), (2, 9), (9, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I21 I22→I22 I23→I23 I24→I13 I25→I17 I26→I18 I27→I22 I28→I21 I29→I23 I30→I30 I31→I31 I32→I32 I33→I30
+- W3: chunks [(3,), (3, 3), (3, 4), (3, 5), (3, 9), (9, 3)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I21 I22→I22 I23→I23 I24→I3 I25→I7 I26→I11 I27→I27 I28→I28 I29→I29 I30→I23 I31→I23 I32→I23 I33→I29
+- W4: chunks [(4,), (4, 3), (4, 4), (4, 5), (4, 9), (9, 4)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I21 I22→I22 I23→I23 I24→I5 I25→I6 I26→I10 I27→I27 I28→I28 I29→I29 I30→I21 I31→I22 I32→I23 I33→I28
+- W5: chunks [(5,), (5, 3), (5, 4), (5, 5), (5, 9), (9, 5)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I21 I22→I22 I23→I23 I24→I4 I25→I8 I26→I9 I27→I27 I28→I28 I29→I29 I30→I22 I31→I21 I32→I23 I33→I27
+- W6: chunks [(6,), (6, 6), (6, 7), (6, 8), (6, 9), (9, 6)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I0 I22→I1 I23→I2 I24→I24 I25→I25 I26→I26 I27→I9 I28→I10 I29→I11 I30→I18 I31→I19 I32→I20 I33→I26
+- W7: chunks [(7,), (7, 6), (7, 7), (7, 8), (7, 9), (9, 7)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I2 I22→I0 I23→I1 I24→I24 I25→I25 I26→I26 I27→I8 I28→I6 I29→I7 I30→I17 I31→I15 I32→I16 I33→I25
+- W8: chunks [(8,), (8, 6), (8, 7), (8, 8), (8, 9), (9, 8)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I1 I22→I2 I23→I0 I24→I24 I25→I25 I26→I26 I27→I4 I28→I5 I29→I3 I30→I13 I31→I14 I32→I12 I33→I24
+- W9: chunks [(9,), (9, 9)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I21 I22→I22 I23→I23 I24→I24 I25→I25 I26→I26 I27→I27 I28→I28 I29→I29 I30→I30 I31→I31 I32→I32 I33→I33
+- W10: chunks [(0, 3), (3, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I21 I22→I22 I23→I23 I24→I0 I25→I1 I26→I2 I27→I23 I28→I23 I29→I23 I30→I23 I31→I23 I32→I23 I33→I23
+- W11: chunks [(0, 4), (4, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I21 I22→I22 I23→I23 I24→I0 I25→I1 I26→I2 I27→I23 I28→I23 I29→I23 I30→I21 I31→I22 I32→I23 I33→I23
+- W12: chunks [(0, 5), (5, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I21 I22→I22 I23→I23 I24→I0 I25→I1 I26→I2 I27→I23 I28→I23 I29→I23 I30→I22 I31→I21 I32→I23 I33→I23
+- W13: chunks [(0, 6), (6, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I0 I22→I1 I23→I2 I24→I12 I25→I16 I26→I20 I27→I2 I28→I2 I29→I2 I30→I18 I31→I19 I32→I20 I33→I20
+- W14: chunks [(0, 7), (7, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I2 I22→I0 I23→I1 I24→I12 I25→I16 I26→I20 I27→I1 I28→I1 I29→I1 I30→I17 I31→I15 I32→I16 I33→I16
+- W15: chunks [(0, 8), (8, 0)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I0 I5→I0 I6→I1 I7→I1 I8→I1 I9→I2 I10→I2 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I1 I22→I2 I23→I0 I24→I12 I25→I16 I26→I20 I27→I0 I28→I0 I29→I0 I30→I13 I31→I14 I32→I12 I33→I12
+- W16: chunks [(1, 3), (3, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I21 I22→I22 I23→I23 I24→I0 I25→I1 I26→I2 I27→I21 I28→I22 I29→I23 I30→I23 I31→I23 I32→I23 I33→I23
+- W17: chunks [(1, 4), (4, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I21 I22→I22 I23→I23 I24→I2 I25→I0 I26→I1 I27→I21 I28→I22 I29→I23 I30→I21 I31→I22 I32→I23 I33→I22
+- W18: chunks [(1, 5), (5, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I21 I22→I22 I23→I23 I24→I1 I25→I2 I26→I0 I27→I21 I28→I22 I29→I23 I30→I22 I31→I21 I32→I23 I33→I21
+- W19: chunks [(1, 6), (6, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I0 I22→I1 I23→I2 I24→I14 I25→I15 I26→I19 I27→I0 I28→I1 I29→I2 I30→I18 I31→I19 I32→I20 I33→I19
+- W20: chunks [(1, 7), (7, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I2 I22→I0 I23→I1 I24→I14 I25→I15 I26→I19 I27→I2 I28→I0 I29→I1 I30→I17 I31→I15 I32→I16 I33→I15
+- W21: chunks [(1, 8), (8, 1)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I1 I5→I2 I6→I0 I7→I1 I8→I2 I9→I0 I10→I1 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I1 I22→I2 I23→I0 I24→I14 I25→I15 I26→I19 I27→I1 I28→I2 I29→I0 I30→I13 I31→I14 I32→I12 I33→I14
+- W22: chunks [(2, 3), (3, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I21 I22→I22 I23→I23 I24→I0 I25→I1 I26→I2 I27→I22 I28→I21 I29→I23 I30→I23 I31→I23 I32→I23 I33→I23
+- W23: chunks [(2, 4), (4, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I21 I22→I22 I23→I23 I24→I1 I25→I2 I26→I0 I27→I22 I28→I21 I29→I23 I30→I21 I31→I22 I32→I23 I33→I21
+- W24: chunks [(2, 5), (5, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I21 I22→I22 I23→I23 I24→I2 I25→I0 I26→I1 I27→I22 I28→I21 I29→I23 I30→I22 I31→I21 I32→I23 I33→I22
+- W25: chunks [(2, 6), (6, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I0 I22→I1 I23→I2 I24→I13 I25→I17 I26→I18 I27→I1 I28→I0 I29→I2 I30→I18 I31→I19 I32→I20 I33→I18
+- W26: chunks [(2, 7), (7, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I2 I22→I0 I23→I1 I24→I13 I25→I17 I26→I18 I27→I0 I28→I2 I29→I1 I30→I17 I31→I15 I32→I16 I33→I17
+- W27: chunks [(2, 8), (8, 2)]; induced map I0→I0 I1→I1 I2→I2 I3→I0 I4→I2 I5→I1 I6→I2 I7→I1 I8→I0 I9→I1 I10→I0 I11→I2 I12→I12 I13→I13 I14→I14 I15→I15 I16→I16 I17→I17 I18→I18 I19→I19 I20→I20 I21→I1 I22→I2 I23→I0 I24→I13 I25→I17 I26→I18 I27→I2 I28→I1 I29→I0 I30→I13 I31→I14 I32→I12 I33→I13
+- W28: chunks [(3, 6), (6, 3)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I0 I22→I1 I23→I2 I24→I3 I25→I7 I26→I11 I27→I9 I28→I10 I29→I11 I30→I2 I31→I2 I32→I2 I33→I11
+- W29: chunks [(3, 7), (7, 3)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I2 I22→I0 I23→I1 I24→I3 I25→I7 I26→I11 I27→I8 I28→I6 I29→I7 I30→I1 I31→I1 I32→I1 I33→I7
+- W30: chunks [(3, 8), (8, 3)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I0 I14→I0 I15→I1 I16→I1 I17→I1 I18→I2 I19→I2 I20→I2 I21→I1 I22→I2 I23→I0 I24→I3 I25→I7 I26→I11 I27→I4 I28→I5 I29→I3 I30→I0 I31→I0 I32→I0 I33→I3
+- W31: chunks [(4, 6), (6, 4)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I0 I22→I1 I23→I2 I24→I5 I25→I6 I26→I10 I27→I9 I28→I10 I29→I11 I30→I0 I31→I1 I32→I2 I33→I10
+- W32: chunks [(4, 7), (7, 4)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I2 I22→I0 I23→I1 I24→I5 I25→I6 I26→I10 I27→I8 I28→I6 I29→I7 I30→I2 I31→I0 I32→I1 I33→I6
+- W33: chunks [(4, 8), (8, 4)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I1 I14→I2 I15→I0 I16→I1 I17→I2 I18→I0 I19→I1 I20→I2 I21→I1 I22→I2 I23→I0 I24→I5 I25→I6 I26→I10 I27→I4 I28→I5 I29→I3 I30→I1 I31→I2 I32→I0 I33→I5
+- W34: chunks [(5, 6), (6, 5)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I0 I22→I1 I23→I2 I24→I4 I25→I8 I26→I9 I27→I9 I28→I10 I29→I11 I30→I1 I31→I0 I32→I2 I33→I9
+- W35: chunks [(5, 7), (7, 5)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I2 I22→I0 I23→I1 I24→I4 I25→I8 I26→I9 I27→I8 I28→I6 I29→I7 I30→I0 I31→I2 I32→I1 I33→I8
+- W36: chunks [(5, 8), (8, 5)]; induced map I0→I0 I1→I1 I2→I2 I3→I3 I4→I4 I5→I5 I6→I6 I7→I7 I8→I8 I9→I9 I10→I10 I11→I11 I12→I0 I13→I2 I14→I1 I15→I2 I16→I1 I17→I0 I18→I1 I19→I0 I20→I2 I21→I1 I22→I2 I23→I0 I24→I4 I25→I8 I26→I9 I27→I4 I28→I5 I29→I3 I30→I2 I31→I1 I32→I0 I33→I4
+
+## Second-order fits  (W, W') ⇝ W''  (721)
+- (W0, W0) ⇝ W0
+- (W0, W1) ⇝ W0
+- (W0, W2) ⇝ W0
+- (W0, W3) ⇝ W10
+- (W0, W4) ⇝ W11
+- (W0, W5) ⇝ W12
+- (W0, W6) ⇝ W13
+- (W0, W7) ⇝ W14
+- (W0, W8) ⇝ W15
+- (W0, W9) ⇝ W0
+- (W0, W10) ⇝ W10
+- (W0, W11) ⇝ W11
+- (W0, W12) ⇝ W12
+- (W0, W13) ⇝ W13
+- (W0, W14) ⇝ W14
+- (W0, W15) ⇝ W15
+- (W0, W16) ⇝ W10
+- (W0, W17) ⇝ W11
+- (W0, W18) ⇝ W12
+- (W0, W19) ⇝ W13
+- (W0, W20) ⇝ W14
+- (W0, W21) ⇝ W15
+- (W0, W22) ⇝ W10
+- (W0, W23) ⇝ W11
+- (W0, W24) ⇝ W12
+- (W0, W25) ⇝ W13
+- (W0, W26) ⇝ W14
+- (W0, W27) ⇝ W15
+- (W1, W0) ⇝ W1
+- (W1, W1) ⇝ W1
+- (W1, W2) ⇝ W1
+- (W1, W3) ⇝ W16
+- (W1, W4) ⇝ W17
+- (W1, W5) ⇝ W18
+- (W1, W6) ⇝ W19
+- (W1, W7) ⇝ W20
+- (W1, W8) ⇝ W21
+- (W1, W9) ⇝ W1
+- (W1, W10) ⇝ W16
+- (W1, W11) ⇝ W17
+- … 681 more
+
+Withheld from discovery (predicted only by chaining): [(0, 2), (0, 6), (0, 9), (1, 0), (1, 1), (1, 2), (1, 4), (3, 4), (3, 5), (3, 9), (4, 0), (4, 4), (4, 7), (4, 8), (5, 0), (5, 8), (5, 9), (6, 2), (6, 9), (8, 0), (8, 3), (8, 7), (8, 8), (8, 9), (9, 2)]

@@ -1466,6 +1466,92 @@ context, so the implementation now uses the *maximum* over contexts and
 steps (`beh_dist`).  Milestone 1 was re-run under the corrected distance;
 its table above reports the corrected numbers.
 
+**4–9. Results** (`results/lang/m2/M2_REPORT.md`; specifications in
+`SPEC_<policy>_s<seed>_ctx<len>.md`).  Fidelity numbers are on informative
+steps (steps at which the substrate emits a non-⊥ observation); on this
+system ⊥ is emitted at most steps, so all-step fidelity is inflated (a
+random abstraction scores 0.94 on all steps and 0.00 on informative
+steps).  All-step numbers are kept in the report.  This restriction was
+added after the first all-step evaluation line was seen, before any
+language was compared or selected, and applies identically to every
+language and baseline.
+
+| discovery initialisation | K | fits | informative fidelity: held-out / exhaustive | coverage on free-order suite | withheld-composition fidelity (model / lookup) | causal commutation / abstract | bits (model / lookup / substrate) | random abstraction, informative | exceptions | seeds |
+|---|---|---|---|---|---|---|---|---|---|---|
+| free order, contexts ≤ 3 | 34 | 340 first-order, all deterministic | **1.000 / 1.000** | 1.00 | **1.000 / 0.000** | 1.000 / 1.000 | 2598 / 11560 / 5120 | 0.000 | 0 | 3, identical (distance 0.000) |
+| free order, contexts ≤ 2 | 25 | 250, 33–47 exceptions | 0.995–0.998 / 0.986–0.987 | 1.00 | 0.989–0.992 / 0.000 | 0.998 / 0.997–0.998 | 2211–2388 | 0.000 | 33–47 | 3 (distance 0.001 to the 34-type languages) |
+| ABD order, contexts ≤ 3 | 10 | 100 | 0.905 / 0.848 | 0.75 | 0.834 / 0.000 | 1.000 / 1.000 | 581 | 0.01–0.65 | 0 | 3, identical |
+| BDA order, contexts ≤ 3 | 16 | 160 | 0.935 / 0.848 | 0.77 | 0.826 / 0.000 | 1.000 / 1.000 | 1039 | 0.10–0.61 | 0 | 3, identical |
+| ADB order, contexts ≤ 3 | 16 | 160 | 0.902 / 0.848 | 0.83 | 0.882 / 0.000 | 1.000 / 1.000 | 1039 | 0.03–0.60 | 0 | 3, identical |
+
+*On their own scope* (`m2_scope.py`, `scope_results.json`: held-out suites
+whose pieces and continuations stay within one reading order): the ABD,
+BDA and ADB languages each reach coverage 1.000 and informative fidelity
+1.000 on their own order and 0.000 on the other two; the free-order
+language reaches 1.000 on all three.
+
+**Language distance matrix** (disagreement of predictions on the
+exhaustive block, 34 configurations × 1000 strings): the three free-order
+seeds are at distance 0.000 from each other at context length 3 and 0.001
+between context lengths 2 and 3; every order-restricted language is at
+0.393 from the free-order languages and at 0.546–0.572 from the other two
+orders; seeds within a policy are at 0.000.
+
+**Frontier** (`pareto_m2.png`): the free-order languages (2211–2598
+bits, fidelity 0.99–1.00) and the order-restricted languages (581–1039
+bits, fidelity 0.90–0.94 on the free-order suite because they abstain on
+25 % of pieces) are the only points above the baselines; lookup catalogues
+sit at 2380–11560 bits with informative fidelity 0.37 (they answer only
+the first two steps); random abstractions at 0.00–0.65 with 3–25 kbits
+once their exceptions are counted.  The substrate costs 5120 bits, so the
+compression over the substrate is only 2× on this deliberately tiny
+system; the compression that matters is over the lookup catalogue (4.4×)
+and the gap to random abstractions of the same size.
+
+**10. Unsealing** (diagnostic only, after everything above).  The free-order
+languages consist of exactly: the empty interface (1), one interface per
+single-slot class (9), the three pure-C interfaces, the nine pure-E
+interfaces, the nine pure-F interfaces and the three answer interfaces
+(34), with no interface mixing slot patterns.  They therefore contain all
+three sealed factorisations simultaneously as sub-languages — the
+behavioural join of D1, D2 and D3 — and none is preferred.  The
+order-restricted languages are exactly the single factorisations: ABD =
+D1 (1 + 3 + 3 pure-C + 3), BDA = D2 (1 + 3 + 9 pure-E + 3), ADB = D3
+(1 + 3 + 9 pure-F + 3).  The context-2 free languages drop the empty and
+single-slot interfaces (merged into one mixed interface, the source of
+their exceptions) and keep C, E, F and the answers.
+
+**11. Verdict: Outcome A (strong success), with two qualifications.**  A
+compact interface language with substrate-level held-out fidelity, perfect
+zero-shot prediction of the withheld compositions, perfect causal
+commutation and 4.4× compression over the lookup catalogue was found,
+reproducibly, without recovering — or needing — any privileged planted
+factorisation: the language found is the behavioural join of all three,
+and the simpler planted decomposition (D1, 3 intermediate classes) was
+not preferred over the others (no Outcome C canonicalisation).  First
+qualification: the plurality of Outcome B appeared only when the discovery
+scope was restricted, and the resulting languages are not behaviourally
+equivalent on the full suite (distance 0.39–0.57); each is a complete,
+compact, faithful explanation of its own scope and useless outside it, so
+on this system the explanatory object is determined by behaviour *up to
+the scope of the interactions offered*, not up to a choice of ontology
+within one scope.  Second qualification: on this system the join is also
+the canonical behavioural quotient of the substrate, so ontology-freedom
+here means the language does not have to be the planted one; it does not
+show a case where two structurally different full-scope languages are
+behaviourally equivalent — the context-length-2 languages come closest
+(distance 0.001, fewer interfaces, a few exceptions).
+
+**Method changes made by this milestone**, all before evaluation and
+applied uniformly: behavioural distance is the maximum over contexts
+(previously the mean), fit discovery is batched per interface, identical
+signatures are typed once, the GRU substrate accepts numpy pieces, and
+slots of the reader are write-once (an overwrite semantics had made every
+partial assignment behaviourally distinct, 64 types, which is not the
+system the decompositions describe).
+
+Level 3 is not attempted here.
+
 ### Running
 
 ```
@@ -1493,6 +1579,8 @@ python -m emergence.trace.run report                                # TRACE_REPO
 python -m emergence.lang.run pareto --run results/world/perm4_s0    # interface-language extraction: ε sweep, baselines, causal abstraction, unsealing
 python -m emergence.lang.run basis  --run results/world/perm4_s0    # change-of-basis robustness
 python -m emergence.lang.run report                                 # results/lang/REPORT.md, pareto.png
+python -m emergence.lang.m2 run                                     # Milestone 2: non-unique ontology (results/lang/m2/)
+python -m emergence.lang.m2_scope                                   # Milestone 2: order-restricted languages on their own scope
 ```
 
 ---
