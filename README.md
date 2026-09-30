@@ -36,9 +36,14 @@ by this experiment; the weaker statement — learning produces substitutable,
 predictive internal types that mirror the source's predictive structure —
 is.
 
-**4. What remains conjectural** — that *some* ordinary tasks drive learned
-substrates to compact, closed, seed-invariant behavioural algebras that
-were not in the specification.  The one positive timing observation
+**4. Theory phase and what remains conjectural** — the resolution-dependent
+behavioural quotient (section "Theory phase" below) separates every
+measured case: a finite canonical algebra appears exactly where `N_cov(ε)`
+develops a resolution-stable plateau with zero congruence defect and full
+closure; the random-source students are instead continuous behavioural
+objects (`N ~ ε^{-d_B}`, `d_B` growing with training).  Conjectural: that
+*some* ordinary task with a non-finite predictive quotient drives a learned
+substrate to a finite plateau anyway.  The one positive timing observation
 (compression of the quotient *after* accuracy, S_4 world) occurred only
 where the task had a finite quotient; on the unplanted source the quotient
 *fragments* with further training instead.  Whether compression pressure
@@ -717,6 +722,166 @@ own internal mathematics with closure and laws).  The negative result is
 preserved as such; no task or hyperparameter was changed to make structure
 appear.
 
+
+## Theory phase: the resolution-dependent behavioural quotient
+
+The empirical distinction of the discovery phase — finite worlds converge
+to canonical closed algebras, the random source produces real but
+fragmenting types — is sharpened here into one object, computed on the
+existing checkpoints (`emergence/grok/resolution.py`, `results/resolution/`).
+
+**Pseudometric.**  For states/histories `h` and contexts `c`, with
+`B(h, c)` the substrate's behaviour under substitution,
+
+    d_B(h, h') = E_c [ JSdist(B(h, c), B(h', c)) ],   JSdist = √(JS divergence).
+
+JSdist is a metric on distributions, so `d_B` is a pseudometric and
+ε-closeness satisfies the triangle inequality (ε-close to ε-close is
+2ε-close).  Approximate equivalence is not transitive; nothing here calls a
+threshold cluster a quotient.  At resolution ε the reported quantities are
+the greedy **covering number** `N_cov(ε)` (an ε-net; upper bound on the
+minimal cover) and the greedy **packing number** `N_pack(ε)` (maximal
+ε-separated set; `N_pack(2ε) ≤ N_cov(ε) ≤ N_pack(ε)`); the extractor's
+order-dependent leader count is kept only for comparison.  A **plateau** is
+the widest range of ε, in decades, over which `N_cov` is constant; the
+**scaling** is the log-log slope of `N_cov(ε)` over the regime `2 ≤ N ≤ n/2`
+with its R² (a power law is reported only where it fits).  The
+**congruence defect** at ε is the fraction of pairs that are ε-close on the
+defining contexts whose images under the same action are more than ε apart
+on *fresh* contexts (compared with arbitrary pairs); **closure** at ε is the
+fraction of (ε-centre, action) images within ε of some centre;
+**stability** is retention of ε-ball membership under noise.  States: 500
+prefixes (worlds and sources; in-distribution pools for the sources) or 1200
+inputs (modular addition, whose hidden site has no context-dependent
+interaction, so no congruence is measured there).
+
+**Surfaces.**  `results/resolution/N_surface.png` shows `log10 N_cov(t, ε)`
+over checkpoints `t` and resolution ε for seven runs; white bars mark
+plateaus of at least half a decade.
+
+![N_cov surfaces](results/resolution/N_surface.png)
+
+**Separation at the final checkpoint** (ε = 0.1 for congruence and closure;
+plateaus in decades of ε; scaling fitted on the descending part):
+
+| system | task learned | plateau `N`, width | scaling of `N_cov(ε)` | congruence defect (arbitrary pairs) | closure | stability |
+|---|---|---|---|---|---|---|
+| S_4 world, GRU (2 seeds) | yes | **24 over 1.0 decade** (ε 0.03–0.32) | no power law (R² 0.43–0.45) | **0.000** (0.93) | **1.00** | 0.98 |
+| counter monoid, GRU (2 seeds) | yes | **8 over 1.0 decade** | no power law (R² 0.69–0.73) | **0.000** | **1.00** | 1.00 |
+| modular addition, MLP, after grokking | yes | **97 over 1.17 decades** | no power law (R² 0.48) | n/a | **1.00** | — |
+| modular addition, transformer, after grokking | yes | **97** (0.33 dec; 1.5 dec at ≤ 0.05 tolerance) | slope 0.16–0.30, R² 0.67–0.98 | n/a | 0.98–1.00 | — |
+| modular addition, either, *memorising* (train 1.0, test 0.0) | no | 930–1200 = one type per input, over 0.2–1.2 decades | — | n/a | 0.31–0.44 | — |
+| random source gain 2.5, students s0 / s1 | yes | **none** | power law, slope 3.3 / 3.2, R² 0.96 / 0.98 (was 1.6 at step 100, 2.1 at 750, 2.3–2.6 at 2500) | 0.19 / 0.14 (0.93) | 0.36 / 0.36 | — |
+| random source gain 1.0 (smooth), student s0 | yes | none | power law, slope 4.0, R² 1.00 (1.5 → 1.7 → 2.4 → 4.0) | 0.18 | 0.45 | — |
+
+At coarse resolution (ε ≈ 0.3) the random-source students also look closed
+(closure 1.0, defect ≤ 0.05) with 2–4 classes; the distinction is that this
+never stabilises as ε decreases.
+
+**Trajectories.**  The geometry changes during training in exactly the way
+the crystallisation results anticipated, and only where a finite quotient
+exists:
+
+* *S_4 world.*  At step 200 (accuracy 0.98) `N_cov` follows a power law
+  (slope 1.0–1.1, R² 0.96–0.97) with congruence defect 0.18–0.41 at fine ε
+  and closure 0.2–0.4: real predictive types, resolution-dependent, not yet
+  congruent.  Through steps 1000–2600 the slope falls (0.6 → 0.4), the
+  defect falls to ≈ 0.01 and a plateau at 24–28 appears; by step 6000 the
+  plateau is 24 over a full decade with defect 0 and closure 1.  The
+  quotient becomes resolution-stable *after* accuracy, matching the earlier
+  class-count compression.
+* *Counter monoid.*  Plateau at 8 from step 200 (0.67 dec) and a full
+  decade from step 1000; defect 0 throughout.
+* *Modular addition.*  Memorisation is itself a resolution-stable plateau —
+  at the trivial value of one type per input (930–1200 of 1200 inputs) —
+  with closure 0.3–0.4: every input is its own behaviour and nothing
+  composes.  Through the grokking transition (test 0.3 → 0.98) the surface
+  passes through a power-law regime (slope 1.3 → 0.4) and settles on 97 over
+  more than a decade once test accuracy is 1.0.  This is the
+  memorisation → generalisation transition seen as a change in the geometry
+  of `d_B`: from the discrete-but-trivial quotient (all inputs distinct) to
+  the discrete-and-compositional one.
+* *Random source.*  `N_cov(ε)` is a power law at every checkpoint, and the
+  exponent *grows* with training (≈ 1.6 → 2.1 → 2.3 → 3.3 for the main
+  source; 1.5 → 4.0 for the smooth one): fitting the source better makes the
+  student's behavioural geometry higher-dimensional, not more discrete.  The
+  congruence defect grows with it (0.01 → 0.07 → 0.10 → 0.14–0.19 at ε = 0.1)
+  and closure falls (1.0 → 0.8 → 0.66 → 0.36).  The behavioural object is a
+  continuous one of growing effective dimension; "fragmentation" is what a
+  finite-resolution extractor sees of it.
+
+**Does the proposed characterisation separate the cases?**  Yes, and
+cleanly, on all four criteria at once:
+
+| criterion | finite-quotient tasks after learning | random source |
+|---|---|---|
+| 1. finite, resolution-stable behavioural complexity | plateau ≥ 1 decade at the task's cardinality | no plateau; `N ~ ε^{-d_B}` with `d_B` increasing during training |
+| 2. stability of the classes | retention 0.98–1.00 | (resolution-dependent) |
+| 3. congruence defect | 0.000 | 0.14–0.19 |
+| 4. closure of induced interactions | 1.00 | 0.36–0.45 |
+
+No case is intermediate: there is no run with a plateau but a large defect,
+or a small defect without a plateau.  The memorising modular-addition
+checkpoints are the instructive edge case: they satisfy criterion 1
+trivially (one type per input is resolution-stable too) and fail 3–4, which
+is why "finite" alone is not the criterion; it is finite *and* congruent
+*and* closed.  Since the data support the characterisation, nothing further
+was run.
+
+**What kind of object each case is** (definitions in
+`lean/Emergence/Behavioural.lean`):
+
+* **A, finite quotient**: S_4 (24), counter (8), Z_97 (97) after learning;
+  memorising Z_97 (≈ one type per input).
+* **B, infinite but totally bounded**: the random-source students — finitely
+  covered at every resolution with `N(ε) ~ ε^{-d_B}`; a continuous
+  behavioural object of effective dimension `d_B ≈ 3–4` at the end of
+  training, not "no structure".
+* **C, finite approximate quotient at resolution ε**: what every extraction
+  in this repository actually computes; it agrees with A exactly where a
+  plateau exists and is an arbitrary section of B otherwise.
+* **D, exact algebra after quotienting**: A plus zero congruence defect plus
+  closure — the three finite-quotient tasks, and none of the random-source
+  students at any resolution.
+
+**Lean** (`lean/Emergence/Behavioural.lean`, core Lean only, builds).  A
+behavioural system is `obs : H → C → O`.  Exact behavioural equivalence
+`BehEq h h' := ∀ c, obs h c = obs h' c` is an equivalence unconditionally,
+so `Quot = H / ~` always exists.  `congruent_of_closed` states precisely
+when congruence is automatic: if contexts are closed under pre-composition
+with an interaction (every "act, then observe in `c`" is some context `c'`),
+the interaction respects `~` for free — the exact form of the caveat that
+associativity/congruence of a deterministic sequential substrate is not a
+discovery; the empirical congruence defect measures the failure of that
+closure for *sampled* contexts.  Congruent actions and congruent partial
+binary operations descend (`actQ`, `opQ`); a total operation stays total
+(`opQ_total`, closure); laws holding up to `~` on states hold exactly on
+types (`actQ_law`, `opQ_assoc_of_some`).  `Hom` (a map on states with a
+pull-back on contexts preserving observations) descends to quotients,
+reflects equivalence when the pull-back is surjective, and intertwines
+descended actions; `QuotEquiv` is equivalence of quotients.  `Covered`,
+`FiniteQuotient` (A), `ApproxCovered` (C), `TotallyBounded` (B) and
+`ExactAlgebra` (D) are defined, with `finiteQuotient_approxCovered` and
+`totallyBounded_of_finite` (finite ⇒ finitely covered at every coarser
+resolution ⇒ totally bounded).  Not formalised: the converse (a uniform
+bound on `N(ε)` for all ε implies a finite quotient), which needs a
+pigeonhole argument over a nested family of closeness relations, and any
+notion of dimension for case B.
+
+**Conclusion of the project's current phase.**  The target is no longer
+"learning creates mathematics".  It is: behavioural indistinguishability on
+an arbitrary substrate always defines a quotient; that quotient is a finite
+canonical algebra exactly when the behavioural pseudometric develops a
+resolution-stable plateau *and* the induced interactions are congruent and
+closed — which, in every case measured here, happened only for tasks whose
+own predictive quotient is finite, and happened after, not before,
+behavioural accuracy.  Where the task's quotient is not finite, learning
+produces a continuous behavioural object whose effective dimension
+increases with fit; its finite-resolution sections are real, predictive and
+substitutable types, but no section is canonical.  Whether some
+non-finite task can drive a substrate to a finite plateau anyway remains the
+open conjecture, untested.
+
 ### Running
 
 ```
@@ -731,6 +896,7 @@ python -m emergence.grok.run_interface --run results/world/counter_s0 --L 6   # 
 python -m emergence.grok.discover --gain 2.5 --seeds 0,1,2 --out results/discover   # the discovery experiment (train + analyse)
 python -m emergence.grok.discover --gain 2.5 --seeds 0,1,2 --phase analyse --at best --out results/discover
 python -m emergence.cont.run battery --out results/cont                           # continuous-substrate unit test (closed)
+python -m emergence.grok.resolution --system world --run results/world/perm4_s0   # N_cov(t, ε), congruence defect, closure
 ```
 
 ---

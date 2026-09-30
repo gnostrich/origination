@@ -255,7 +255,7 @@
    },
    "stability": {
     "0.0316": {
-     "retention": 0.984
+     "retention": 0.992
     },
     "0.1": {
      "retention": 1.0
@@ -379,7 +379,7 @@
    },
    "stability": {
     "0.0316": {
-     "retention": 0.956
+     "retention": 0.94
     },
     "0.1": {
      "retention": 1.0
@@ -503,10 +503,10 @@
    },
    "stability": {
     "0.0316": {
-     "retention": 0.592
+     "retention": 0.628
     },
     "0.1": {
-     "retention": 0.972
+     "retention": 0.968
     },
     "0.3162": {
      "retention": 0.996
@@ -627,10 +627,10 @@
    },
    "stability": {
     "0.0316": {
-     "retention": 0.058
+     "retention": 0.078
     },
     "0.1": {
-     "retention": 0.848
+     "retention": 0.878
     },
     "0.3162": {
      "retention": 0.998
@@ -754,10 +754,10 @@
      "retention": 0.004
     },
     "0.1": {
-     "retention": 0.736
+     "retention": 0.77
     },
     "0.3162": {
-     "retention": 0.998
+     "retention": 1.0
     }
    }
   },
@@ -878,10 +878,10 @@
      "retention": 0.0
     },
     "0.1": {
-     "retention": 0.372
+     "retention": 0.39
     },
     "0.3162": {
-     "retention": 0.99
+     "retention": 0.992
     }
    }
   }

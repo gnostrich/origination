@@ -317,8 +317,9 @@ def main(argv=None):
     else:
         rows = analyse_sequence(run, a.system, eps_grid, a.n_ckpt, Path(a.out), rng)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
+    name = run.name if a.system != "discover" else f"{run.parent.name}_{run.name}"
     json.dump({"run": str(run), "system": a.system, "eps": [float(e) for e in eps_grid], "rows": rows},
-              open(out / f"{run.name}.json", "w"), indent=1, default=float)
+              open(out / f"{name}.json", "w"), indent=1, default=float)
 
 
 if __name__ == "__main__":
