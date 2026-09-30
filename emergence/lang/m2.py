@@ -64,15 +64,68 @@ def common_suite(sub, rng, all_discovery_prefixes, withhold):
     return suite
 
 
-def evaluate_language(model, sub, suite, contexts):
+def informative_scores(predict, states, suite, withheld):
+    """Fidelity restricted to informative steps: steps at which the substrate
+    emits a non-⊥ observation (query on a complete assignment).  On this
+    system ⊥ is emitted at most steps, so unrestricted argmax fidelity is
+    inflated; these are the discriminating numbers.  Compositional version:
+    informative steps at or after the completion of a withheld chunk."""
+    from emergence.lang.systems import BOT
+    out = {}
+    for key, S, strings in (("", suite["S"], suite["strings"]), ("comp_", suite["Sc"], suite["comp_strings"])):
+        if S is None:
+            continue
+        P = np.stack([np.stack([predict(states[i], s) for s in strings]) for i in range(len(states))])
+        agree, _, ok = E._score(P, S)
+        inf = S.argmax(-1) != BOT
+        if key == "comp_":
+            after = np.zeros(inf.shape, dtype=bool)
+            for q, pos in enumerate(suite["comp_pos"]):
+                if pos:
+                    after[:, q, min(pos):] = True
+            inf &= after
+        out[key + "fidelity_informative"] = float(agree[inf].mean()) if inf.any() else float("nan")
+        out[key + "n_informative"] = int(inf.sum())
+    return out
+
+
+def evaluate_language(model, sub, suite, contexts, withheld=()):
     fid = E.evaluate_fidelity(model, sub, suite, contexts)
+    states, _ = E.abstract_states(model, sub, suite["X"], contexts)
+    fid.update(informative_scores(lambda st, s: E.predict_intervention(model, st, s), states, suite, withheld))
     # exhaustive block
     states, _ = E.abstract_states(model, sub, suite["X_cfg"], contexts)
     P = np.stack([np.stack([E.predict_intervention(model, states[i], s) for s in suite["strings3"]]) for i in range(len(states))])
     agree, fjs, ok = E._score(P, suite["S3"])
     fid["exhaustive_fidelity"] = float(agree.mean())
     fid["exhaustive_coverage"] = float(ok.mean())
+    from emergence.lang.systems import BOT
+    inf = suite["S3"].argmax(-1) != BOT
+    fid["exhaustive_fidelity_informative"] = float(agree[inf].mean())
+    fid["exhaustive_n_informative"] = int(inf.sum())
     return fid, P
+
+
+def lookup_informative(model, sub, disc, suite, contexts):
+    """Informative-step scores for the lookup catalogue (same construction as evaluate.lookup_baseline)."""
+    states, _ = E.abstract_states(model, sub, suite["X"], contexts)
+    table = {}
+    obs_chunks = [c for c in D.all_chunks(model.n_actions, 2) if c not in set(model.withheld)]
+    for k in range(model.K):
+        idx = np.array(model.realizations[k])[:12]
+        for c in obs_chunks:
+            table[(k, c)] = sub.behave(disc["X"][idx], [c])[:, 0].mean(0)
+    def predict(state, string):
+        P = np.full((len(string), model.n_obs), np.nan)
+        if state < 0:
+            return P
+        for t in range(len(string)):
+            c = tuple(string[: t + 1])
+            if len(c) > 2 or (state, c) not in table:
+                break
+            P[t] = table[(state, c)][t]
+        return P
+    return informative_scores(predict, states, suite, model.withheld)
 
 
 def language_distance(P1, P2):
@@ -133,11 +186,12 @@ def run():
     for L in langs:
         m = L["model"]
         contexts = L["disc"]["contexts"]
-        fid, P = evaluate_language(m, sub, suite, contexts)
+        fid, P = evaluate_language(m, sub, suite, contexts, withhold)
         cx = E.measure_complexity(m)
         rand = E.random_abstraction(m, sub, L["disc"], suite, np.random.default_rng(5))
-        fid_r = E.evaluate_fidelity(rand, sub, suite, contexts)
+        fid_r, _ = evaluate_language(rand, sub, suite, contexts, withhold)
         look = E.lookup_baseline(m, sub, L["disc"], suite, contexts)
+        look.update(lookup_informative(m, sub, L["disc"], suite, contexts))
         ca = E.causal_abstraction(m, sub, suite, contexts)
         row = dict(policy=L["policy"], seed=L["seed"], ctx=L["ctx"], K=m.K, n_fits=len([f for f in m.fits.values() if f.observed]),
                    n_second_order=len(m.chunk_maps), fidelity=fid, complexity=cx,
@@ -147,8 +201,9 @@ def run():
         name = f"{L['policy']}_s{L['seed']}_ctx{L['ctx']}"
         open(os.path.join(OUT, f"SPEC_{name}.md"), "w").write(m.spec(prefixes=L["disc"]["prefixes"]))
         json.dump(m.to_json(), open(os.path.join(OUT, f"model_{name}.json"), "w"))
-        print(f"{name}: K={m.K} fid={fid['fidelity_argmax']:.3f} exh={fid['exhaustive_fidelity']:.3f} cov={fid['coverage']:.2f} comp={fid.get('comp_fidelity_argmax', float('nan')):.3f} "
-              f"bits={cx['total_bits_argmax']:.0f} rand={fid_r['fidelity_argmax']:.3f} lookup={look['fidelity_argmax']:.3f} causal={ca['commutation']:.3f}/{ca['abstract_agreement']:.3f}", flush=True)
+        print(f"{name}: K={m.K} fid={fid['fidelity_argmax']:.3f} INF={fid['fidelity_informative']:.3f} exhINF={fid['exhaustive_fidelity_informative']:.3f} cov={fid['coverage']:.2f} "
+              f"compINF={fid.get('comp_fidelity_informative', float('nan')):.3f} bits={cx['total_bits_argmax']:.0f} randINF={fid_r['fidelity_informative']:.3f} "
+              f"lookupINF={look['fidelity_informative']:.3f} causal={ca['commutation']:.3f}/{ca['abstract_agreement']:.3f}", flush=True)
     # language distance matrix
     n = len(langs)
     Dm = np.zeros((n, n))
@@ -172,13 +227,13 @@ def report(rows, Dm, withhold):
     L = ["# Milestone 2: non-unique ontology — results", "",
          f"Withheld chunks ({len(withhold)} of 100 length-2 chunks): {withhold}", "",
          "## Extracted languages", "",
-         "| language (policy, seed, ctx) | K | observed fits | 2nd-order | held-out fidelity (argmax / JS) | coverage | exhaustive fidelity (64 cfg × 1000 strings) | withheld-composition fidelity (model / lookup) | causal commutation / abstract | bits (model / lookup / substrate) | random abstraction fidelity | exceptions |",
+         "| language (policy, seed, ctx) | K | observed fits | 2nd-order | held-out fidelity all steps | **informative-step fidelity** (held-out / exhaustive) | coverage | **withheld-composition fidelity, informative** (model / lookup) | causal commutation / abstract | bits (model / lookup / substrate) | random abstraction (all / informative) | exceptions |",
          "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for n, r in zip(names, rows):
         f = r["fidelity"]
-        L.append(f"| {n} | {r['K']} | {r['n_fits']} | {r['n_second_order']} | {f['fidelity_argmax']:.3f} / {f['fidelity_js']:.3f} | {f['coverage']:.2f} | {f['exhaustive_fidelity']:.3f} | "
-                 f"{f.get('comp_fidelity_argmax', float('nan')):.3f} / {r['lookup'].get('comp_fidelity_argmax', float('nan')):.3f} | {r['causal']['commutation']:.3f} / {r['causal']['abstract_agreement']:.3f} | "
-                 f"{r['complexity']['total_bits_argmax']:.0f} / {r['lookup']['bits']:.0f} / {r['substrate_bits']:.0f} | {r['random']['fidelity']['fidelity_argmax']:.3f} | {r['complexity']['exceptions']} |")
+        L.append(f"| {n} | {r['K']} | {r['n_fits']} | {r['n_second_order']} | {f['fidelity_argmax']:.3f} | **{f['fidelity_informative']:.3f} / {f['exhaustive_fidelity_informative']:.3f}** | {f['coverage']:.2f} | "
+                 f"**{f.get('comp_fidelity_informative', float('nan')):.3f} / {r['lookup'].get('comp_fidelity_informative', float('nan')):.3f}** | {r['causal']['commutation']:.3f} / {r['causal']['abstract_agreement']:.3f} | "
+                 f"{r['complexity']['total_bits_argmax']:.0f} / {r['lookup']['bits']:.0f} / {r['substrate_bits']:.0f} | {r['random']['fidelity']['fidelity_argmax']:.3f} / {r['random']['fidelity']['fidelity_informative']:.3f} | {r['complexity']['exceptions']} |")
     L += ["", "## Language distance matrix (disagreement of predictions on the exhaustive block; 0 = behaviourally equivalent)", ""]
     L.append("| | " + " | ".join(names) + " |")
     L.append("|---|" + "---|" * len(names))
@@ -193,11 +248,11 @@ def report(rows, Dm, withhold):
     fig, ax = plt.subplots(figsize=(7, 5))
     for i, (n, r) in enumerate(zip(names, rows)):
         mk = {"free": "o", "ABD": "s", "BDA": "^", "ADB": "v"}[r["policy"]]
-        ax.plot(r["complexity"]["total_bits_argmax"], r["fidelity"]["fidelity_argmax"], mk, color="C0" if r["ctx"] == 3 else "C1", ms=7, alpha=0.7)
-        ax.plot(r["lookup"]["bits"], r["lookup"]["fidelity_argmax"], mk, color="C2", ms=5, alpha=0.5)
-        ax.plot(r["random"]["complexity"]["total_bits_argmax"], r["random"]["fidelity"]["fidelity_argmax"], "x", color="C3", ms=5, alpha=0.5)
+        ax.plot(r["complexity"]["total_bits_argmax"], r["fidelity"]["fidelity_informative"], mk, color="C0" if r["ctx"] == 3 else "C1", ms=7, alpha=0.7)
+        ax.plot(r["lookup"]["bits"], r["lookup"]["fidelity_informative"], mk, color="C2", ms=5, alpha=0.5)
+        ax.plot(r["random"]["complexity"]["total_bits_argmax"], r["random"]["fidelity"]["fidelity_informative"], "x", color="C3", ms=5, alpha=0.5)
     ax.plot([rows[0]["substrate_bits"]], [1.0], "*", color="k", ms=12)
-    ax.set_xscale("log"); ax.set_xlabel("description complexity (bits)"); ax.set_ylabel("held-out fidelity (argmax, free-order suite)")
+    ax.set_xscale("log"); ax.set_xlabel("description complexity (bits)"); ax.set_ylabel("held-out informative-step fidelity (free-order suite)")
     ax.set_title("Milestone 2: blue = ctx 3, orange = ctx 2 (o free, s ABD, ^ BDA, v ADB); green lookup; red random; star substrate", fontsize=8)
     ax.set_ylim(0, 1.02)
     fig.tight_layout(); fig.savefig(os.path.join(OUT, "pareto_m2.png"), dpi=120)
