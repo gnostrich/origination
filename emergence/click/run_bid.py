@@ -35,13 +35,20 @@ def search(wd, seed, null=False, smoke=False):
     c, X, Y, tr, te = R.data()
     disc, val, fin = B.make_pools(tr, te)
     ckpts = torch.load(os.path.join(R.run_dir(wd, seed), "checkpoints.pt"))
-    idx = [len(ckpts) - 1] if null else list(B.CKPT_SUBSET)
+    idx = [len(ckpts) - 1] if null else B.ckpt_subset(len(ckpts))
     ranks, scfg = B.RANKS, B.SEARCH
     if smoke:
         idx, ranks, scfg = [len(ckpts) - 1], (1, 2), dict(B.SEARCH, restarts=2, iters=3)
     out = []
+    done = set()
+    if os.path.exists(out_path(wd, seed, null, smoke)):   # resume: keep finished checkpoints
+        with gzip.open(out_path(wd, seed, null, smoke), "rt") as f:
+            out = json.load(f)
+        done = {a["step"] for a in out}
     t0 = time.time()
     for i in idx:
+        if ckpts[i]["step"] in done:
+            continue
         m = MLP()
         m.load_state_dict(ckpts[i]["state"])
         if null:
@@ -57,8 +64,8 @@ def search(wd, seed, null=False, smoke=False):
                         f"bestJ={rec['sites'][s]['best_J_val']:.2f} {''.join(k for k, v in rec['sites'][s]['final']['flags'].items() if v) or '-'} "
                         f"pairs*={rec['sites'][s]['stage2']['n_stable_pairs']}" for s in SITES)
         print(f"wd={wd} s={seed}{' null' if null else ''} step {rec['step']:6d}  {msg}  ({time.time()-t0:.0f}s)", flush=True)
-    with gzip.open(out_path(wd, seed, null, smoke), "wt") as f:
-        json.dump(out, f)
+        with gzip.open(out_path(wd, seed, null, smoke), "wt") as f:   # saved after every checkpoint
+            json.dump(out, f)
 
 
 def load(wd, seed, null=False):

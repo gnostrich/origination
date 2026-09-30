@@ -52,7 +52,12 @@ EPS = (0.2, 0.3, 0.4)          # the frozen resolutions; 0.3 is the typing resol
 SEARCH = dict(restarts=8, iters=150, sigma0=0.3, sigma_min=0.02, decay=0.98)
 POOL = 64
 N_RAND = 20                    # matched random subspaces per accepted interface
-CKPT_SUBSET = tuple(range(0, 31, 2))   # 16 of the 31 checkpoints, last included
+def ckpt_subset(n):
+    """Every other checkpoint plus the last (16 of the 30 saved)."""
+    idx = list(range(0, n, 2))
+    if idx[-1] != n - 1:
+        idx.append(n - 1)
+    return idx
 COMP = dict(pred_min=0.8, nonadd_min=0.1)   # stage-2 thresholds (frozen)
 CFG = I.CFG
 
