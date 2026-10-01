@@ -19,3 +19,4 @@ results/click/**/checkpoints.pt
 results/click/logs/
 results/trace/logs/
 results/lang/logs/
+results/lang/m3/models/*.pkl

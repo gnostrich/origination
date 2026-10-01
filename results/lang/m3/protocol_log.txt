@@ -1,1 +1,6 @@
 [2026-10-01T02:48:35.201325+00:00] splits written: |D|=685 W=[(0, 0), (0, 2), (2, 3), (3, 2)] |V|=120x30 |T pieces|=200 T families 4x40; sha=6f8d46475ee9c3da
+[2026-10-01T02:50:25.365781+00:00] discovered eps0.05_C1_s0: K=436 val fidelity=0.151 js=0.148 cov=0.17 bits=30821 exceptions=331 undefined=0.69 (9s)
+[2026-10-01T02:50:34.552830+00:00] discovered eps0.05_C1_s1: K=436 val fidelity=0.157 js=0.154 cov=0.17 bits=30802 exceptions=330 undefined=0.69 (9s)
+[2026-10-01T02:50:44.053330+00:00] discovered eps0.05_C1_s2: K=436 val fidelity=0.157 js=0.153 cov=0.17 bits=30880 exceptions=334 undefined=0.69 (10s)
+[2026-10-01T02:51:33.233961+00:00] discovered eps0.05_C2_s0: K=598 val fidelity=0.043 js=0.043 cov=0.04 bits=36419 exceptions=81 undefined=0.95 (49s)
+[2026-10-01T02:52:19.760151+00:00] discovered eps0.05_C2_s1: K=598 val fidelity=0.043 js=0.043 cov=0.04 bits=36501 exceptions=85 undefined=0.95 (47s)
