@@ -40,9 +40,16 @@ ontology, judged only by fidelity, compositional generalisation,
 compactness and reproducibility.  Level 3 is not attempted until Levels 0–2
 pass.
 
-**Milestone 1 results** (Level 0 and Level 1 on existing checkpoints) are
-in the section "Milestone 1: interface-language extraction on existing GRU
-world models" below.
+**Results so far.**  Milestone 1 (Levels 0–1, existing checkpoints):
+compact languages with held-out fidelity 0.98–1.00.  Milestone 2 (Level 2,
+non-unique ontology): Outcome A — the behavioural join of three sealed
+factorisations, none privileged.  Milestone 3 (Level 3, a learned cart
+world model with continuous latent dynamics): **Outcome B** — a
+49-interface language predicts sealed one- and two-step interventions on
+unseen pieces (0.96 / 0.80 per step) and beats geometric, random and
+lookup baselines on compositional families, but it carries position and
+not momentum, so composition decays with depth and causal commutation is
+0.64.  Sections below.
 
 ---
 
@@ -1552,6 +1559,102 @@ system the decompositions describe).
 
 Level 3 is not attempted here.
 
+## Milestone 3: discovery in a learned system with no privileged ontology (Level 3)
+
+`MILESTONE3_PROTOCOL.md` (frozen and committed before training),
+`emergence/lang/cart.py` (sealed simulator, training), `m3.py` (protocol
+driver), `m3_explore.py` (exploratory, excluded), `m3_report.py`;
+`results/lang/m3/` (`M3_REPORT.md`, `m3_frontier.png`, `splits.json`,
+`protocol_log.txt`, `predictions_*.json`, `substrate_*.npz`,
+`models/SPEC_*.md`, `test_*.json`, `analysis.json`).
+
+**System.**  A GRU world model (embedding 32, hidden 128, one training
+run) of a one-dimensional kinematic cart: four actions (push left, push
+right, coast, brake) change a continuous velocity, position integrates
+with elastic reflection, and the observation is the position quantised
+into 8 bins.  Trained on 20 000 random 16-step action sequences, it
+predicts the next bin on unseen sequences at 0.953 (length 16) and 0.892
+(length 24, 0.773 on steps 17–24).  The latent (x, v) is continuous and
+sealed; nothing finite is planted; whether the hidden state admits a
+compact substitutability quotient was the open question.
+
+**Protocol.**  Discovery pool of 685 unlabelled prefixes; 4 of 16
+two-step chunks withheld; nested context families C₁ ⊂ C₂ ⊂ C₃ (4, 20,
+84 chunks); ε ∈ {0.05, 0.1, 0.2, 0.3, 0.5}; 3 discovery seeds; 45 models.
+The primary model was chosen by validation fidelity alone, its
+predictions for every sealed query were written to disk with a hash
+(`predictions_20261001T035637Z.json`), and only then was the substrate run
+on the sealed test (200 fresh pieces × four families of 40 strings:
+T1 interpolation, T2 unseen compositions of observed chunks, T3 strings
+containing withheld chunks, T4 strings of length 8–12).  Three scoring
+bugs were fixed after the first run and are recorded in the protocol; the
+prediction file was not changed.
+
+**Sealed-test results** (argmax fidelity, abstention counted as error):
+
+| model | K | bits | T1 | T2 | T3 | T4 (8–12 steps) | causal commutation |
+|---|---|---|---|---|---|---|---|
+| **primary interface model** (ε 0.5, C₁) | 49 | 8 865 | **0.898** | **0.775** | **0.709** | **0.518** | 0.64 / 0.53 |
+| geometric k-means, same K | 49 | 12 220 | 0.695 | 0.618 | 0.570 | 0.423 | – |
+| k-means in top-8 PCA space | 49 | 12 339 | 0.747 | 0.655 | 0.602 | 0.459 | – |
+| random abstraction, same K | 49 | 13 386 | 0.556 | 0.399 | 0.342 | 0.257 | – |
+| non-compositional lookup | 49 | 4 704 | 0.910 | 0.488 | 0.330 | 0.157 | – |
+| full substrate | – | 2.03·10⁶ | 1 | 1 | 1 | 1 | – |
+
+Per-step fidelity of the primary model on T4 falls from 0.96 at step 1
+to 0.80, 0.68, 0.59, 0.51 … 0.23 at step 12; 84 % of T1 strings and 7 % of
+T4 strings are predicted entirely correctly.  Coverage is 0.95–0.99.  The
+49 interfaces carry 520 exceptions over 196 first-order fits (mean fit
+confidence ≈ 0.67); each interface is reached by 4 fits on average and 172
+of the 196 fits are exercised by the test, ≈ 295 times each.
+
+**Frontier.**  Fidelity *decreases* with finer resolution and with richer
+context families: at ε = 0.05 with C₃ there are 638 interfaces for 685
+pieces, 94 % of fits are undefined and T4 fidelity is 0.011; at ε = 0.5
+the C₁, C₂, C₃ models have 49, 211, 348 interfaces and T4 fidelity 0.52,
+0.45, 0.20.  The quotient is quasi-continuous as soon as behaviour is
+probed beyond one step.  Exploratory and excluded from the verdict: ε = 0.7
+gives K = 31 at 5 176 bits with the same fidelity (T4 0.503), ε = 1.0
+collapses to 2 interfaces.
+
+**Nested contexts.**  C₂ interfaces lie inside a single C₁ interface in
+74 % of cases, C₃ inside C₂ in 90 %; the finer families are near-refinements
+that split interfaces into near-singletons without gaining fidelity.
+
+**Reproducibility.**  The three discovery seeds give identical partitions
+(ARI 1.00; the seed only samples which realisations observe each fit) but
+their languages disagree on 19–20 % of sealed predictions: the fits
+themselves are approximate (confidence ≈ 0.67), so which realisations are
+sampled changes the majority destinations.
+
+**Interpretation (simulator unsealed last).**  The interfaces are position
+cells: the partition explains 97 % of the variance of the sealed position
+and 57 % of the velocity; within-interface spread is 0.036 in position
+(finer than the 0.125 observation bin) and 0.037 in velocity (range
+±0.15).  The abstraction carries where the cart is, at roughly three times
+the observation resolution, and only coarsely how fast it moves; because
+the next position depends on velocity, one-step predictions are nearly
+exact (0.96) and composition decays geometrically.  No interface
+corresponds to a velocity class, and no higher-order structure beyond
+chunk types was found.
+
+**Verdict: Outcome B, a useful partial language.**  Not A: causal
+commutation is 0.64 (criterion ≥ 0.9), composition depth is limited, and
+the margin over geometric clustering, while present on every family
+(+0.06 to +0.20), is not large.  Not D: the primary beats random and
+geometric baselines on all four families and the lookup catalogue on
+every compositional family (lookup wins only on T1, 0.910 vs 0.898, by
+construction).  Not C in the strict sense: a compact 49-interface
+language does exist, predicts sealed interventions it never observed, and
+compresses the substrate 230-fold — but the finer-resolution geometry is
+quasi-continuous and is reported as such.  What is abstracted: the next
+observation and the one-step dynamics of position at ~1/25 resolution,
+prospectively, on unseen pieces and unseen compositions.  What is not: the
+momentum of the cart, and therefore any composition deeper than two or
+three steps.
+
+No further experiment is begun after this one.
+
 ### Running
 
 ```
@@ -1581,6 +1684,9 @@ python -m emergence.lang.run basis  --run results/world/perm4_s0    # change-of-
 python -m emergence.lang.run report                                 # results/lang/REPORT.md, pareto.png
 python -m emergence.lang.m2 run                                     # Milestone 2: non-unique ontology (results/lang/m2/)
 python -m emergence.lang.m2_scope                                   # Milestone 2: order-restricted languages on their own scope
+python -m emergence.lang.cart                                       # Milestone 3: train the cart GRU
+python -m emergence.lang.m3 splits|discover|freeze|test|analyse     # Milestone 3 protocol, in this order
+python -m emergence.lang.m3_report                                  # results/lang/m3/M3_REPORT.md, m3_frontier.png
 ```
 
 ---

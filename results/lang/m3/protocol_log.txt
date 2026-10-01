@@ -4,3 +4,61 @@
 [2026-10-01T02:50:44.053330+00:00] discovered eps0.05_C1_s2: K=436 val fidelity=0.157 js=0.153 cov=0.17 bits=30880 exceptions=334 undefined=0.69 (10s)
 [2026-10-01T02:51:33.233961+00:00] discovered eps0.05_C2_s0: K=598 val fidelity=0.043 js=0.043 cov=0.04 bits=36419 exceptions=81 undefined=0.95 (49s)
 [2026-10-01T02:52:19.760151+00:00] discovered eps0.05_C2_s1: K=598 val fidelity=0.043 js=0.043 cov=0.04 bits=36501 exceptions=85 undefined=0.95 (47s)
+[2026-10-01T02:53:08.366763+00:00] discovered eps0.05_C2_s2: K=598 val fidelity=0.043 js=0.043 cov=0.04 bits=36481 exceptions=84 undefined=0.95 (49s)
+[2026-10-01T02:57:38.645935+00:00] discovered eps0.05_C3_s0: K=638 val fidelity=0.023 js=0.023 cov=0.02 bits=38583 exceptions=58 undefined=0.94 (270s)
+[2026-10-01T03:02:11.939152+00:00] discovered eps0.05_C3_s1: K=638 val fidelity=0.023 js=0.023 cov=0.02 bits=38603 exceptions=59 undefined=0.94 (273s)
+[2026-10-01T03:06:50.652489+00:00] discovered eps0.05_C3_s2: K=638 val fidelity=0.023 js=0.023 cov=0.02 bits=38583 exceptions=58 undefined=0.94 (279s)
+[2026-10-01T03:06:56.644636+00:00] discovered eps0.1_C1_s0: K=332 val fidelity=0.261 js=0.254 cov=0.31 bits=27252 exceptions=499 undefined=0.52 (6s)
+[2026-10-01T03:07:02.725030+00:00] discovered eps0.1_C1_s1: K=332 val fidelity=0.272 js=0.265 cov=0.33 bits=27177 exceptions=495 undefined=0.52 (6s)
+[2026-10-01T03:07:09.078966+00:00] discovered eps0.1_C1_s2: K=332 val fidelity=0.262 js=0.255 cov=0.30 bits=27290 exceptions=501 undefined=0.52 (6s)
+[2026-10-01T03:07:53.978855+00:00] discovered eps0.1_C2_s0: K=552 val fidelity=0.076 js=0.075 cov=0.08 bits=33489 exceptions=85 undefined=0.88 (45s)
+[2026-10-01T03:08:37.206102+00:00] discovered eps0.1_C2_s1: K=552 val fidelity=0.076 js=0.075 cov=0.08 bits=33489 exceptions=85 undefined=0.88 (43s)
+[2026-10-01T03:09:20.456793+00:00] discovered eps0.1_C2_s2: K=552 val fidelity=0.076 js=0.075 cov=0.08 bits=33449 exceptions=83 undefined=0.88 (43s)
+[2026-10-01T03:13:32.553687+00:00] discovered eps0.1_C3_s0: K=595 val fidelity=0.045 js=0.044 cov=0.04 bits=35854 exceptions=63 undefined=0.94 (252s)
+[2026-10-01T03:17:49.064728+00:00] discovered eps0.1_C3_s1: K=595 val fidelity=0.045 js=0.044 cov=0.04 bits=35936 exceptions=67 undefined=0.94 (257s)
+[2026-10-01T03:22:04.843318+00:00] discovered eps0.1_C3_s2: K=595 val fidelity=0.045 js=0.044 cov=0.04 bits=35895 exceptions=65 undefined=0.94 (256s)
+[2026-10-01T03:22:07.886592+00:00] discovered eps0.2_C1_s0: K=194 val fidelity=0.447 js=0.429 cov=0.63 bits=21959 exceptions=712 undefined=0.27 (3s)
+[2026-10-01T03:22:10.907137+00:00] discovered eps0.2_C1_s1: K=194 val fidelity=0.450 js=0.432 cov=0.63 bits=21976 exceptions=713 undefined=0.27 (3s)
+[2026-10-01T03:22:13.354907+00:00] discovered eps0.2_C1_s2: K=194 val fidelity=0.445 js=0.427 cov=0.62 bits=21821 exceptions=704 undefined=0.27 (2s)
+[2026-10-01T03:22:47.384263+00:00] discovered eps0.2_C2_s0: K=443 val fidelity=0.134 js=0.131 cov=0.13 bits=29418 exceptions=236 undefined=0.69 (34s)
+[2026-10-01T03:23:21.680757+00:00] discovered eps0.2_C2_s1: K=443 val fidelity=0.136 js=0.133 cov=0.14 bits=29535 exceptions=242 undefined=0.69 (34s)
+[2026-10-01T03:23:56.095937+00:00] discovered eps0.2_C2_s2: K=443 val fidelity=0.136 js=0.133 cov=0.14 bits=29477 exceptions=239 undefined=0.69 (34s)
+[2026-10-01T03:27:49.738466+00:00] discovered eps0.2_C3_s0: K=547 val fidelity=0.077 js=0.076 cov=0.08 bits=32679 exceptions=61 undefined=0.86 (234s)
+[2026-10-01T03:31:37.061225+00:00] discovered eps0.2_C3_s1: K=547 val fidelity=0.077 js=0.076 cov=0.08 bits=32739 exceptions=64 undefined=0.86 (227s)
+[2026-10-01T03:35:28.626136+00:00] discovered eps0.2_C3_s2: K=547 val fidelity=0.077 js=0.076 cov=0.08 bits=32719 exceptions=63 undefined=0.86 (232s)
+[2026-10-01T03:35:30.231463+00:00] discovered eps0.3_C1_s0: K=116 val fidelity=0.554 js=0.527 cov=0.84 bits=17126 exceptions=747 undefined=0.12 (2s)
+[2026-10-01T03:35:31.878930+00:00] discovered eps0.3_C1_s1: K=116 val fidelity=0.552 js=0.529 cov=0.84 bits=17315 exceptions=759 undefined=0.12 (2s)
+[2026-10-01T03:35:33.413863+00:00] discovered eps0.3_C1_s2: K=116 val fidelity=0.566 js=0.538 cov=0.84 bits=16969 exceptions=737 undefined=0.12 (2s)
+[2026-10-01T03:35:59.411192+00:00] discovered eps0.3_C2_s0: K=352 val fidelity=0.262 js=0.252 cov=0.27 bits=26803 exceptions=406 undefined=0.50 (26s)
+[2026-10-01T03:36:25.245221+00:00] discovered eps0.3_C2_s1: K=352 val fidelity=0.262 js=0.252 cov=0.27 bits=26859 exceptions=409 undefined=0.50 (26s)
+[2026-10-01T03:36:50.030111+00:00] discovered eps0.3_C2_s2: K=352 val fidelity=0.258 js=0.248 cov=0.27 bits=26935 exceptions=413 undefined=0.50 (25s)
+[2026-10-01T03:40:18.669538+00:00] discovered eps0.3_C3_s0: K=485 val fidelity=0.141 js=0.138 cov=0.14 bits=29666 exceptions=111 undefined=0.73 (209s)
+[2026-10-01T03:43:47.459868+00:00] discovered eps0.3_C3_s1: K=485 val fidelity=0.141 js=0.138 cov=0.14 bits=29705 exceptions=113 undefined=0.73 (209s)
+[2026-10-01T03:47:12.675424+00:00] discovered eps0.3_C3_s2: K=485 val fidelity=0.141 js=0.138 cov=0.14 bits=29705 exceptions=113 undefined=0.73 (205s)
+[2026-10-01T03:47:13.244416+00:00] discovered eps0.5_C1_s0: K=49 val fidelity=0.577 js=0.547 cov=0.95 bits=8865 exceptions=520 undefined=0.04 (1s)
+[2026-10-01T03:47:13.836370+00:00] discovered eps0.5_C1_s1: K=49 val fidelity=0.578 js=0.550 cov=0.96 bits=8534 exceptions=495 undefined=0.04 (1s)
+[2026-10-01T03:47:14.346581+00:00] discovered eps0.5_C1_s2: K=49 val fidelity=0.573 js=0.545 cov=0.95 bits=8905 exceptions=523 undefined=0.04 (1s)
+[2026-10-01T03:47:29.218556+00:00] discovered eps0.5_C2_s0: K=211 val fidelity=0.531 js=0.503 cov=0.61 bits=22690 exceptions=688 undefined=0.17 (15s)
+[2026-10-01T03:47:44.649607+00:00] discovered eps0.5_C2_s1: K=211 val fidelity=0.533 js=0.506 cov=0.61 bits=22655 exceptions=686 undefined=0.17 (15s)
+[2026-10-01T03:47:59.206802+00:00] discovered eps0.5_C2_s2: K=211 val fidelity=0.531 js=0.504 cov=0.61 bits=22952 exceptions=703 undefined=0.17 (15s)
+[2026-10-01T03:50:38.732583+00:00] discovered eps0.5_C3_s0: K=348 val fidelity=0.297 js=0.289 cov=0.31 bits=25825 exceptions=368 undefined=0.45 (160s)
+[2026-10-01T03:53:17.113550+00:00] discovered eps0.5_C3_s1: K=348 val fidelity=0.297 js=0.289 cov=0.31 bits=25844 exceptions=369 undefined=0.45 (158s)
+[2026-10-01T03:55:49.849061+00:00] discovered eps0.5_C3_s2: K=348 val fidelity=0.297 js=0.289 cov=0.31 bits=25863 exceptions=370 undefined=0.45 (153s)
+[2026-10-01T03:56:37.342850+00:00] PRIMARY MODEL selected by validation rule: eps0.5_C1_s0 (val fidelity 0.577, bits 8865); frozen.
+[2026-10-01T03:56:39.046416+00:00] PROSPECTIVE PREDICTIONS written before substrate execution: results/lang/m3/predictions_20261001T035637Z.json sha256[:16]=5835c02d107b3ddd; test pieces classified: 199/200 within ε
+[2026-10-01T03:56:41.359818+00:00] SUBSTRATE EXECUTION on sealed test begins (after predictions 20261001T035637Z, sha 5835c02d107b3ddd)
+[2026-10-01T03:56:41.847450+00:00] substrate outputs written: substrate_20261001T035641Z.npz
+[2026-10-01T03:58:07.335753+00:00] SUBSTRATE EXECUTION on sealed test begins (after predictions 20261001T035637Z, sha 5835c02d107b3ddd)
+[2026-10-01T03:58:07.777026+00:00] substrate outputs written: substrate_20261001T035807Z.npz
+[2026-10-01T03:58:08.207313+00:00] primary scored: T1: fid=0.898 js=0.845 cov=0.99 whole=0.84; T2: fid=0.775 js=0.733 cov=0.99 whole=0.49; T3: fid=0.709 js=0.668 cov=0.98 whole=0.36; T4: fid=0.518 js=0.496 cov=0.95 whole=0.07; causal 0.637/0.526
+[2026-10-01T03:59:52.550621+00:00] SUBSTRATE EXECUTION on sealed test begins (after predictions 20261001T035637Z, sha 5835c02d107b3ddd)
+[2026-10-01T03:59:53.064915+00:00] substrate outputs written: substrate_20261001T035953Z.npz
+[2026-10-01T03:59:53.585493+00:00] primary scored: T1: fid=0.898 js=0.845 cov=0.99 whole=0.84; T2: fid=0.775 js=0.733 cov=0.99 whole=0.49; T3: fid=0.709 js=0.668 cov=0.98 whole=0.36; T4: fid=0.518 js=0.496 cov=0.95 whole=0.07; causal 0.637/0.526
+[2026-10-01T04:00:00.430491+00:00] baseline random: T1: 0.556; T2: 0.399; T3: 0.342; T4: 0.257; bits 13386
+[2026-10-01T04:00:00.430582+00:00] baseline lookup: T1: 0.910; T2: 0.488; T3: 0.330; T4: 0.157; bits 4704
+[2026-10-01T04:00:00.430615+00:00] baseline kmeans: T1: 0.695; T2: 0.618; T3: 0.570; T4: 0.423; bits 12220
+[2026-10-01T04:00:00.430634+00:00] baseline kmeans_pca8: T1: 0.747; T2: 0.655; T3: 0.602; T4: 0.459; bits 12339
+[2026-10-01T04:01:36.276881+00:00] frontier models scored on the sealed test
+[2026-10-01T04:02:11.171908+00:00] post-freeze analyses written (nested contexts, reproducibility, interpretation)
+[2026-10-01T04:03:06.471009+00:00] EXPLORATORY eps=0.7 C1: K=31 val=0.580 bits=5176 test T1=0.894 T2=0.762 T3=0.694 T4=0.503
+[2026-10-01T04:03:07.251757+00:00] EXPLORATORY eps=1.0 C1: K=2 val=0.160 bits=77 test T1=0.222 T2=0.174 T3=0.167 T4=0.146

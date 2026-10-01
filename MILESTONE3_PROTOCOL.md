@@ -179,4 +179,24 @@ K approaching the number of pieces.  The geometry is reported.
 D — no advantage: the primary model does not beat matched geometric,
 lookup or random baselines on sealed prediction.
 
-Record of fixes after commit: (none yet).
+Record of fixes after commit:
+1. `m3.score` could not stack predictions for strings of different lengths
+   within a test family (T1 has lengths 1–2, T2 3–4, T3 3–6, T4 8–12); it
+   now pads to the longest string and scores only valid steps.  Causal
+   commutation uses the equal-length 8-step prefixes of the T4 strings.
+   Scoring code only; the prospective predictions file written before the
+   fix (`predictions_20261001T035637Z.json`) is unchanged and is the one
+   scored.  All baselines use the same scorer.
+2. `load_splits` returned the observed chunks as lists (unhashable) and the
+   lookup baseline failed; converted to tuples.  Baseline code only.
+3. The behavioural-distance computation of the reproducibility analysis
+   had the same variable-length stacking issue as (1); same padding fix.
+
+Exploratory analyses (recorded, excluded from the verdict): the frozen
+resolution grid ended at ε = 0.5 and the validation rule selected that
+edge.  `m3_explore.py` ran ε = 0.7 and ε = 1.0 with C₁ after the test:
+ε = 0.7 gives K = 31, validation 0.580 (vs 0.577 for the primary), 5176
+bits, sealed test T1–T4 0.894 / 0.762 / 0.694 / 0.503 — the same fidelity
+at 58 % of the bits; ε = 1.0 collapses to K = 2.  The grid edge therefore
+did not change the fidelity picture; it would have changed the primary to
+a smaller model of equal fidelity.

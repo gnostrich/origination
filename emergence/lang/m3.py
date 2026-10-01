@@ -105,6 +105,7 @@ def load_splits():
     s = json.load(open(os.path.join(OUT, "splits.json")))
     s["D_pool"] = [tuple(p) for p in s["D_pool"]]
     s["W"] = [tuple(w) for w in s["W"]]
+    s["observed_chunks"] = [tuple(c) for c in s["observed_chunks"]]
     s["V_pieces"] = [tuple(p) for p in s["V_pieces"]]
     s["V_strings"] = [tuple(x) for x in s["V_strings"]]
     s["T_pieces"] = [tuple(p) for p in s["T_pieces"]]
@@ -187,13 +188,29 @@ def freeze():
 
 
 # ------------------------------------------------------------------ test execution + scoring + baselines
+def _pad(pred_fam, Lmax, o):
+    """Predictions for strings of different lengths -> (n, Q, Lmax, o), NaN beyond each string."""
+    n, Q = len(pred_fam), len(pred_fam[0])
+    P = np.full((n, Q, Lmax, o), np.nan)
+    for i in range(n):
+        for q in range(Q):
+            a = np.asarray(pred_fam[i][q], dtype=float)
+            P[i, q, : a.shape[0]] = a
+    return P
+
+
 def score(pred_fam, S_fam):
-    P = np.array(pred_fam)                      # (n, Q, L, o) with NaN for abstentions
+    """Fidelity over the valid steps of each string (true output defined);
+    abstention at a valid step counts as an error."""
+    P = _pad(pred_fam, S_fam.shape[2], S_fam.shape[3])
+    valid = ~np.isnan(S_fam[..., 0])
     agree, fjs, ok = E._score(P, S_fam)
-    by_step = [float(agree[:, :, t].mean()) for t in range(agree.shape[2])]
-    full = float(np.mean(agree.reshape(-1, agree.shape[2]).all(axis=1)))     # strings predicted entirely correctly
-    return dict(fidelity_argmax=float(agree.mean()), fidelity_js=float(fjs.mean()), coverage=float(ok.mean()),
-                fidelity_covered=float(agree[ok].mean()) if ok.any() else float("nan"), by_step=by_step, whole_string=full)
+    ok &= valid
+    by_step = [float(agree[:, :, t][valid[:, :, t]].mean()) if valid[:, :, t].any() else float("nan") for t in range(S_fam.shape[2])]
+    whole = np.array([[agree[i, q][valid[i, q]].all() for q in range(S_fam.shape[1])] for i in range(S_fam.shape[0])])
+    return dict(fidelity_argmax=float(agree[valid].mean()), fidelity_js=float(fjs[valid].mean()), coverage=float(ok[valid].mean()),
+                fidelity_covered=float(agree[ok].mean()) if ok.any() else float("nan"), by_step=by_step, whole_string=float(whole.mean()),
+                n_steps=int(valid.sum()))
 
 
 def run_test():
@@ -211,7 +228,8 @@ def run_test():
     P = load_model(frozen["primary"])
     model = P["model"]
     # causal commutation on T4
-    suite4 = dict(X=X, strings=splits["T"]["T4"], S=S["T4"])
+    s8 = [tuple(x[:8]) for x in splits["T"]["T4"]]            # equal-length prefixes of the T4 strings
+    suite4 = dict(X=X, strings=s8, S=sub.behave(X, s8))
     ca = E.causal_abstraction(model, sub, suite4, P["contexts"])
     # reuse / depth
     first = [f for (s_, c) in model.fits if len(c) == 1 for f in [model.fits[(s_, c)]]]
@@ -391,9 +409,13 @@ def analyse():
     def dist(p1, p2):
         tot = agree = 0
         for fam in p1:
-            A1, A2 = np.array(p1[fam]), np.array(p2[fam])
-            ok = ~np.isnan(A1[..., 0]) & ~np.isnan(A2[..., 0])
-            agree += (A1[ok].argmax(-1) == A2[ok].argmax(-1)).sum(); tot += ok.size
+            Lmax = max(len(x) for x in splits["T"][fam])
+            A1, A2 = _pad(p1[fam], Lmax, N_OBS), _pad(p2[fam], Lmax, N_OBS)
+            valid = np.zeros(A1.shape[:3], dtype=bool)
+            for q, x in enumerate(splits["T"][fam]):
+                valid[:, q, : len(x)] = True
+            ok = ~np.isnan(A1[..., 0]) & ~np.isnan(A2[..., 0]) & valid
+            agree += (A1[ok].argmax(-1) == A2[ok].argmax(-1)).sum(); tot += valid.sum()
         return float(1 - agree / tot)
     rep["behavioural_distance"] = {f"{a}|{b}": dist(preds[a], preds[b]) for a in names for b in names if a < b}
     out["reproducibility"] = rep
